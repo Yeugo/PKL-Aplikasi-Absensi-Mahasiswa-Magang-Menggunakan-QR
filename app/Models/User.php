@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -11,6 +11,9 @@ use Laravel\Sanctum\HasApiTokens;
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
+
+    const ADMIN_ROLE_ID = 1;
+    const USER_ROLE_ID = 2;
 
     /**
      * The attributes that are mass assignable.
@@ -21,6 +24,8 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'role_id',
+        'phone',
     ];
 
     /**
@@ -41,4 +46,35 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function role()
+    {
+        return $this->belongsTo(Role::class);
+    }
+
+    // public function position()
+    // {
+    //     return $this->belongsTo(Position::class);
+    // }
+
+    // public function department()
+    // {
+    //     return $this->belongsTo(Department::class);
+    // }
+
+    public function scopeOnlyEmployees($query)
+    {
+        return $query->where('role_id', self::USER_ROLE_ID);
+    }
+
+    public function isAdmin()
+    {
+        return $this->role_id === self::ADMIN_ROLE_ID;
+    }
+
+
+    public function isUser()
+    {
+        return $this->role_id === self::USER_ROLE_ID;
+    }
 }
