@@ -1,5 +1,5 @@
 <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
-    {{-- <div class="position-sticky pt-3">
+    <div class="position-sticky pt-3">
         <ul class="nav flex-column">
             @if (auth()->user()->isAdmin() or auth()->user()->isOperator())
             <li class="nav-item">
@@ -10,13 +10,13 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link {{ request()->routeIs('department.*') ? 'active' : '' }}"
-                    href="{{ route('department.index') }}">
+                <a class="nav-link {{ request()->routeIs('bidangs.*') ? 'active' : '' }}"
+                    href="{{ route('bidangs.index') }}">
                     <span data-feather="archive" class="align-text-bottom"></span>
                     Bidang / Department
                 </a>
             </li>
-        </li>
+        {{-- </li>
         <li class="nav-item">
             <a class="nav-link {{ request()->routeIs('positions.*') ? 'active' : '' }}"
                 href="{{ route('positions.index') }}">
@@ -51,7 +51,7 @@
                     <span data-feather="clipboard" class="align-text-bottom"></span>
                     Data Kehadiran
                 </a>
-            </li>
+            </li> --}}
             @endif
         </ul>
 
@@ -61,5 +61,5 @@
             @csrf
             <button class="w-full mt-4 d-block bg-transparent border-0 fw-bold text-danger px-3">Keluar</button>
         </form>
-    </div> --}}
+    </div>
 </nav>
