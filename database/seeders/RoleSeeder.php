@@ -6,7 +6,7 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Models\Role;
 
-class DatabaseSeeder extends Seeder
+class RoleSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -15,8 +15,11 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        //$this->call(RoleSeeder::class);
-
-        \App\Models\User::factory(10)->create();
+        Role::create([
+            'name' => 'admin',
+        ]);
+        Role::create([
+            'name' => 'user', // karyawaan
+        ]);
     }
 }

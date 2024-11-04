@@ -4,13 +4,11 @@ use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BidangController;
 use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\EmployeeController;
+use App\Http\Controllers\InternController;
 use App\Http\Controllers\HolidayController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PositionController;
 use App\Http\Controllers\PresenceController;
-use App\Http\Controllers\DepartmentController;
-use App\Models\Department;
 use FontLib\Table\Type\name;
 use Illuminate\Support\Facades\Route;
 use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
@@ -32,9 +30,9 @@ Route::middleware('auth')->group(function () {
     //     // positions
     //     Route::resource('/positions', PositionController::class)->only(['index', 'create']);
     //     Route::get('/positions/edit', [PositionController::class, 'edit'])->name('positions.edit');
-    //     // employees
-    //     Route::resource('/employees', EmployeeController::class)->only(['index', 'create']);
-    //     Route::get('/employees/edit', [EmployeeController::class, 'edit'])->name('employees.edit');
+        // interns
+        Route::resource('/interns', InternController::class)->only(['index', 'create']);
+        Route::get('/interns/edit', [InternController::class, 'edit'])->name('interns.edit');
     //     Route::get('/employees/print', [EmployeeController::class, 'printPdf'])->name('employees.print');
     //     // holidays (hari libur)
     //     Route::resource('/holidays', HolidayController::class)->only(['index', 'create']);

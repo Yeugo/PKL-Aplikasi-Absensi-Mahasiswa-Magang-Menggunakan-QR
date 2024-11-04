@@ -25,6 +25,7 @@ class User extends Authenticatable
         'email',
         'password',
         'role_id',
+        'bidang_id',
         'phone',
     ];
 
@@ -52,15 +53,10 @@ class User extends Authenticatable
         return $this->belongsTo(Role::class);
     }
 
-    // public function position()
-    // {
-    //     return $this->belongsTo(Position::class);
-    // }
-
-    // public function department()
-    // {
-    //     return $this->belongsTo(Department::class);
-    // }
+    public function bidang()
+    {
+        return $this->belongsTo(Bidang::class);
+    }
 
     public function scopeOnlyEmployees($query)
     {
