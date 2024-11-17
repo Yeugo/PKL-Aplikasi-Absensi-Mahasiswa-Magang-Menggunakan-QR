@@ -12,13 +12,16 @@ class BidangCreateForm extends Component
     public function mount()
     {
         $this->bidangs = [
-            ['name' => '']
+            ['name' => '',
+             'kepala_bidang' => '',
+            ]
+            
         ];
     }
 
     public function addBidangInput(): void
     {
-        $this->bidangs[] = ['name' => ''];
+        $this->bidangs[] = ['name' => '', 'kepala_bidang' => ''];
     }
 
     public function removeBidangInput(int $index): void
@@ -32,8 +35,9 @@ class BidangCreateForm extends Component
         // setidaknya input pertama yang hanya required,
         // karena nanti akan difilter apakah input kedua dan input selanjutnya apakah berisi
         $this->validate([
-            'bidangs.0.name' => 'required'
-        ], ['bidangs.0.name.required' => 'Setidaknya input jabatan pertama wajib diisi.']);
+            'bidangs.*.name' => 'required',
+            'bidangs.*.kepala_bidang' => 'required',
+        ]);
 
         // ambil input/request dari position yang berisi
         $bidangs = array_filter($this->bidangs, function ($a) {
@@ -45,7 +49,7 @@ class BidangCreateForm extends Component
             Bidang::create($bidang);
         }
 
-        redirect()->route('bidangs.index')->with('success', 'Data jabatan berhasil ditambahkan.');
+        redirect()->route('bidangs.index')->with('success', 'Data Bidang berhasil ditambahkan.');
     }
 
     public function render()

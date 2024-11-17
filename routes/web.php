@@ -60,15 +60,15 @@ Route::middleware('auth')->group(function () {
     //     Route::get('/presences/{attendance}/permissions', [PresenceController::class, 'permissions'])->name('presences.permissions');
     });
 
-    // Route::middleware('role:user')->name('home.')->group(function () {
-    //     Route::get('/', [HomeController::class, 'index'])->name('index');
-    //     // desctination after scan qrcode
-    //     Route::post('/absensi/qrcode', [HomeController::class, 'sendEnterPresenceUsingQRCode'])->name('sendEnterPresenceUsingQRCode');
-    //     Route::post('/absensi/qrcode/out', [HomeController::class, 'sendOutPresenceUsingQRCode'])->name('sendOutPresenceUsingQRCode');
+    Route::middleware('role:user')->name('home.')->group(function () {
+        Route::get('/', [HomeController::class, 'index'])->name('index');
+        // desctination after scan qrcode
+        Route::post('/absensi/qrcode', [HomeController::class, 'sendEnterPresenceUsingQRCode'])->name('sendEnterPresenceUsingQRCode');
+        Route::post('/absensi/qrcode/out', [HomeController::class, 'sendOutPresenceUsingQRCode'])->name('sendOutPresenceUsingQRCode');
 
-    //     Route::get('/absensi/{attendance}', [HomeController::class, 'show'])->name('show');
-    //     Route::get('/absensi/{attendance}/permission', [HomeController::class, 'permission'])->name('permission');
-    // });
+        Route::get('/absensi/{attendance}', [HomeController::class, 'show'])->name('show');
+        Route::get('/absensi/{attendance}/permission', [HomeController::class, 'permission'])->name('permission');
+    });
 
     Route::delete('/logout', [AuthController::class, 'logout'])->name('auth.logout');
 });

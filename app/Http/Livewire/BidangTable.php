@@ -10,7 +10,7 @@ use Illuminate\Database\QueryException;
 use Illuminate\Database\Eloquent\Builder;
 use PowerComponents\LivewirePowerGrid\Rules\{Rule, RuleActions};
 use PowerComponents\LivewirePowerGrid\Traits\ActionButton;
-use PowerComponents\LivewirePowerGrid\{Button, Column, Exportable, Footer, Header, PowerGrid, PowerGridComponent, PowerGridEloquent};
+use PowerComponents\LivewirePowerGrid\{Button, Column, Exportable, Footer, Header, PowerGrid, PowerGridComponent, PowerGridEloquent,};
 
 final class BidangTable extends PowerGridComponent
 {
@@ -109,6 +109,7 @@ final class BidangTable extends PowerGridComponent
         }
 
         $selectedData = Bidang::whereIn('id', $this->checkedValues())
+        ->withCount('users')
         ->get();
 
         $pdf = Pdf::loadView('exports.BidangPdf', compact('selectedData'))
@@ -138,7 +139,8 @@ final class BidangTable extends PowerGridComponent
      */
     public function datasource(): Builder
     {
-        return Bidang::query();
+        return Bidang::query()
+            ->withCount('users');
     }
 
     /*
@@ -172,6 +174,10 @@ final class BidangTable extends PowerGridComponent
         return PowerGrid::eloquent()
             ->addColumn('id')
             ->addColumn('name')
+            ->addColumn('kepala_bidang')
+            ->addColumn('jumlah_peserta', function (Bidang $model) {
+                return $model->users_count;
+            })
             ->addColumn('created_at')
             ->addColumn('created_at_formatted', fn (Bidang $model) => Carbon::parse($model->created_at)->format('d/m/Y H:i:s'));
     }
@@ -201,6 +207,15 @@ final class BidangTable extends PowerGridComponent
                 ->searchable()
                 ->makeInputText('name')
                 ->sortable(),
+
+            Column::make('Kepala Bidang', 'kepala_bidang')
+                ->searchable()
+                ->makeInputText()
+                ->sortable(),
+
+            column::make('Jumlah Peserta Magang', 'jumlah_peserta')
+                ->sortable()
+                ->bodyAttribute('text-center'),
 
             Column::make('Created at', 'created_at')
                 ->hidden(),

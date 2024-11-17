@@ -14,7 +14,11 @@ class BidangEditForm extends Component
     {
         $this->bidangs = []; // hapus bidangs collection
         foreach ($bidangs as $bidang) {
-            $this->bidangs[] = ['id' => $bidang->id, 'name' => $bidang->name];
+            $this->bidangs[] = [
+                'id' => $bidang->id, 
+                'name' => $bidang->name,
+                'kepala_bidang' => $bidang->kepala_bidang
+            ];
         }
     }
 

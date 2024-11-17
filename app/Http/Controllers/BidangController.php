@@ -11,14 +11,14 @@ class BidangController extends Controller
     public function index()
     {
         return view('bidangs.index', [
-            "title" => "Bidang"
+            "title" => "Data Bidang / Divisi"
         ]);
     }
 
     public function create()
     {
         return view('bidangs.create', [
-            "title" => "Tambah Data Bidang"
+            "title" => "Tambah Data Bidang / Divisi"
         ]);
     }
 
@@ -32,7 +32,7 @@ class BidangController extends Controller
         $bidangs = Bidang::query()->whereIn('id', $ids)->get();
 
         return view('bidangs.edit', [
-            "title" => "Edit Bidang",
+            "title" => "Edit Data Bidang / Divisi",
             "bidangs" => $bidangs
         ]);
     }

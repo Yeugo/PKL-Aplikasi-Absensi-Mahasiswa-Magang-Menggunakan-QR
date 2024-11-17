@@ -9,5 +9,13 @@ class Bidang extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name'];
+    protected $fillable = [
+        'name',
+        'kepala_bidang'
+    ];
+
+    public function users()
+    {
+        return $this->hasMany(User::class, 'bidang_id', 'id');
+    }
 }
