@@ -25,23 +25,22 @@
                     <x-form-error key="interns.{{ $loop->index }}.phone" />
                 </div>
                 <div class="mb-3">
-                    <x-form-label id="password{{ $intern['id'] }}" label='Password hanya bisa diubah oleh intern'
+                    <x-form-label id="password{{ $intern['id'] }}" label='Password hanya bisa diubah oleh peserta magang'
                         required="false" />
                     <x-form-input id="password{{ $intern['id'] }}" name="password{{ $intern['id'] }}" disabled
                         required="false" />
                 </div>
-                {{-- <div class="mb-3">
-                    <x-form-label id="position_id{{ $intern['id'] }}"
-                        label='Jabatan / Posisi Karyawaan {{ $loop->iteration }}' />
-                    <select class="form-select" aria-label="Default select example" name="position_id"
-                        wire:model.defer="interns.{{ $loop->index }}.position_id">
-                        <option selected disabled>-- Pilih Role --</option>
-                        @foreach ($positions as $position)
-                        <option value="{{ $position->id }}">{{ ucfirst($position->name) }}</option>
+                <div class="mb-3">
+                    <x-form-label id="bidang_id{{ $intern['id'] }}" label='Bidang {{ $loop->iteration }}' />
+                    <select class="form-select" aria-label="Default select example" name="bidang_id"
+                        wire:model.defer="interns.{{ $loop->index }}.bidang_id">
+                        <option selected disabled>-- Pilih Bidang/Divisi --</option>
+                        @foreach ($bidangs as $bidang)
+                        <option value="{{ $bidang->id }}">{{ ucfirst($bidang->name) }}</option>
                         @endforeach
                     </select>
-                    <x-form-error key="interns.{{ $loop->index }}.role_id" />
-                </div> --}}
+                    <x-form-error key="bidangs.{{ $loop->index }}.bidang_id" />
+                </div>
                 <div class="mb-3">
                     <x-form-label id="role_id{{ $intern['id'] }}" label='Role {{ $loop->iteration }}' />
                     <select class="form-select" aria-label="Default select example" name="role_id"

@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
+<button wire:click="testClick">Click Me</button>
 {{-- <div>
     <div class="row">
         <div class="col-md-3">

@@ -9,6 +9,7 @@
 
     @include('partials.styles')
     @stack('style')
+    @livewireStyles
 
     <title>{{ $title }} | Absensi App</title>
 </head>
@@ -21,7 +22,7 @@
 
     @include('partials.scripts')
     @stack('script')
-
+    @livewireScripts
 </body>
 
 </html>

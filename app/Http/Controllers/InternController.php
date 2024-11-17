@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
-use Mpdf;
+
 
 class InternController extends Controller
 {
@@ -35,28 +35,8 @@ class InternController extends Controller
             ->get();
 
         return view('interns.edit', [
-            "title" => "Edit Data Anak Magang",
+            "title" => "Edit Data Peserta Magang",
             "interns" => $interns
         ]);
     }
-
-    // public function printPdf()
-    // {
-    //     // Mengambil data yang ingin dicetak
-    //     $interns = User::all();
-
-    //     // Load view yang akan di convert
-    //     $html = view('interns.pdf', compact('interns'))->render();
-
-    //     // Inisialisasi mPDF
-    //     $mpdf = new Mpdf();
-
-    //     // Tulis HTML ke dalam PDF
-    //     $mpdf->WriteHTML($html);
-
-    //     // Output ke browser (langsung download atau tampilkan)
-    //     return $mpdf->Output('employee-report.pdf', 'I'); // 'I' untuk display di browser, 'D' untuk download langsung
-
-
-    // }
 }

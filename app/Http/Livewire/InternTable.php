@@ -8,9 +8,11 @@ use App\Models\User;
 use Illuminate\Support\Carbon;
 use Illuminate\Database\QueryException;
 use Illuminate\Database\Eloquent\Builder;
+use Maatwebsite\Excel\Facades\Excel;
 use PowerComponents\LivewirePowerGrid\Rules\{Rule, RuleActions};
 use PowerComponents\LivewirePowerGrid\Traits\ActionButton;
 use PowerComponents\LivewirePowerGrid\{Button, Column, Exportable, Footer, Header, PowerGrid, PowerGridComponent, PowerGridEloquent};
+use Barryvdh\DomPDF\Facade\Pdf;
 
 final class InternTable extends PowerGridComponent
 {
@@ -26,7 +28,9 @@ final class InternTable extends PowerGridComponent
             parent::getListeners(),
             [
                 'bulkCheckedDelete',
-                'bulkCheckedEdit'
+                'bulkCheckedEdit',
+                'exportToPDF',
+                'exportToExcel'
             ]
         );
     }
@@ -36,14 +40,20 @@ final class InternTable extends PowerGridComponent
         return [
             Button::add('bulk-checked')
                 ->caption(__('Hapus'))
-                ->class('btn btn-danger border-0')
+                ->class('btn btn-danger border-1')
                 ->emit('bulkCheckedDelete', []),
             Button::add('bulk-edit-checked')
                 ->caption(__('Edit'))
-                ->class('btn btn-success border-0')
+                ->class('btn btn-success border-1')
                 ->emit('bulkCheckedEdit', []),
+            Button::add('export-pdf')
+                ->caption(__('Cetak'))
+                ->class('btn btn-secondary border-1')
+                ->emit('exportToPDF', []),
         ];
     }
+
+    
 
     public function bulkCheckedDelete()
     {
@@ -92,14 +102,37 @@ final class InternTable extends PowerGridComponent
         $this->showCheckBox();
 
         return [
-            Exportable::make('export')
-                ->striped()
-                ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV),
-            Header::make()->showSearchInput()->showToggleColumns(),
+            // Exportable::make('export')
+            //     ->striped()
+            //     ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV),
+            Header::make()->showSearchInput(),
             Footer::make()
                 ->showPerPage()
                 ->showRecordCount(),
         ];
+    }
+
+    public function exportToPDF()
+    {
+        
+        $selectedIds = $this->checkedValues();
+
+        if (empty($selectedIds)) {
+            $this->dispatchBrowserEvent('showToast', ['success' => false, 'message' => 'Pilih data yang ingin diekspor terlebih dahulu.']);
+            return;
+        }
+        
+        $selectedData = User::with('bidang', 'role')
+        ->whereIn('id', $this->checkedValues())
+        ->get();
+        
+        $pdf = Pdf::loadView('exports.InternPdf', compact('selectedData'))
+        ->setPaper('a4', 'portrait');
+
+        return response()->streamDownload(
+            fn() => print($pdf->output()),
+            'PesertaMagang.pdf'
+    );
     }
 
     /*

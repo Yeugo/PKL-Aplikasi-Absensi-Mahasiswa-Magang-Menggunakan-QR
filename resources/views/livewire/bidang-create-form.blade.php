@@ -1,4 +1,13 @@
 <div>
+    <div class="btn-group">
+        <button type="button" class="btn btn-primary dropdown-toggle mb" data-bs-toggle="dropdown" aria-expanded="false">
+            Export
+        </button>
+        <ul class="dropdown-menu">
+            <li><a class="dropdown-item" wire:click.prevent="exportToExcel">Export ke Excel</a></li>
+            <li><a class="dropdown-item" wire:click.prevent="$emit('exportPDF')">Export ke PDF</a></li>
+        </ul>
+    </div>
     <form wire:submit.prevent="saveBidangs" method="post">
         @if ($errors->any())
         <div class="alert alert-danger">

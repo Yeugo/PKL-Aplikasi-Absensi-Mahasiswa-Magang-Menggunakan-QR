@@ -9,8 +9,10 @@ use App\Http\Controllers\HolidayController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PositionController;
 use App\Http\Controllers\PresenceController;
+use App\Http\Livewire\InternTable;
 use FontLib\Table\Type\name;
 use Illuminate\Support\Facades\Route;
+use Livewire\Livewire;
 use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 
 /*
@@ -27,9 +29,6 @@ use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 Route::middleware('auth')->group(function () {
     Route::middleware('role:admin')->group(function () {
         Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
-    //     // positions
-    //     Route::resource('/positions', PositionController::class)->only(['index', 'create']);
-    //     Route::get('/positions/edit', [PositionController::class, 'edit'])->name('positions.edit');
         // interns
         Route::resource('/interns', InternController::class)->only(['index', 'create']);
         Route::get('/interns/edit', [InternController::class, 'edit'])->name('interns.edit');
@@ -44,6 +43,7 @@ Route::middleware('auth')->group(function () {
         Route::resource('/bidangs', BidangController::class)->only(['index', 'create']);
         Route::get('/bidangs/edit', [BidangController::class, 'edit'])->name('bidangs.edit');
 
+        
     //     // presences (kehadiran)
     //     Route::resource('/presences', PresenceController::class)->only(['index']);
     //     Route::get('/presences/qrcode', [PresenceController::class, 'showQrcode'])->name('presences.qrcode');

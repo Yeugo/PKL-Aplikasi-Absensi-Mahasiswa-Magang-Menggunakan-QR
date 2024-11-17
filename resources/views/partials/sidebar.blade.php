@@ -13,7 +13,7 @@
                 <a class="nav-link {{ request()->routeIs('bidangs.*') ? 'active' : '' }}"
                     href="{{ route('bidangs.index') }}">
                     <span data-feather="archive" class="align-text-bottom"></span>
-                    Bidang / Department
+                    Bidang / Divisi
                 </a>
             </li>
         </li>
@@ -28,7 +28,7 @@
                 <a class="nav-link {{ request()->routeIs('interns.*') ? 'active' : '' }}"
                     href="{{ route('interns.index') }}">
                     <span data-feather="users" class="align-text-bottom"></span>
-                    Anak Magang
+                    Peserta Magang
                 </a>
             </li>
             {{-- <li class="nav-item">

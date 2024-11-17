@@ -3,6 +3,8 @@
 namespace App\Http\Livewire;
 
 use App\Models\Bidang;
+use App\Models\User;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Carbon;
 use Illuminate\Database\QueryException;
 use Illuminate\Database\Eloquent\Builder;
@@ -20,7 +22,8 @@ final class BidangTable extends PowerGridComponent
             parent::getListeners(),
             [
                 'bulkCheckedDelete',
-                'bulkCheckedEdit'
+                'bulkCheckedEdit',
+                'exportToPDF'
             ]
         );
     }
@@ -36,6 +39,10 @@ final class BidangTable extends PowerGridComponent
                 ->caption(__('Edit'))
                 ->class('btn btn-success border-0')
                 ->emit('bulkCheckedEdit', []),
+            Button::add('exportPDF')
+                ->caption(__('Cetak'))
+                ->class('btn btn-secondary border-0')
+                ->emit('exportToPDF', []),
         ];
     }
 
@@ -82,15 +89,39 @@ final class BidangTable extends PowerGridComponent
         $this->showCheckBox();
 
         return [
-            Exportable::make('export')
-                ->striped()
-                ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV),
+            // Exportable::make('export')
+            //     ->striped()
+            //     ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV),
             Header::make()->showSearchInput(),
             Footer::make()
                 ->showPerPage()
                 ->showRecordCount(),
         ];
     }
+
+    public function exportToPDF()
+    {
+        $selectedIds = $this->checkedValues();
+
+        if (empty($selectedIds)) {
+            $this->dispatchBrowserEvent('showToast', ['success' => false, 'message' => 'Pilih data yang ingin di export terlebih dahulu. ']);
+            return;
+        }
+
+        $selectedData = Bidang::whereIn('id', $this->checkedValues())
+        ->get();
+
+        $pdf = Pdf::loadView('exports.BidangPdf', compact('selectedData'))
+        ->setPaper('a4', 'potrait');
+
+        return response()->streamDownload(
+            fn() => print($pdf->output()),
+            'ExportBidang.pdf'
+        );
+        
+    }
+
+
 
     /*
     |--------------------------------------------------------------------------
