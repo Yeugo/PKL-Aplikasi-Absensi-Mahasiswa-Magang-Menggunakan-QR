@@ -73,4 +73,17 @@ class User extends Authenticatable
     {
         return $this->role_id === self::USER_ROLE_ID;
     }
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::created(function ($user) {
+            $user->bidang->increment('jumlah_peserta');
+        });
+
+        static::deleted(function ($user) {
+            $user->bidang->decrement('jumlah_peserta');
+        });
+    }
 }

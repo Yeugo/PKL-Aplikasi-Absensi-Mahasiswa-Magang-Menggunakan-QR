@@ -48,6 +48,7 @@
             <tr>
                 <th>ID</th>
                 <th>Name</th>
+                <th>Kepala Bidang</th>
                 <th>Jumlah Peserta Magang</th>
                 <th>Created at</th>
             </tr>
@@ -57,7 +58,8 @@
                 <tr>
                     <td>{{ $data->id }}</td>
                     <td>{{ $data->name }}</td>
-                    <td>{{ $data->users_count }}</td>
+                    <td>{{ $data->kepala_bidang }}</td>
+                    <td>{{ $data->jumlah_peserta }}</td>
                     <td>{{ \Carbon\Carbon::parse($data->created_at)->format('d/m/Y H:i:s') }}</td>
                 </tr>
             @endforeach

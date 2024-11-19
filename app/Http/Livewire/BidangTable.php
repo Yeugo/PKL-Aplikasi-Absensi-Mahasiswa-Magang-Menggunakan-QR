@@ -175,9 +175,8 @@ final class BidangTable extends PowerGridComponent
             ->addColumn('id')
             ->addColumn('name')
             ->addColumn('kepala_bidang')
-            ->addColumn('jumlah_peserta', function (Bidang $model) {
-                return $model->users_count;
-            })
+            // 
+            ->addColumn('jumlah_peserta')
             ->addColumn('created_at')
             ->addColumn('created_at_formatted', fn (Bidang $model) => Carbon::parse($model->created_at)->format('d/m/Y H:i:s'));
     }
@@ -214,6 +213,8 @@ final class BidangTable extends PowerGridComponent
                 ->sortable(),
 
             column::make('Jumlah Peserta Magang', 'jumlah_peserta')
+                ->searchable()
+                ->makeInputText()
                 ->sortable()
                 ->bodyAttribute('text-center'),
 
