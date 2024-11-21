@@ -32,10 +32,9 @@ Route::middleware('auth')->group(function () {
         // interns
         Route::resource('/interns', InternController::class)->only(['index', 'create']);
         Route::get('/interns/edit', [InternController::class, 'edit'])->name('interns.edit');
-    //     Route::get('/employees/print', [EmployeeController::class, 'printPdf'])->name('employees.print');
-    //     // holidays (hari libur)
-    //     Route::resource('/holidays', HolidayController::class)->only(['index', 'create']);
-    //     Route::get('/holidays/edit', [HolidayController::class, 'edit'])->name('holidays.edit');
+        // holidays (hari libur)
+        Route::resource('/holidays', HolidayController::class)->only(['index', 'create']);
+        Route::get('/holidays/edit', [HolidayController::class, 'edit'])->name('holidays.edit');
     //     // attendances (absensi)
     //     Route::resource('/attendances', AttendanceController::class)->only(['index', 'create']);
     //     Route::get('/attendances/edit', [AttendanceController::class, 'edit'])->name('attendances.edit');
