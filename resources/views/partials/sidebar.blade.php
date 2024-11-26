@@ -38,14 +38,14 @@
                     Hari Libur
                 </a>
             </li>
-            {{-- <li class="nav-item">
-                <a class="nav-link {{ request()->routeIs('attendances.*') ? 'active' : '' }}"
-                    href="{{ route('attendances.index') }}">
+            <li class="nav-item">
+                <a class="nav-link {{ request()->routeIs('absensi.*') ? 'active' : '' }}"
+                    href="{{ route('absensi.index') }}">
                     <span data-feather="clipboard" class="align-text-bottom"></span>
                     Absensi
                 </a>
             </li>
-            <li class="nav-item">
+            {{-- <li class="nav-item">
                 <a class="nav-link {{ request()->routeIs('presences.*') ? 'active' : '' }}"
                     href="{{ route('presences.index') }}">
                     <span data-feather="clipboard" class="align-text-bottom"></span>

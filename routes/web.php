@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\AttendanceController;
+use App\Http\Controllers\AbsensiController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BidangController;
 use App\Http\Controllers\DashboardController;
@@ -35,9 +35,9 @@ Route::middleware('auth')->group(function () {
         // holidays (hari libur)
         Route::resource('/holidays', HolidayController::class)->only(['index', 'create']);
         Route::get('/holidays/edit', [HolidayController::class, 'edit'])->name('holidays.edit');
-    //     // attendances (absensi)
-    //     Route::resource('/attendances', AttendanceController::class)->only(['index', 'create']);
-    //     Route::get('/attendances/edit', [AttendanceController::class, 'edit'])->name('attendances.edit');
+        // attendances (absensi)
+        Route::resource('/absensi', AbsensiController::class)->only(['index', 'create']);
+        Route::get('/absensi/edit', [AbsensiController::class, 'edit'])->name('absensi.edit');
         // department
         Route::resource('/bidangs', BidangController::class)->only(['index', 'create']);
         Route::get('/bidangs/edit', [BidangController::class, 'edit'])->name('bidangs.edit');

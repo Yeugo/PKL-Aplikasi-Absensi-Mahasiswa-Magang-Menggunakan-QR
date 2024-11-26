@@ -15,7 +15,7 @@ final class AbsensiTable extends PowerGridComponent
     use ActionButton;
 
     //Table sort field
-    public string $sortField = 'attendances.created_at';
+    public string $sortField = 'absensi.created_at';
     public string $sortDirection = 'desc';
 
     protected function getListeners()
@@ -220,7 +220,7 @@ final class AbsensiTable extends PowerGridComponent
             Button::make('edit', 'Edit')
                 ->class('badge text-bg-success')
                 ->target('')
-                ->route('attendances.edit', ['id' => 'id']),
+                ->route('absensi.edit', ['id' => 'id']),
 
             //    Button::make('destroy', 'Delete')
             //        ->class('bg-red-500 cursor-pointer text-white px-3 py-2 m-1 rounded text-sm')

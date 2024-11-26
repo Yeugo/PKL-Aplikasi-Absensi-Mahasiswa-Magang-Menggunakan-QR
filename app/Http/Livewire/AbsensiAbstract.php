@@ -10,13 +10,13 @@ class AbsensiAbstract extends Component
     public $absensi;
 
     protected $rules = [
-        'attendance.title' => 'required|string|min:6',
-        'attendance.description' => 'required|string|max:500',
-        'attendance.start_time' => 'required|date_format:H:i',
-        'attendance.batas_start_time' => 'required|date_format:H:i|after:start_time',
-        'attendance.end_time' => 'required|date_format:H:i',
-        'attendance.batas_end_time' => 'required|date_format:H:i|after:end_time',
-        'attendance.code' => 'sometimes|nullable|boolean',
+        'absensi.title' => 'required|string|min:6',
+        'absensi.description' => 'required|string|max:500',
+        'absensi.start_time' => 'required|date_format:H:i',
+        'absensi.batas_start_time' => 'required|date_format:H:i|after:start_time',
+        'absensi.end_time' => 'required|date_format:H:i',
+        'absensi.batas_end_time' => 'required|date_format:H:i|after:end_time',
+        'absensi.code' => 'sometimes|nullable|boolean',
     ];
 
 }
