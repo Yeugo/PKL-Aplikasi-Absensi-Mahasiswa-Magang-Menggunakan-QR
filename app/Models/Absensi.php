@@ -59,8 +59,8 @@ class Absensi extends Model
         );
     }
 
-    public function kehadiran()
-    {
-        return $this->hasMany(Kehadiran::class);
-    }
+    // public function kehadiran()
+    // {
+    //     return $this->hasMany(Kehadiran::class);
+    // }
 }

@@ -13,12 +13,14 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('izin', function (Blueprint $table) {
+        Schema::create('kehadiran', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained('absensi');
+            $table->foreignId('user_id')->constrained('users');
             $table->foreignId('absensi_id')->constrained('absensi')->cascadeOnDelete();
-            $table->string('title');
-            $table->string('description', 500);
+            $table->date("tgl_hadir");
+            $table->string("absen_masuk")->nullable();
+            $table->time("absen_keluar")->nullable();
+            $table->boolean('izin')->default(0);
             $table->timestamps();
         });
     }
@@ -30,6 +32,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('izin');
+        Schema::dropIfExists('kehadiran');
     }
 };
