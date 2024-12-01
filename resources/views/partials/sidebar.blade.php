@@ -45,13 +45,13 @@
                     Absensi
                 </a>
             </li>
-            {{-- <li class="nav-item">
+            <li class="nav-item">
                 <a class="nav-link {{ request()->routeIs('kehadiran.*') ? 'active' : '' }}"
                     href="{{ route('kehadiran.index') }}">
                     <span data-feather="clipboard" class="align-text-bottom"></span>
                     Data Kehadiran
                 </a>
-            </li> --}}
+            </li>
             @endif
         </ul>
 

@@ -36,7 +36,7 @@ Route::middleware('auth')->group(function () {
         // holidays (hari libur)
         Route::resource('/holidays', HolidayController::class)->only(['index', 'create']);
         Route::get('/holidays/edit', [HolidayController::class, 'edit'])->name('holidays.edit');
-        // attendances (absensi)
+        // absensis (absensi)
         Route::resource('/absensi', AbsensiController::class)->only(['index', 'create']);
         Route::get('/absensi/edit', [AbsensiController::class, 'edit'])->name('absensi.edit');
         // department
@@ -44,20 +44,16 @@ Route::middleware('auth')->group(function () {
         Route::get('/bidangs/edit', [BidangController::class, 'edit'])->name('bidangs.edit');
 
         
-        // // presences (kehadiran)
-        // Route::resource('/kehadiran', KehadiranController::class)->only(['index']);
-        // Route::get('/kehadiran/qrcode', [KehadiranController::class, 'showQrcode'])->name('kehadiran.qrcode');
-        // Route::get('/kehadiran/qrcode/download-pdf', [KehadiranController::class, 'downloadQrCodePDF'])->name('kehadiran.qrcode.download-pdf');
-        // Route::get('/kehadiran/{absensi}', [KehadiranController::class, 'show'])->name('kehadiran.show');
-        // // not present data
-        // Route::get('/kehadiran/{absensi}/not-present', [KehadiranController::class, 'notPresent'])->name('kehadiran.not-present');
-        // Route::post('/kehadiran/{absensi}/not-present', [KehadiranController::class, 'notPresent']);
-        // // present (url untuk menambahkan/mengubah user yang tidak hadir menjadi hadir)
-        // Route::post('/kehadiran/{absensi}/present', [KehadiranController::class, 'presentUser'])->name('kehadiran.present');
-        // Route::post('/kehadiran/{absensi}/acceptPermission', [KehadiranController::class, 'acceptPermission'])->name('kehadiran.acceptPermission');
-        // // employees permissions
-
-        // Route::get('/kehadiran/{absensi}/izin', [KehadiranController::class, 'izin'])->name('kehadiran.izin');
+        // presences (kehadiran)
+        Route::resource('/kehadiran', KehadiranController::class)->only(['index']);
+        Route::get('/kehadiran/qrcode', [KehadiranController::class, 'showQrcode'])->name('kehadiran.qrcode');
+        Route::get('/kehadiran/qrcode/download-pdf', [KehadiranController::class, 'downloadQrCodePDF'])->name('kehadiran.qrcode.download-pdf');
+        Route::get('/kehadiran/{absensi}', [KehadiranController::class, 'show'])->name('kehadiran.show');
+        // not present data
+        Route::get('/kehadiran/{absensi}/not-present', [KehadiranController::class, 'notPresent'])->name('kehadiran.not-present');
+        Route::post('/kehadiran/{absensi}/not-present', [KehadiranController::class, 'notPresent']);
+        // present (url untuk menambahkan/mengubah user yang tidak hadir menjadi hadir)
+        Route::post('/kehadiran/{absensi}/present', [KehadiranController::class, 'presentUser'])->name('kehadiran.present');
     });
 
     Route::middleware('role:user')->name('home.')->group(function () {
@@ -66,8 +62,8 @@ Route::middleware('auth')->group(function () {
         Route::post('/absensi/qrcode', [HomeController::class, 'sendEnterPresenceUsingQRCode'])->name('sendEnterPresenceUsingQRCode');
         Route::post('/absensi/qrcode/out', [HomeController::class, 'sendOutPresenceUsingQRCode'])->name('sendOutPresenceUsingQRCode');
 
-        Route::get('/absensi/{attendance}', [HomeController::class, 'show'])->name('show');
-        Route::get('/absensi/{attendance}/permission', [HomeController::class, 'permission'])->name('permission');
+        Route::get('/absensi/{absensi}', [HomeController::class, 'show'])->name('show');
+        // Route::get('/absensi/{absensi}/permission', [HomeController::class, 'permission'])->name('permission');
     });
 
     Route::delete('/logout', [AuthController::class, 'logout'])->name('auth.logout');
