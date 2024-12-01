@@ -188,24 +188,23 @@ class KehadiranController extends Controller
     //         ->with('success', "Berhasil menerima data izin karyawan atas nama \"$user->name\".");
     // }
 
-    private function getNotPresentEmployees($presences)
+    private function getNotPresentEmployees($kehadirans)
     {
-        $uniquePresenceDates = $presences->unique("presence_date")->pluck('presence_date');
-        $uniquePresenceDatesAndCompactTheUserIds = $uniquePresenceDates->map(function ($date) use ($presences) {
+        $uniquePresenceDates = $kehadirans->unique("tgl_hadir")->pluck('tgl_hadir');
+        $uniquePresenceDatesAndCompactTheUserIds = $uniquePresenceDates->map(function ($date) use ($kehadirans) {
             return [
-                "presence_date" => $date,
-                "user_ids" => $presences->where('presence_date', $date)->pluck('user_id')->toArray()
+                "tgl_hadir" => $date,
+                "user_ids" => $kehadirans->where('tgl_hadir', $date)->pluck('user_id')->toArray()
             ];
         });
         $notPresentData = [];
-        foreach ($uniquePresenceDatesAndCompactTheUserIds as $presence) {
+        foreach ($uniquePresenceDatesAndCompactTheUserIds as $kehadiran) {
             $notPresentData[] =
                 [
-                    "not_presence_date" => $presence['presence_date'],
+                    "not_presence_date" => $kehadiran['tgl_hadir'],
                     "users" => User::query()
-                        ->with('position')
                         ->onlyEmployees()
-                        ->whereNotIn('id', $presence['user_ids'])
+                        ->whereNotIn('id', $kehadiran['user_ids'])
                         ->get()
                         ->toArray()
                 ];
