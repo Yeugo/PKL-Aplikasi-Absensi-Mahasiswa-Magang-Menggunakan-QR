@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Absensi;
-// use App\Models\Permission;
-use App\Models\Kehadiran;
 use App\Models\User;
-use Barryvdh\DomPDF\Facade\Pdf;
+// use App\Models\Permission;
+use App\Models\Absensi;
+use App\Models\Kehadiran;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class KehadiranController extends Controller
@@ -36,13 +37,33 @@ class KehadiranController extends Controller
     public function showQrcode()
     {
         $code = request('code');
-        $qrcode = $this->getQrCode($code);
+
+        $absensi = Absensi::where('code', $code)->first();
+
+        $newCode = Str::random();
+
+        $absensi->update([
+            'code' => $newCode, // Update kode absensi
+        ]);
+
+        $qrcode = $this->getQrCode($newCode);
 
         return view('kehadiran.qrcode', [
             "title" => "Generate Absensi QRCode",
             "qrcode" => $qrcode,
-            "code" => $code
+            "code" => $newCode
         ]);
+        
+
+        // $code = request('code');
+    
+        // $qrcode = $this->getQrCode($code);
+
+        // return view('kehadiran.qrcode', [
+        //     "title" => "Generate Absensi QRCode",
+        //     "qrcode" => $qrcode,
+        //     "code" => $code
+        // ]);
     }
 
     public function downloadQrCodePDF()
