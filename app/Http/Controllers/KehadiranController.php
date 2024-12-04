@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 // use App\Models\Permission;
 use App\Models\Absensi;
+use App\Models\Izin;
 use App\Models\Kehadiran;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
@@ -116,25 +117,24 @@ class KehadiranController extends Controller
         ]);
     }
 
-    // public function permissions(Attendance $attendance)
-    // {
-    //     $byDate = now()->toDateString();
-    //     if (request('display-by-date'))
-    //         $byDate = request('display-by-date');
+    public function permissions(Absensi $absensi)
+    {
+        $byDate = now()->toDateString();
+        if (request('display-by-date'))
+            $byDate = request('display-by-date');
 
-    //     $permissions = Permission::query()
-    //         ->with(['user', 'user.position'])
-    //         ->where('attendance_id', $attendance->id)
-    //         ->where('permission_date', $byDate)
-    //         ->get();
+        $izins = Izin::query()
+            ->where('absensi_id', $absensi->id)
+            ->where('tgl_izin', $byDate)
+            ->get();
 
-    //     return view('presences.permissions', [
-    //         "title" => "Data Karyawan Izin",
-    //         "attendance" => $attendance,
-    //         "permissions" => $permissions,
-    //         "date" => $byDate
-    //     ]);
-    // }
+        return view('kehadiran.izin', [
+            "title" => "Data Karyawan Izin",
+            "absensi" => $absensi,
+            "izins" => $izins,
+            "date" => $byDate
+        ]);
+    }
 
     public function presentUser(Request $request, Absensi $absensi)
     {
@@ -167,47 +167,47 @@ class KehadiranController extends Controller
             ->with('success', "Berhasil menyimpan data hadir atas nama \"$user->name\".");
     }
 
-    // public function acceptPermission(Request $request, Attendance $attendance)
-    // {
-    //     $validated = $request->validate([
-    //         'user_id' => 'required|string|numeric',
-    //         "permission_date" => "required|date"
-    //     ]);
+    public function acceptPermission(Request $request, Absensi $absensi)
+    {
+        $validated = $request->validate([
+            'user_id' => 'required|string|numeric',
+            "tgl_izin" => "required|date"
+        ]);
 
-    //     $user = User::findOrFail($validated['user_id']);
+        $user = User::findOrFail($validated['user_id']);
 
-    //     $permission = Permission::query()
-    //         ->where('attendance_id', $attendance->id)
-    //         ->where('user_id', $user->id)
-    //         ->where('permission_date', $validated['permission_date'])
-    //         ->first();
+        $izin = Izin::query()
+            ->where('absensi_id', $absensi->id)
+            ->where('user_id', $user->id)
+            ->where('tgl_izin', $validated['tgl_izin'])
+            ->first();
 
-    //     $presence = Presence::query()
-    //         ->where('attendance_id', $attendance->id)
-    //         ->where('user_id', $user->id)
-    //         ->where('presence_date', $validated['permission_date'])
-    //         ->first();
+        $kehadiran = Kehadiran::query()
+            ->where('absensi_id', $absensi->id)
+            ->where('user_id', $user->id)
+            ->where('tgl_hadir', $validated['tgl_izin'])
+            ->first();
 
-    //     // jika data user yang didapatkan dari request user_id, presence_date, sudah absen atau sudah ada ditable presences
-    //     if ($presence || !$user)
-    //         return back()->with('failed', 'Request tidak diterima.');
+        // jika data user yang didapatkan dari request user_id, presence_date, sudah absen atau sudah ada ditable presences
+        if ($kehadiran || !$user)
+            return back()->with('failed', 'Request tidak diterima.');
 
-    //     Presence::create([
-    //         "attendance_id" => $attendance->id,
-    //         "user_id" => $user->id,
-    //         "presence_date" => $validated['permission_date'],
-    //         "presence_enter_time" => now()->toTimeString(),
-    //         "presence_out_time" => now()->toTimeString(),
-    //         'is_permission' => true
-    //     ]);
+        Kehadiran::create([
+            "absensi_id" => $absensi->id,
+            "user_id" => $user->id,
+            "tgl_hadir" => $validated['tgl_izin'],
+            "absen_masuk" => now()->toTimeString(),
+            "absen_keluar" => now()->toTimeString(),
+            'izin' => true
+        ]);
 
-    //     $permission->update([
-    //         'is_accepted' => 1
-    //     ]);
+        $izin->update([
+            'status' => 1
+        ]);
 
-    //     return back()
-    //         ->with('success', "Berhasil menerima data izin karyawan atas nama \"$user->name\".");
-    // }
+        return back()
+            ->with('success', "Berhasil menerima data izin karyawan atas nama \"$user->name\".");
+    }
 
     private function getNotPresentEmployees($kehadirans)
     {
