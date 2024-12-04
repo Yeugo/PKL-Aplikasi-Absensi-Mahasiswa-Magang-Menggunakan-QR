@@ -54,6 +54,10 @@ Route::middleware('auth')->group(function () {
         Route::post('/kehadiran/{absensi}/not-present', [KehadiranController::class, 'notPresent']);
         // present (url untuk menambahkan/mengubah user yang tidak hadir menjadi hadir)
         Route::post('/kehadiran/{absensi}/present', [KehadiranController::class, 'presentUser'])->name('kehadiran.present');
+        Route::post('/kehadiran/{absensi}/acceptPermission', [KehadiranController::class, 'acceptPermission'])->name('kehadiran.acceptPermission');
+        // employees permissions
+
+        Route::get('/kehadiran/{absensi}/izin', [KehadiranController::class, 'permissions'])->name('kehadiran.izin');
     });
 
     Route::middleware('role:user')->name('home.')->group(function () {
@@ -63,7 +67,7 @@ Route::middleware('auth')->group(function () {
         Route::post('/absensi/qrcode/out', [HomeController::class, 'sendOutPresenceUsingQRCode'])->name('sendOutPresenceUsingQRCode');
 
         Route::get('/absensi/{absensi}', [HomeController::class, 'show'])->name('show');
-        // Route::get('/absensi/{absensi}/permission', [HomeController::class, 'permission'])->name('permission');
+        Route::get('/absensi/{absensi}/izin', [HomeController::class, 'izin'])->name('izin');
     });
 
     Route::delete('/logout', [AuthController::class, 'logout'])->name('auth.logout');

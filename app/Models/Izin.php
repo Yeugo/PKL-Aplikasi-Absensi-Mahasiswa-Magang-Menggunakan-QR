@@ -15,6 +15,6 @@ class Izin extends Model
 
     public function user()
     {
-        return $this->belongsTo(Absensi::class);
+        return $this->belongsTo(User::class);
     }
 }

@@ -12,8 +12,8 @@
                 <h5 class="card-title">{{ $absensi->title }}</h5>
                 <h6 class="card-subtitle mb-2 text-muted">{{ $absensi->description }}</h6>
                 <div class="d-flex align-items-center gap-2">
-                    {{-- @include('partials.absensi-badges')
-                    <a href="{{ route('kehadiran.permissions', $absensi->id) }}" class="badge text-bg-info">Mahasiswa Izin</a> --}}
+                    @include('partials.absensi-badges')
+                    <a href="{{ route('kehadiran.izin', $absensi->id) }}" class="badge text-bg-info">Mahasiswa Izin</a>
                     <a href="{{ route('kehadiran.not-present', $absensi->id) }}" class="badge text-bg-danger">Belum
                         Absen</a>
                     @if ($absensi->code)
