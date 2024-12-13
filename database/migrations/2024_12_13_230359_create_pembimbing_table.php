@@ -13,8 +13,13 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('peserta', function (Blueprint $table) {
+        Schema::create('pembimbing', function (Blueprint $table) {
             $table->id();
+            $table->string('name');
+            $table->string('nip');
+            $table->string('phone')->unique()->nullable();
+            $table->string('alamat');
+            $table->foreignId('bidang_id')->constrained('bidangs');
             $table->timestamps();
         });
     }
@@ -26,6 +31,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('peserta');
+        Schema::dropIfExists('pembimbing');
     }
 };
