@@ -8,9 +8,9 @@
 
 <div class="btn-toolbar d-flex justify-content-between mb-2 mb-md-2">
     <div class="ms-2">
-        <a href="{{ route('interns.create') }}" class="btn btn-sm btn-primary">
+        <a href="{{ route('users.create') }}" class="btn btn-sm btn-primary">
             <span data-feather="plus-circle" class="align-text-bottom me-1"></span>
-            Tambah Data Anak Magang
+            Tambah Data User
         </a>
     </div>
 </div>
@@ -19,7 +19,7 @@
 @section('content')
 @include('partials.alerts')
 
-<livewire:intern-table />
+<livewire:user-table />
 @endsection
 
 @push('script')

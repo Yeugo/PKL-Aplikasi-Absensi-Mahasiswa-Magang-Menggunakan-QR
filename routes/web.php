@@ -10,6 +10,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\KehadiranController;
 use App\Http\Controllers\PositionController;
 use App\Http\Controllers\PresenceController;
+use App\Http\Controllers\UserController;
 use App\Http\Livewire\InternTable;
 use FontLib\Table\Type\name;
 use Illuminate\Support\Facades\Route;
@@ -30,9 +31,9 @@ use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 Route::middleware('auth')->group(function () {
     Route::middleware('role:admin')->group(function () {
         Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
-        // interns
-        Route::resource('/interns', InternController::class)->only(['index', 'create']);
-        Route::get('/interns/edit', [InternController::class, 'edit'])->name('interns.edit');
+        // users
+        Route::resource('/users', UserController::class)->only(['index', 'create']);
+        Route::get('/users/edit', [UserController::class, 'edit'])->name('users.edit');
         // holidays (hari libur)
         Route::resource('/holidays', HolidayController::class)->only(['index', 'create']);
         Route::get('/holidays/edit', [HolidayController::class, 'edit'])->name('holidays.edit');
@@ -67,7 +68,7 @@ Route::middleware('auth')->group(function () {
         Route::post('/absensi/qrcode/out', [HomeController::class, 'sendOutPresenceUsingQRCode'])->name('sendOutPresenceUsingQRCode');
 
         Route::get('/absensi/{absensi}', [HomeController::class, 'show'])->name('show');
-        Route::get('/absensi/{absensi}/izin', [HomeController::class, 'izin'])->name('izin');
+        Route::get('/absensi/{absensi}/izin', [HomeController::class, 'permission'])->name('permission');
     });
 
     Route::delete('/logout', [AuthController::class, 'logout'])->name('auth.logout');

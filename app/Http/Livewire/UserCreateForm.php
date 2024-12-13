@@ -9,9 +9,9 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Hash;
 use Livewire\Component;
 
-class InternCreateForm extends Component
+class UserCreateForm extends Component
 {
-    public $interns;
+    public $users;
     public Collection $roles;
     public Collection $bidangs;
 
@@ -19,7 +19,7 @@ class InternCreateForm extends Component
     {
         $this->roles = Role::all();
         $this->bidangs = Bidang::all();
-        $this->interns = [
+        $this->users = [
             ['name' => '', 
              'email' => '',
              'password' => '',  
@@ -29,18 +29,18 @@ class InternCreateForm extends Component
         ];
     }
 
-    public function addInternInput(): void
+    public function addUserInput(): void
     {
-        $this->interns[] = ['name' => '', 'email' => '', 'password' => '', 'phone' => '', 'role_id' => User::USER_ROLE_ID, 'bidang_id' => $this->bidangs->first()->id];
+        $this->users[] = ['name' => '', 'email' => '', 'password' => '', 'phone' => '', 'role_id' => User::USER_ROLE_ID, 'bidang_id' => $this->bidangs->first()->id];
     }
 
-    public function removeInternInput(int $index): void
+    public function removeUserInput(int $index): void
     {
-        unset($this->interns[$index]);
-        $this->interns = array_values($this->interns);
+        unset($this->users[$index]);
+        $this->users = array_values($this->users);
     }
 
-    public function saveInterns()
+    public function saveUsers()
     {
         // cara lebih cepat, dan kemungkinan data role tidak akan diubah/ditambah
         $roleIdRuleIn = join(',', $this->roles->pluck('id')->toArray());
@@ -50,17 +50,17 @@ class InternCreateForm extends Component
         // setidaknya input pertama yang hanya required,
         // karena nanti akan difilter apakah input kedua dan input selanjutnya apakah berisi
         $this->validate([
-            'interns.*.name' => 'required',
-            'interns.*.email' => 'required|email|unique:users,email',
-            'interns.*.password' => '',
-            'interns.*.phone' => 'required|unique:users,phone',
-            'interns.*.role_id' => 'required|in:' . $roleIdRuleIn,
-            'interns.*.bidang_id' => 'required|in:' . $bidangIdRuleIn,
+            'users.*.name' => 'required',
+            'users.*.email' => 'required|email|unique:users,email',
+            'users.*.password' => '',
+            'users.*.phone' => 'required|unique:users,phone',
+            'users.*.role_id' => 'required|in:' . $roleIdRuleIn,
+            'users.*.bidang_id' => 'required|in:' . $bidangIdRuleIn,
         ]);
         // cek apakah no. telp yang diinput unique
-        $phoneNumbers = array_map(function ($intern) {
-            return trim($intern['phone']);
-        }, $this->interns);
+        $phoneNumbers = array_map(function ($user) {
+            return trim($user['phone']);
+        }, $this->users);
         $uniquePhoneNumbers = array_unique($phoneNumbers);
 
         if (count($phoneNumbers) != count($uniquePhoneNumbers)) {
@@ -71,18 +71,18 @@ class InternCreateForm extends Component
 
         // alasan menggunakan create alih2 mengunakan ::insert adalah karena tidak looping untuk menambahkan created_at dan updated_at
         $affected = 0;
-        foreach ($this->interns as $intern) {
-            if (trim($intern['password']) === '') $intern['password'] = '123';
-            $intern['password'] = Hash::make($intern['password']);
-            User::create($intern);
+        foreach ($this->users as $user) {
+            if (trim($user['password']) === '') $user['password'] = '123';
+            $user['password'] = Hash::make($user['password']);
+            User::create($user);
             $affected++;
         }
 
-        redirect()->route('interns.index')->with('success', "Ada ($affected) data karyawaan yang berhasil ditambahkan.");
+        redirect()->route('users.index')->with('success', "Ada ($affected) data user yang berhasil ditambahkan.");
     }
 
     public function render()
     {
-        return view('livewire.intern-create-form');
+        return view('livewire.user-create-form');
     }
 }

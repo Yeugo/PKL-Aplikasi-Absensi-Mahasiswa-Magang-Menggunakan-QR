@@ -3,7 +3,7 @@
 @section('buttons')
 <div class="btn-toolbar mb-2 mb-md-0">
     <div>
-        <a href="{{ route('interns.index') }}" class="btn btn-sm btn-light">
+        <a href="{{ route('users.index') }}" class="btn btn-sm btn-light">
             <span data-feather="arrow-left-circle" class="align-text-bottom"></span>
             Kembali
         </a>
@@ -14,7 +14,7 @@
 @section('content')
 <div class="row">
     <div class="col-md-7">
-        <livewire:intern-edit-form :interns="$interns" />
+        <livewire:user-create-form />
     </div>
 </div>
 @endsection

@@ -6,19 +6,19 @@ use Illuminate\Http\Request;
 use App\Models\User;
 
 
-class InternController extends Controller
+class UserController extends Controller
 {
     public function index()
     {
-        return view('interns.index', [
-            "title" => "Intern"
+        return view('users.index', [
+            "title" => "User"
         ]);
     }
 
     public function create()
     {
-        return view('interns.create', [
-            "title" => "Tambah Data Anak Magang"
+        return view('users.create', [
+            "title" => "Tambah Data User"
         ]);
     }
 
@@ -30,13 +30,13 @@ class InternController extends Controller
         $ids = explode('-', $ids);
 
         // ambil data user yang hanya memiliki User::USER_ROLE_ID / role untuk karyawaan
-        $interns = User::query()
+        $users = User::query()
             ->whereIn('id', $ids)
             ->get();
 
-        return view('interns.edit', [
-            "title" => "Edit Data Peserta Magang",
-            "interns" => $interns
+        return view('users.edit', [
+            "title" => "Edit Data User",
+            "users" => $users
         ]);
     }
 }

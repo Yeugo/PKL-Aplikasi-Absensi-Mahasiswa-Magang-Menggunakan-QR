@@ -14,7 +14,7 @@ use PowerComponents\LivewirePowerGrid\Traits\ActionButton;
 use PowerComponents\LivewirePowerGrid\{Button, Column, Exportable, Footer, Header, PowerGrid, PowerGridComponent, PowerGridEloquent};
 use Barryvdh\DomPDF\Facade\Pdf;
 
-final class InternTable extends PowerGridComponent
+final class UserTable extends PowerGridComponent
 {
     use ActionButton;
 
@@ -30,7 +30,6 @@ final class InternTable extends PowerGridComponent
                 'bulkCheckedDelete',
                 'bulkCheckedEdit',
                 'exportToPDF',
-                'exportToExcel'
             ]
         );
     }
@@ -69,7 +68,7 @@ final class InternTable extends PowerGridComponent
 
             try {
                 User::whereIn('id', $ids)->delete();
-                $this->dispatchBrowserEvent('showToast', ['success' => true, 'message' => 'Data karyawaan berhasi dihapus.']);
+                $this->dispatchBrowserEvent('showToast', ['success' => true, 'message' => 'Data user berhasil dihapus.']);
             } catch (\Illuminate\Database\QueryException $ex) {
                 $this->dispatchBrowserEvent('showToast', ['success' => false, 'message' => 'Data gagal dihapus, kemungkinan ada data lain yang menggunakan data tersebut.']);
             }
@@ -86,7 +85,7 @@ final class InternTable extends PowerGridComponent
 
             $ids = join('-', $ids);
             // return redirect(route('employees.edit', ['ids' => $ids])); // tidak berfungsi/menredirect
-            return $this->dispatchBrowserEvent('redirect', ['url' => route('interns.edit', ['ids' => $ids])]);
+            return $this->dispatchBrowserEvent('redirect', ['url' => route('users.edit', ['ids' => $ids])]);
         }
     }
 

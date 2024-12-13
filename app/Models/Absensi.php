@@ -2,14 +2,15 @@
 
 namespace App\Models;
 
-use Carbon\Carbon;
 use DateTime;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\URL;
+use Illuminate\Support\Facades\Date;
+use Illuminate\Database\Eloquent\Model;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Date;
-use Illuminate\Support\Facades\URL;
-use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 class Absensi extends Model
 {
@@ -55,6 +56,10 @@ class Absensi extends Model
                     'is_using_qrcode' => $this->code ? true : false,
                     'is_holiday_today' => $isHolidayToday->isNotEmpty()
                 ];
+
+                Log::info('Debug Data:', $data);
+
+                return (object) $data;
             },
         );
     }

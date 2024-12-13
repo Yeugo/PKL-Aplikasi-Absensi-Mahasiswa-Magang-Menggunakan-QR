@@ -12,6 +12,13 @@
         <form method="POST" action="{{ route('auth.login') }}" id="login-form">
             <h1 class="h3 mb-3 fw-normal">Silahkan masuk untuk absensi</h1>
 
+            {{-- <div>
+                <input type="radio" id="user-login" name="guard" value="web" checked>
+                <label for="user-login">User</label>
+                <input type="radio" id="pembimbing-login" name="guard" value="pembimbing">
+                <label for="pembimbing-login">Pembimbing</label>
+            </div> --}}
+
             <div class="form-floating">
                 <input type="email" class="form-control" id="floatingInputEmail" name="email"
                     placeholder="name@example.com">

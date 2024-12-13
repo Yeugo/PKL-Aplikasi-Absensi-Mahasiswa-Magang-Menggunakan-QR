@@ -79,14 +79,14 @@
                         <a href="tel:{{ $user['phone'] }}">{{ $user['phone'] }}</a>
                     </td>
                     {{-- <td>{{ $user['position']['name'] }}</td> --}}
-                    {{-- <td>
-                        <form action="{{ route('presences.present', $attendance->id) }}" method="post">
+                    <td>
+                        <form action="{{ route('kehadiran.present', $absensi->id) }}" method="post">
                             @csrf
                             <input type="hidden" name="user_id" value="{{ $user['id'] }}">
-                            <input type="hidden" name="presence_date" value="{{ $data['not_presence_date'] }}">
+                            <input type="hidden" name="tgl_hadir" value="{{ $data['not_presence_date'] }}">
                             <button class="badge text-bg-primary border-0" type="submit">Hadir</button>
                         </form>
-                    </td> --}}
+                    </td>
                 </tr>
                 @endforeach
             </tbody>
