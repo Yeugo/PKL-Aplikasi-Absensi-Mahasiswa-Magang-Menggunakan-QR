@@ -32,6 +32,13 @@
                 </a>
             </li>
             <li class="nav-item">
+                <a class="nav-link {{ request()->routeIs('peserta.*') ? 'active' : '' }}"
+                    href="{{ route('peserta.index') }}">
+                    <span data-feather="users" class="align-text-bottom"></span>
+                    Peserta Magang
+                </a>
+            </li>
+            <li class="nav-item">
                 <a class="nav-link {{ request()->routeIs('holidays.*') ? 'active' : '' }}"
                     href="{{ route('holidays.index') }}">
                     <span data-feather="calendar" class="align-text-bottom"></span>

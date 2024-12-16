@@ -24,31 +24,32 @@ class PesertaCreateForm extends Component
             ['name' => '', 
              'npm' => '',
              'phone' => '',  
-             'uiv' => '',
-             'uiv' => '',
+             'univ' => '',
+             'alamat' => '',
              'bidang_id' => $this->bidangs->first()->id,
              'pembimbing_id' => $this->pembimbings->first()->id]
         ];
     }
 
-    public function addUserInput(): void
+    public function addPesertaInput(): void
     {
         $this->peserta[] = 
         ['name' => '', 
-         'email' => '', 
-         'password' => '', 
-         'phone' => '',
+         'npm' => '',
+         'phone' => '',  
+         'univ' => '',
+         'alamat' => '',
          'bidang_id' => $this->bidangs->first()->id,
-        'pembimbing_id' => $this->pembimbings->first()->id];
+         'pembimbing_id' => $this->pembimbings->first()->id];
     }
 
-    public function removeUserInput(int $index): void
+    public function removePesertaInput(int $index): void
     {
         unset($this->peserta[$index]);
         $this->peserta = array_values($this->peserta);
     }
 
-    public function saveUsers()
+    public function savePesertas()
     {
         // cara lebih cepat, dan kemungkinan data role tidak akan diubah/ditambah
         $bidangIdRuleIn = join(',', $this->bidangs->pluck('id')->toArray());
@@ -70,7 +71,7 @@ class PesertaCreateForm extends Component
         // cek apakah no. telp yang diinput unique
         $phoneNumbers = array_map(function ($peserta) {
             return trim($peserta['phone']);
-        }, $this->pesertas);
+        }, $this->peserta);
         $uniquePhoneNumbers = array_unique($phoneNumbers);
 
         if (count($phoneNumbers) != count($uniquePhoneNumbers)) {
@@ -86,7 +87,7 @@ class PesertaCreateForm extends Component
             $affected++;
         }
 
-        redirect()->route('peserta.index')->with('success', "Ada ($affected) data peserat magang yang berhasil ditambahkan.");
+        redirect()->route('peserta.index')->with('success', "Ada ($affected) data peserta magang yang berhasil ditambahkan.");
     }
 
     public function render()

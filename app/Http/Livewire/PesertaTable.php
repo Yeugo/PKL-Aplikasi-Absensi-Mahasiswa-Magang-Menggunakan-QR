@@ -131,7 +131,7 @@ final class PesertaTable extends PowerGridComponent
         return Peserta::query()
             ->join('bidangs', 'peserta.bidang_id', '=', 'bidangs.id')
             ->join('pembimbing', 'peserta.pembimbing_id', '=', 'pembimbing.id')
-            ->select('peserta.*', 'pembimbing.name as pembimbing','bidangs.name as bidang');
+            ->select('peserta.*', 'pembimbing.name as pembimbingname','bidangs.name as bidang');
     }
 
     /**
@@ -168,7 +168,7 @@ final class PesertaTable extends PowerGridComponent
                 return ucfirst($model->bidang);
             })
             ->addColumn('created_at')
-            ->addColumn('created_at_formatted', fn (User $model) => Carbon::parse($model->created_at)->format('d/m/Y H:i:s'));
+            ->addColumn('created_at_formatted', fn (Peserta $model) => Carbon::parse($model->created_at)->format('d/m/Y H:i:s'));
     }
 
     /**
@@ -204,20 +204,20 @@ final class PesertaTable extends PowerGridComponent
                 ->makeInputText()
                 ->sortable(),
 
-            Column::make('Bidang', 'bidang', 'bidangs.name')
+            Column::make('Bidang', 'bidang')
                 ->searchable()
                 ->makeInputMultiSelect(Bidang::all(), 'name', 'bidang_id')
                 ->sortable(),
 
-            Column::make('Pembimbing', 'pembimbing', 'pembimbing.name')
+            Column::make('Pembimbing', 'pembimbingname')
                 ->searchable()
                 ->makeInputMultiSelect(Pembimbing::all(), 'name', 'pembimbing_id')
                 ->sortable(),
 
-            Column::make('Created at', 'created_at', 'users.created_at')
+            Column::make('Created at', 'created_at', 'peserta.created_at')
                 ->hidden(),
 
-            Column::make('Created at', 'created_at_formatted', 'users.created_at')
+            Column::make('Created at', 'created_at_formatted', 'peserta.created_at')
                 ->makeInputDatePicker()
                 ->searchable()
         ];

@@ -8,10 +8,12 @@ use App\Http\Controllers\InternController;
 use App\Http\Controllers\HolidayController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\KehadiranController;
+use App\Http\Controllers\PesertaController;
 use App\Http\Controllers\PositionController;
 use App\Http\Controllers\PresenceController;
 use App\Http\Controllers\UserController;
 use App\Http\Livewire\InternTable;
+use App\Models\Peserta;
 use FontLib\Table\Type\name;
 use Illuminate\Support\Facades\Route;
 use Livewire\Livewire;
@@ -43,6 +45,8 @@ Route::middleware('auth')->group(function () {
         // department
         Route::resource('/bidangs', BidangController::class)->only(['index', 'create']);
         Route::get('/bidangs/edit', [BidangController::class, 'edit'])->name('bidangs.edit');
+        // peserta
+        Route::resource('/peserta', PesertaController::class)->only(['index', 'create']);
 
         
         // presences (kehadiran)

@@ -23,4 +23,11 @@ class Bidang extends Model
     {
         return $this->hasMany(Pembimbing::class, 'bidang_id', 'id');
     }
+
+    public function peserta()
+    {
+        return $this->hasMany(Peserta::class,
+        'bidang_id', 'id');
+
+    }
 }
