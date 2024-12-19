@@ -28,11 +28,11 @@ class PesertaController extends Controller
             return redirect()->back();
         $ids = explode('-', $ids);
 
-        $pesertas = Peserta::query()->whereIn('id', $ids)->get();
+        $peserta = Peserta::query()->whereIn('id', $ids)->get();
 
         return view('peserta.edit', [
             "title" => "Edit Data Peserta Magang",
-            "pesertas" => $pesertas
+            "peserta" => $peserta
         ]);
     }
 }

@@ -47,7 +47,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/bidangs/edit', [BidangController::class, 'edit'])->name('bidangs.edit');
         // peserta
         Route::resource('/peserta', PesertaController::class)->only(['index', 'create']);
-
+        Route::get('peserta/edit', [PesertaController::class, 'edit'])->name('peserta.edit');
         
         // presences (kehadiran)
         Route::resource('/kehadiran', KehadiranController::class)->only(['index']);

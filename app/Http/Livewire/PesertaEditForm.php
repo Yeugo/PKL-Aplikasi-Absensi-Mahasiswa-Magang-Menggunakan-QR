@@ -21,17 +21,17 @@ class PesertaEditForm extends Component
     {
         $this-> peserta = [];
 
-        foreach ($peserta as $peserta) {
+        foreach ($peserta as $item) {
             $this->peserta[] = [
-                'id' => $peserta->id,
-                'name' => $peserta->name,
-                'npm' => $peserta->npm,
-                'phone' => $peserta->phone,
-                'original_phone' => $peserta->phone, // untuk cek validasi unique nanti
-                'univ' => $peserta->univ,
-                'alamat' => $peserta->alamat,
-                'bidang_id' => $peserta->bidang_id,
-                'pembimbing_id' => $peserta->pembimbing_id,
+                'id' => $item->id,
+                'name' => $item->name,
+                'npm' => $item->npm,
+                'phone' => $item->phone,
+                'original_phone' => $item->phone,
+                'univ' => $item->univ,
+                'alamat' => $item->alamat,
+                'bidang_id' => $item->bidang_id,
+                'pembimbing_id' => $item->pembimbing_id,
             ];
         }
         
@@ -39,15 +39,15 @@ class PesertaEditForm extends Component
         $this->pembimbings = Pembimbing::all();
     }
 
-    public function saveUsers()
+    public function savePeserta()
     {
         $bidangIdRuleIn = join(',', $this->bidangs->pluck('id')->toArray());
         $pembimbingIdRuleIn = join(',', $this->pembimbings->pluck('id')->toArray());
 
         $this->validate([
             'peserta.*.name' => 'required',
-            'peserta.*.npm' => 'required|unique:peserta,npm',
-            'peserta.*.phone' => 'required|unique:peserta,phone',
+            'peserta.*.npm' => 'required',
+            'peserta.*.phone' => 'required',
             'peserta.*.univ' => 'required',
             'peserta.*.alamat' => 'required',
             'peserta.*.bidang_id' => 'required|in:' . $bidangIdRuleIn,

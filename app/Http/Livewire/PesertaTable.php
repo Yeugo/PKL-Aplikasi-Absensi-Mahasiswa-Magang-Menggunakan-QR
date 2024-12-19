@@ -98,28 +98,27 @@ final class PesertaTable extends PowerGridComponent
         ];
     }
 
-    // public function exportToPDF()
-    // {
-    //     $selectedIds = $this->checkedValues();
+    public function exportToPDF()
+    {
+        $selectedIds = $this->checkedValues();
 
-    //     if (empty($selectedIds)) {
-    //         $this->dispatchBrowserEvent('showToast', ['success' => false, 'message' => 'Pilih data yang ingin di export terlebih dahulu. ']);
-    //         return;
-    //     }
+        if (empty($selectedIds)) {
+            $this->dispatchBrowserEvent('showToast', ['success' => false, 'message' => 'Pilih data yang ingin di export terlebih dahulu. ']);
+            return;
+        }
 
-    //     $selectedData = Bidang::whereIn('id', $this->checkedValues())
-    //     ->withCount('users')
-    //     ->get();
+        $selectedData = Peserta::whereIn('id', $this->checkedValues())
+        ->get();
 
-    //     $pdf = Pdf::loadView('exports.BidangPdf', compact('selectedData'))
-    //     ->setPaper('a4', 'potrait');
+        $pdf = Pdf::loadView('exports.PesertaPdf', compact('selectedData'))
+        ->setPaper('a4', 'potrait');
 
-    //     return response()->streamDownload(
-    //         fn() => print($pdf->output()),
-    //         'ExportBidang.pdf'
-    //     );
+        return response()->streamDownload(
+            fn() => print($pdf->output()),
+            'ExportPeserta.pdf'
+        );
         
-    // }
+    }
 
     /**
      * PowerGrid datasource.
@@ -200,6 +199,11 @@ final class PesertaTable extends PowerGridComponent
                 ->sortable(),
 
             Column::make('Universitas', 'univ', 'peserta.univ')
+                ->searchable()
+                ->makeInputText()
+                ->sortable(),
+
+            Column::make('Alamat', 'alamat', 'peserta.alamat')
                 ->searchable()
                 ->makeInputText()
                 ->sortable(),
