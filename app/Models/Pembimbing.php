@@ -26,7 +26,12 @@ class Pembimbing extends Model
 
     public function bidang()
     {
-        return $this->belongsTo(Bidang::class);
+        return $this->belongsTo(Bidang::class, 'bidang_id', 'id');
+    }
+
+    public function getPesertaNamesAttribute()
+    {
+        return $this->peserta->pluck('name')->join(', ');
     }
 
 }

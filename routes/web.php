@@ -8,6 +8,7 @@ use App\Http\Controllers\InternController;
 use App\Http\Controllers\HolidayController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\KehadiranController;
+use App\Http\Controllers\PembimbingController;
 use App\Http\Controllers\PesertaController;
 use App\Http\Controllers\PositionController;
 use App\Http\Controllers\PresenceController;
@@ -48,6 +49,8 @@ Route::middleware('auth')->group(function () {
         // peserta
         Route::resource('/peserta', PesertaController::class)->only(['index', 'create']);
         Route::get('peserta/edit', [PesertaController::class, 'edit'])->name('peserta.edit');
+        // pembimbing
+        Route::resource('/pembimbing', PembimbingController::class)->only(['index', 'create']);
         
         // presences (kehadiran)
         Route::resource('/kehadiran', KehadiranController::class)->only(['index']);
