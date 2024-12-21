@@ -120,6 +120,21 @@ final class PesertaTable extends PowerGridComponent
         
     }
 
+    public $showModal = false;
+    public $modalFoto = '';
+
+    public function showModal($foto)
+    {
+        $this->modalFoto = $foto;
+        $this->showModal = true; // Menampilkan modal
+    }
+
+    public function closeModal()
+    {
+        $this->showModal = false; // Menutup modal
+    }
+
+
     /**
      * PowerGrid datasource.
      *
@@ -165,6 +180,18 @@ final class PesertaTable extends PowerGridComponent
             })
             ->addColumn('pembimbing', function (Peserta $model) {
                 return ucfirst($model->bidang);
+            })
+            // ->addColumn('foto', function (Peserta $model) {
+            //     // Memeriksa apakah foto ada dan mengembalikan URL untuk ditampilkan
+            //     return $model->foto ? '<img src="' . asset('storage/' . $model->foto) . '" alt="Foto Peserta" width="50" height="50">' : 'No photo';
+            // })
+            ->addColumn('foto', function (Peserta $model) {
+                // Cek apakah foto ada, jika ada tampilkan dalam bentuk link
+                return $model->foto 
+                    ? '<a href="' . asset('storage/' . $model->foto) . '" target="_blank">
+                        <img src="' . asset('storage/' . $model->foto) . '" alt="Foto Peserta" width="50" height="50">
+                    </a>'
+                    : 'No photo';
             })
             ->addColumn('created_at')
             ->addColumn('created_at_formatted', fn (Peserta $model) => Carbon::parse($model->created_at)->format('d/m/Y H:i:s'));
@@ -217,6 +244,10 @@ final class PesertaTable extends PowerGridComponent
                 ->searchable()
                 ->makeInputMultiSelect(Pembimbing::all(), 'name', 'pembimbing_id')
                 ->sortable(),
+
+            Column::make('Foto', 'foto')
+                ->sortable()
+                ->searchable(),
 
             Column::make('Created at', 'created_at', 'peserta.created_at')
                 ->hidden(),

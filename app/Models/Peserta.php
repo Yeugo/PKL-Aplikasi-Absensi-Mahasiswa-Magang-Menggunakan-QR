@@ -18,7 +18,8 @@ class Peserta extends Model
         'alamat',
         'univ',
         'bidang_id',
-        'pembimbing_id'
+        'pembimbing_id',
+        'foto'
     ];
 
     public function pembimbing()

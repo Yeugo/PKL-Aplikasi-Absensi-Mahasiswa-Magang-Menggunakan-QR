@@ -9,9 +9,12 @@ use Livewire\Component;
 use App\Models\Pembimbing;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Database\Eloquent\Collection;
+use Livewire\WithFileUploads;
 
 class PesertaCreateForm extends Component
 {
+    use WithFileUploads;
+    
     public $peserta;
     public Collection $bidangs;
     public Collection $pembimbings;
@@ -27,7 +30,8 @@ class PesertaCreateForm extends Component
              'univ' => '',
              'alamat' => '',
              'bidang_id' => $this->bidangs->first()->id,
-             'pembimbing_id' => $this->pembimbings->first()->id]
+             'pembimbing_id' => $this->pembimbings->first()->id,
+             'foto' => null]
         ];
     }
 
@@ -40,7 +44,8 @@ class PesertaCreateForm extends Component
          'univ' => '',
          'alamat' => '',
          'bidang_id' => $this->bidangs->first()->id,
-         'pembimbing_id' => $this->pembimbings->first()->id];
+         'pembimbing_id' => $this->pembimbings->first()->id,
+         'foto' => null,];
     }
 
     public function removePesertaInput(int $index): void
@@ -67,6 +72,7 @@ class PesertaCreateForm extends Component
             'peserta.*.alamat' => 'required',
             'peserta.*.bidang_id' => 'required|in:' . $bidangIdRuleIn,
             'peserta.*.pembimbing_id' => 'required|in:' . $pembimbingIdRuleIn,
+            'peserta.*.foto' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
         // cek apakah no. telp yang diinput unique
         $phoneNumbers = array_map(function ($peserta) {
@@ -82,10 +88,41 @@ class PesertaCreateForm extends Component
 
         // alasan menggunakan create alih2 mengunakan ::insert adalah karena tidak looping untuk menambahkan created_at dan updated_at
         $affected = 0;
+        // foreach ($this->peserta as $peserta) {
+        //     Peserta::create($peserta);
+        //     $affected++;
+        // }
+
         foreach ($this->peserta as $peserta) {
-            Peserta::create($peserta);
+            // Menangani foto jika ada
+            if (isset($peserta['foto']) && $peserta['foto'] instanceof \Illuminate\Http\UploadedFile) {
+                $filename = $peserta['npm'] . '.' . $peserta['foto']->getClientOriginalExtension(); // Nama file berdasarkan npm
+                $path = $peserta['foto']->storeAs('peserta_photos', $filename, 'public'); // Simpan foto di storage
+                
+                // Tambahkan path ke dalam data peserta
+                $peserta['foto'] = $path;
+            } else {
+                // Pastikan field foto tetap null jika tidak ada foto
+                $peserta['foto'] = null;
+            }
+        
+            // Simpan data peserta ke database
+            Peserta::create([
+                'name' => $peserta['name'],
+                'npm' => $peserta['npm'],
+                'phone' => $peserta['phone'],
+                'univ' => $peserta['univ'],
+                'alamat' => $peserta['alamat'],
+                'bidang_id' => $peserta['bidang_id'],
+                'pembimbing_id' => $peserta['pembimbing_id'],
+                'foto' => $peserta['foto'], // Simpan path foto jika ada
+            ]);
             $affected++;
         }
+
+        
+        
+        
 
         redirect()->route('peserta.index')->with('success', "Ada ($affected) data peserta magang yang berhasil ditambahkan.");
     }

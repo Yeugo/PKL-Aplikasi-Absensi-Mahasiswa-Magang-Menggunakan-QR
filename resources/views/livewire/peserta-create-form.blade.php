@@ -1,5 +1,5 @@
 <div>
-    <form wire:submit.prevent="savePesertas" method="post" novalidate>
+    <form wire:submit.prevent="savePesertas" method="post" novalidate enctype="multipart/form-data">
         @include('partials.alerts')
         @foreach ($peserta as $i => $peserta)
         <div class="mb-3">
@@ -55,8 +55,13 @@
                     </select>
                     <x-form-error key="peserta.{{ $i }}.pembimbing_id" />
                 </div>
-                
+                <div class="mb-3">
+                    <x-form-label id="foto{{ $i }}" label="Foto Peserta {{ $i + 1 }}" />
+                    <input type="file" class="form-control" id="foto{{ $i }}" wire:model="peserta.{{ $i }}.foto">
+                    <x-form-error key="peserta.{{ $i }}.foto" />
+                </div>
             </div>
+            
             @if ($i > 0)
             <button class="btn btn-sm btn-danger mt-2" wire:click="removePesertaInput({{ $i }})"
                 wire:target="removePesertaInput({{ $i }})" type="button" wire:loading.attr="disabled">Hapus</button>
