@@ -54,6 +54,22 @@
                     </select>
                     <x-form-error key="users.{{ $loop->index }}.pembimbing_id" />
                 </div>
+                <div class="mb-3">
+                    <x-form-label id="foto{{ $peserta['id'] }}" 
+                        label="Foto Peserta {{ $loop->iteration }} (ID: {{ $peserta['id'] }})" />
+                    <input type="file" id="foto{{ $peserta['id'] }}" 
+                        wire:model="peserta.{{ $loop->index }}.foto"
+                        class="form-control" accept="image/*">
+                    <x-form-error key="peserta.{{ $loop->index }}.foto" />
+                    
+                    <!-- Preview Foto -->
+                    @if (isset($peserta['foto']) && $peserta['foto'] instanceof \Livewire\TemporaryUploadedFile)
+                        <div class="mt-2">
+                            <img src="{{ $peserta['foto']->temporaryUrl() }}" alt="Preview Foto"
+                                class="img-thumbnail" style="max-width: 150px;">
+                        </div>
+                    @endif
+                </div>
             </div>
         </div>
         <hr>

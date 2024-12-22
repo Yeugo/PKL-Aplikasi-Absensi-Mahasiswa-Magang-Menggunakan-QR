@@ -181,10 +181,6 @@ final class PesertaTable extends PowerGridComponent
             ->addColumn('pembimbing', function (Peserta $model) {
                 return ucfirst($model->bidang);
             })
-            // ->addColumn('foto', function (Peserta $model) {
-            //     // Memeriksa apakah foto ada dan mengembalikan URL untuk ditampilkan
-            //     return $model->foto ? '<img src="' . asset('storage/' . $model->foto) . '" alt="Foto Peserta" width="50" height="50">' : 'No photo';
-            // })
             ->addColumn('foto', function (Peserta $model) {
                 // Cek apakah foto ada, jika ada tampilkan dalam bentuk link
                 return $model->foto 

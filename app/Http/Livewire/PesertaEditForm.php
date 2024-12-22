@@ -2,16 +2,19 @@
 
 namespace App\Http\Livewire;
 
+use Illuminate\Support\Facades\Storage;
 use App\Models\Bidang;
-use Livewire\Component;
-use App\Http\Traits\useUniqueValidation;
-use App\Models\Pembimbing;
 use App\Models\Peserta;
+use Livewire\Component;
+use App\Models\Pembimbing;
+use Livewire\WithFileUploads;
+use App\Http\Traits\useUniqueValidation;
 use Illuminate\Database\Eloquent\Collection;
 
 class PesertaEditForm extends Component
 {
     use useUniqueValidation;
+    use WithFileUploads;
 
     public $peserta;
     public Collection $pembimbings;
@@ -32,6 +35,8 @@ class PesertaEditForm extends Component
                 'alamat' => $item->alamat,
                 'bidang_id' => $item->bidang_id,
                 'pembimbing_id' => $item->pembimbing_id,
+                'foto' => null,
+                'current_foto' => $item->foto,
             ];
         }
         
@@ -52,6 +57,7 @@ class PesertaEditForm extends Component
             'peserta.*.alamat' => 'required',
             'peserta.*.bidang_id' => 'required|in:' . $bidangIdRuleIn,
             'peserta.*.pembimbing_id' => 'required|in:' . $pembimbingIdRuleIn,
+            'peserta.*.foto' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
         if (!$this->isUniqueOnLocal('phone', $this->peserta)) {
@@ -61,13 +67,48 @@ class PesertaEditForm extends Component
 
         // alasan menggunakan create alih2 mengunakan ::insert adalah karena tidak looping untuk menambahkan created_at dan updated_at
         $affected = 0;
+        // foreach ($this->peserta as $peserta) {
+        //     // cek unique validasi
+        //     $pesertaBeforeUpdated = Peserta::find($peserta['id']);
+
+        //     if (!$this->isUniqueOnDatabase($pesertaBeforeUpdated, $peserta, 'phone', Peserta::class)) {
+        //         $this->dispatchBrowserEvent('livewire-scroll', ['top' => 0]);
+        //         return session()->flash('failed', "No. Telp dari data peserta {$peserta['id']} sudah terdaftar. Silahkan masukan No. Telp yang berbeda!");
+        //     }
+
+        //     $affected += $pesertaBeforeUpdated->update([
+        //         'name' => $peserta['name'],
+        //         'npm' => $peserta['npm'],
+        //         'phone' => $peserta['phone'],
+        //         'univ' => $peserta['univ'],
+        //         'alamat' => $peserta['alamat'],
+        //         'bidang_id' => $peserta['bidang_id'],
+        //         'pembimbing_id' => $peserta['pembimbing_id'],
+        //     ]);
+        // }
+
         foreach ($this->peserta as $peserta) {
-            // cek unique validasi
             $pesertaBeforeUpdated = Peserta::find($peserta['id']);
 
             if (!$this->isUniqueOnDatabase($pesertaBeforeUpdated, $peserta, 'phone', Peserta::class)) {
                 $this->dispatchBrowserEvent('livewire-scroll', ['top' => 0]);
                 return session()->flash('failed', "No. Telp dari data peserta {$peserta['id']} sudah terdaftar. Silahkan masukan No. Telp yang berbeda!");
+            }
+
+            // Handle gambar baru
+            if (isset($peserta['foto']) && $peserta['foto'] instanceof \Illuminate\Http\UploadedFile) {
+                // Hapus gambar lama jika ada
+                if ($peserta['current_foto']) {
+                    Storage::disk('public')->delete($peserta['current_foto']);
+                }
+
+                // Simpan gambar baru
+                $filename = $peserta['npm'] . '.' . $peserta['foto']->getClientOriginalExtension();
+                $path = $peserta['foto']->storeAs('peserta_photos', $filename, 'public');
+                $peserta['foto'] = $path;
+            } else {
+                // Tetap gunakan gambar lama
+                $peserta['foto'] = $peserta['current_foto'];
             }
 
             $affected += $pesertaBeforeUpdated->update([
@@ -78,8 +119,11 @@ class PesertaEditForm extends Component
                 'alamat' => $peserta['alamat'],
                 'bidang_id' => $peserta['bidang_id'],
                 'pembimbing_id' => $peserta['pembimbing_id'],
+                'foto' => $peserta['foto'],
             ]);
         }
+
+
 
         $message = $affected === 0 ?
             "Tidak ada data peserta yang diubah." :
