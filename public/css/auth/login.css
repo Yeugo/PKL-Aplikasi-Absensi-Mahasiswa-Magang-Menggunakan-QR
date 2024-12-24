@@ -1,4 +1,4 @@
-html,
+/* html,
 body {
   height: 100%;
 }
@@ -30,4 +30,100 @@ body {
   margin-bottom: 10px;
   border-top-left-radius: 0;
   border-top-right-radius: 0;
+} */
+
+/* Background styling */
+body {
+    background: linear-gradient(to right, #a8e063, #56ab2f);
+    /* Hijau muda ke hijau */
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Poppins', sans-serif;
+    /* Font modern */
+    color: #333;
+    margin: 0;
+}
+
+/* Form container styling */
+.form-container {
+    background: #ffffff;
+    /* Putih untuk kontras */
+    padding: 2rem;
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    /* Shadow lebih lembut */
+    text-align: center;
+    width: 100%;
+    max-width: 360px;
+    /* Ukuran lebih proporsional */
+}
+
+/* Logo */
+.form-container img.logo {
+    margin-bottom: 0.5rem;
+    width: 200px;
+    /* Ukuran logo */
+    height: auto;
+}
+
+/* Heading */
+.form-container h1 {
+    margin-bottom: 1.5rem;
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #000000;
+    /* Hijau gelap untuk heading */
+}
+
+/* Form elements */
+.form-container .form-floating {
+    margin-bottom: 1rem;
+}
+
+.form-container .form-control {
+    border: 1px solid #56ab2f;
+    /* Hijau untuk border */
+    border-radius: 8px;
+    /* Border lebih bulat */
+    font-size: 0.875rem;
+    padding: 0.75rem;
+    color: #333;
+}
+
+.form-container .form-control:focus {
+    border-color: #a8e063;
+    box-shadow: 0 0 0 0.2rem rgba(168, 224, 99, 0.25);
+}
+
+.form-container .form-check-label {
+    font-size: 0.875rem;
+    color: #666;
+}
+
+/* Button styling */
+.form-container button {
+    background-color: #56ab2f;
+    /* Hijau */
+    border: none;
+    color: #fff;
+    padding: 0.75rem;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.form-container button:hover {
+    background-color: #3d8f3c;
+    /* Hijau lebih gelap saat hover */
+}
+
+/* Footer text */
+.form-container p {
+    font-size: 0.75rem;
+    color: #888;
+    margin-top: 1.5rem;
 }

@@ -37,18 +37,18 @@ final class UserTable extends PowerGridComponent
     public function header(): array
     {
         return [
-            Button::add('bulk-checked')
-                ->caption(__('Hapus'))
-                ->class('btn btn-danger border-1')
-                ->emit('bulkCheckedDelete', []),
-            Button::add('bulk-edit-checked')
-                ->caption(__('Edit'))
-                ->class('btn btn-success border-1')
-                ->emit('bulkCheckedEdit', []),
-            Button::add('export-pdf')
-                ->caption(__('Cetak'))
-                ->class('btn btn-secondary border-1')
-                ->emit('exportToPDF', []),
+            // Button::add('bulk-checked')
+            //     ->caption(__('Hapus'))
+            //     ->class('btn btn-danger border-1')
+            //     ->emit('bulkCheckedDelete', []),
+            // Button::add('bulk-edit-checked')
+            //     ->caption(__('Edit'))
+            //     ->class('btn btn-success border-1')
+            //     ->emit('bulkCheckedEdit', []),
+            // Button::add('export-pdf')
+            //     ->caption(__('Cetak'))
+            //     ->class('btn btn-secondary border-1')
+            //     ->emit('exportToPDF', []),
         ];
     }
 
@@ -151,7 +151,8 @@ final class UserTable extends PowerGridComponent
     {
         return User::query()
             ->join('roles', 'users.role_id', '=', 'roles.id')
-            ->select('users.*', 'roles.name as role');
+            ->join('peserta', 'users.id', '=', 'user_id')
+            ->select('users.*', 'roles.name as role', 'peserta.name as name');
     }
 
     /*
@@ -184,6 +185,7 @@ final class UserTable extends PowerGridComponent
     {
         return PowerGrid::eloquent()
             ->addColumn('id')
+            ->addColumn('email')
             ->addColumn('name')
             ->addColumn('role', function (User $model) {
                 return ucfirst($model->role);
@@ -212,8 +214,12 @@ final class UserTable extends PowerGridComponent
             Column::make('ID', 'id', 'users.id')
                 ->searchable()
                 ->sortable(),
+            
+            Column::make('Email', 'email')
+                ->searchable()
+                ->sortable(),
 
-            Column::make('Name', 'name', 'users.name')
+            Column::make('Name', 'name', 'peserta.name')
                 ->searchable()
                 ->makeInputText()
                 ->editOnClick()

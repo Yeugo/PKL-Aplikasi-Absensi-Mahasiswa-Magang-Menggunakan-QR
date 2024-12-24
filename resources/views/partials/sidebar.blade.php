@@ -1,5 +1,27 @@
 <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
     <div class="position-sticky pt-3">
+        <!-- Profil User -->
+        <div class="d-flex flex-column align-items-center pb-3 border-bottom profile-bg-dark">
+            @php
+                // Mengambil relasi pembimbing berdasarkan user yang login
+                $pembimbing = auth()->user()->pembimbing;
+            @endphp
+
+            <!-- Menampilkan Foto Profil -->
+            <img 
+                src="{{ $pembimbing && $pembimbing->foto ? asset('storage/' . $pembimbing->foto) : asset('storage/default-profile.png') }}" 
+                alt="Profile Photo" 
+                class="rounded-circle mb-2" 
+                style="width: 80px; height: 80px; object-fit: cover;">
+            
+            <!-- Menampilkan Nama Pengguna -->
+            <h6 class="text-center fw-bold">
+                {{ $pembimbing ? $pembimbing->name : 'Nama Tidak Tersedia' }}
+            </h6>
+            <span class="text-muted">
+                {{ auth()->user()->email }}
+            </span>
+        </div>
         <ul class="nav flex-column">
             @if (auth()->user()->isAdmin() or auth()->user()->isOperator())
             <li class="nav-item">
