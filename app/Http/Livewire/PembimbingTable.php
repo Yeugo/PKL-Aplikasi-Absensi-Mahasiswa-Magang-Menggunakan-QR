@@ -56,8 +56,14 @@ final class PembimbingTable extends PowerGridComponent
                 return $this->dispatchBrowserEvent('showToast', ['success' => false, 'message' => 'Pilih data yang ingin dihapus terlebih dahulu.']);
 
             try {
-                Peserta::whereIn('id', $ids)->delete();
-                $this->dispatchBrowserEvent('showToast', ['success' => true, 'message' => 'Data Peserta Magang berhasil dihapus.']);
+                // Peserta::whereIn('id', $ids)->delete();
+                foreach ($ids as $id) {
+                    $pembimbing = Pembimbing::find($id);
+                    if ($pembimbing) {
+                        $pembimbing->delete();  // Akan memanggil observer deleted()
+                    }
+                }
+                $this->dispatchBrowserEvent('showToast', ['success' => true, 'message' => 'Data Pembimbing berhasil dihapus.']);
             } catch (\Illuminate\Database\QueryException $ex) {
                 $this->dispatchBrowserEvent('showToast', ['success' => false, 'message' => 'Data gagal dihapus, kemungkinan ada data lain yang menggunakan data tersebut.']);
             }
@@ -74,7 +80,7 @@ final class PembimbingTable extends PowerGridComponent
 
             $ids = join('-', $ids);
             // return redirect(route('department.edit', ['ids' => $ids])); // tidak berfungsi/menredirect
-            return $this->dispatchBrowserEvent('redirect', ['url' => route('peserta.edit', ['ids' => $ids])]);
+            return $this->dispatchBrowserEvent('redirect', ['url' => route('pembimbing.edit', ['ids' => $ids])]);
         }
     }
 
@@ -164,6 +170,14 @@ final class PembimbingTable extends PowerGridComponent
             ->addColumn('bidang', function (Pembimbing $model) {
                 return $model->bidang->name ?? 'No Bidang'; // Mengambil nama bidang dari relasi
             })
+            ->addColumn('foto', function (Pembimbing $model) {
+                // Cek apakah foto ada, jika ada tampilkan dalam bentuk link
+                return $model->foto 
+                    ? '<a href="' . asset('storage/' . $model->foto) . '" target="_blank">
+                        <img src="' . asset('storage/' . $model->foto) . '" alt="Foto Pembimbing" width="50" height="50">
+                    </a>'
+                    : 'No photo';
+            })
             ->addColumn('created_at')
             ->addColumn('created_at_formatted', fn (Pembimbing $model) => Carbon::parse($model->created_at)->format('d/m/Y H:i:s'));
     }
@@ -208,6 +222,10 @@ final class PembimbingTable extends PowerGridComponent
                 ->sortable(),
 
             Column::make('Peserta', 'peserta_names')
+                ->searchable()
+                ->sortable(),
+
+            Column::make('Foto', 'foto')
                 ->searchable()
                 ->sortable(),
 

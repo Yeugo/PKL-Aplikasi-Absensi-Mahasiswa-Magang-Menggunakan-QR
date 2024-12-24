@@ -35,7 +35,7 @@ class KehadiranForm extends Component
             $this->data['is_has_enter_today'] = true;
             $this->data['is_not_out_yet'] = true;
 
-            return $this->dispatchBrowserEvent('showToast', ['success' => true, 'message' => "Kehadiran atas nama '" . auth()->user()->name . "' berhasil dikirim."]);
+            return $this->dispatchBrowserEvent('showToast', ['success' => true, 'message' => "Kehadiran atas nama '" . auth()->user()->peserta->name . "' berhasil dikirim."]);
         }
     }
 
@@ -58,7 +58,7 @@ class KehadiranForm extends Component
         // untuk refresh if statement
         $this->data['is_not_out_yet'] = false;
         $kehadiran->update(['presence_out_time' => now()->toTimeString()]);
-        return $this->dispatchBrowserEvent('showToast', ['success' => true, 'message' => "Atas nama '" . auth()->user()->name . "' berhasil melakukan absensi pulang."]);
+        return $this->dispatchBrowserEvent('showToast', ['success' => true, 'message' => "Atas nama '" . auth()->user()->peserta->name . "' berhasil melakukan absensi pulang."]);
     }
 
     public function render()

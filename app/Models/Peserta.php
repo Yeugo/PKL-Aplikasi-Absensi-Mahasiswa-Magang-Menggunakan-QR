@@ -17,8 +17,9 @@ class Peserta extends Model
         'phone',
         'alamat',
         'univ',
-        'bidang_id',
+        'peserta_bidang_id',
         'pembimbing_id',
+        'user_id',
         'foto'
     ];
 
@@ -29,6 +30,11 @@ class Peserta extends Model
 
     public function bidang()
     {
-        return $this->belongsTo(Bidang::class, 'bidang_id', 'id');
+        return $this->belongsTo(Bidang::class, 'peserta_bidang_id', 'id');
+    }
+    
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 }

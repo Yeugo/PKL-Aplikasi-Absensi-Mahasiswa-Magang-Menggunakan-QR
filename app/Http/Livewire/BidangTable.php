@@ -109,7 +109,7 @@ final class BidangTable extends PowerGridComponent
         }
 
         $selectedData = Bidang::whereIn('id', $this->checkedValues())
-        ->withCount('users')
+        ->withCount('peserta')
         ->get();
 
         $pdf = Pdf::loadView('exports.BidangPdf', compact('selectedData'))
@@ -140,7 +140,7 @@ final class BidangTable extends PowerGridComponent
     public function datasource(): Builder
     {
         return Bidang::query()
-            ->withCount('users');
+            ->withCount('peserta');
     }
 
     /*

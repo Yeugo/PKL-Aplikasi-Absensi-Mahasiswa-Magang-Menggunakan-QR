@@ -164,7 +164,8 @@ class KehadiranController extends Controller
         ]);
 
         return back()
-            ->with('success', "Berhasil menyimpan data hadir atas nama \"$user->name\".");
+            ->with('success', "Berhasil menyimpan data hadir atas nama \"$user->peserta->name\".");
+            // ->with('success', 'Berhasil menyimpan data hadir atas nama "' . ($user->peserta->name ?? 'Nama tidak ditemukan') . '".');
     }
 
     public function acceptPermission(Request $request, Absensi $absensi)

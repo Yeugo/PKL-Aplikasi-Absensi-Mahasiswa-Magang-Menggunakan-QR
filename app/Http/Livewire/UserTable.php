@@ -151,8 +151,7 @@ final class UserTable extends PowerGridComponent
     {
         return User::query()
             ->join('roles', 'users.role_id', '=', 'roles.id')
-            ->join('bidangs', 'users.bidang_id', '=', 'bidangs.id')
-            ->select('users.*', 'roles.name as role','bidangs.name as bidang');
+            ->select('users.*', 'roles.name as role');
     }
 
     /*
@@ -186,13 +185,8 @@ final class UserTable extends PowerGridComponent
         return PowerGrid::eloquent()
             ->addColumn('id')
             ->addColumn('name')
-            ->addColumn('email')
-            ->addColumn('phone')
             ->addColumn('role', function (User $model) {
                 return ucfirst($model->role);
-            })
-            ->addColumn('bidang', function (User $model) {
-                return ucfirst($model->bidang);
             })
             ->addColumn('created_at')
             ->addColumn('created_at_formatted', fn (User $model) => Carbon::parse($model->created_at)->format('d/m/Y H:i:s'));
@@ -223,21 +217,6 @@ final class UserTable extends PowerGridComponent
                 ->searchable()
                 ->makeInputText()
                 ->editOnClick()
-                ->sortable(),
-
-            Column::make('Email', 'email', 'users.email')
-                ->searchable()
-                ->makeInputText()
-                ->sortable(),
-
-            Column::make('No. Telp', 'phone', 'users.phone')
-                ->searchable()
-                ->makeInputText()
-                ->sortable(),
-
-            Column::make('Bidang', 'bidang', 'bidangs.name')
-                ->searchable()
-                ->makeInputMultiSelect(Bidang::all(), 'name', 'bidang_id')
                 ->sortable(),
 
             Column::make('Role', 'role', 'roles.name')

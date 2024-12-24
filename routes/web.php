@@ -51,7 +51,7 @@ Route::middleware('auth')->group(function () {
         Route::get('peserta/edit', [PesertaController::class, 'edit'])->name('peserta.edit');
         // pembimbing
         Route::resource('/pembimbing', PembimbingController::class)->only(['index', 'create']);
-        
+        Route::get('pembimbing/edit', [PembimbingController::class, 'edit'])->name('pembimbing.edit');
         // presences (kehadiran)
         Route::resource('/kehadiran', KehadiranController::class)->only(['index']);
         Route::get('/kehadiran/qrcode', [KehadiranController::class, 'showQrcode'])->name('kehadiran.qrcode');

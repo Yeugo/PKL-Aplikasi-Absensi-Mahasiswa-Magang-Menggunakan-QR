@@ -3,13 +3,17 @@
 namespace App\Http\Livewire;
 
 use App\Models\Role;
+use App\Models\User;
 use App\Models\Bidang;
 use App\Models\Peserta;
 use Livewire\Component;
+use App\Mail\UserCreated;
 use App\Models\Pembimbing;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Str;
 use Livewire\WithFileUploads;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Database\Eloquent\Collection;
 
 class PesertaCreateForm extends Component
 {
@@ -26,10 +30,11 @@ class PesertaCreateForm extends Component
         $this->peserta = [
             ['name' => '', 
              'npm' => '',
+             'email' => '',
              'phone' => '',  
              'univ' => '',
              'alamat' => '',
-             'bidang_id' => $this->bidangs->first()->id,
+             'peserta_bidang_id' => $this->bidangs->first()->id,
              'pembimbing_id' => $this->pembimbings->first()->id,
              'foto' => null]
         ];
@@ -40,10 +45,11 @@ class PesertaCreateForm extends Component
         $this->peserta[] = 
         ['name' => '', 
          'npm' => '',
+         'email' => '',
          'phone' => '',  
          'univ' => '',
          'alamat' => '',
-         'bidang_id' => $this->bidangs->first()->id,
+         'peserta_bidang_id' => $this->bidangs->first()->id,
          'pembimbing_id' => $this->pembimbings->first()->id,
          'foto' => null,];
     }
@@ -67,10 +73,11 @@ class PesertaCreateForm extends Component
         $this->validate([
             'peserta.*.name' => 'required',
             'peserta.*.npm' => 'required|unique:peserta,npm',
+            'peserta.*.email' => 'required|email|unique:users,email',
             'peserta.*.phone' => 'required|unique:peserta,phone',
             'peserta.*.univ' => 'required',
             'peserta.*.alamat' => 'required',
-            'peserta.*.bidang_id' => 'required|in:' . $bidangIdRuleIn,
+            'peserta.*.peserta_bidang_id' => 'required|in:' . $bidangIdRuleIn,
             'peserta.*.pembimbing_id' => 'required|in:' . $pembimbingIdRuleIn,
             'peserta.*.foto' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
@@ -105,18 +112,35 @@ class PesertaCreateForm extends Component
                 // Pastikan field foto tetap null jika tidak ada foto
                 $peserta['foto'] = null;
             }
+
+            // Tetapkan password default
+            $randomPassword = Str::random(12);
+
+            // Enkripsi password default
+            $password = Hash::make($randomPassword);
+
+            // Buat User
+            $user = User::create([
+                'email' => $peserta['email'],
+                'password' => $password, // Gunakan password default yang sudah dienkripsi
+                'role_id' => 2, // ID role untuk peserta
+            ]);
         
             // Simpan data peserta ke database
-            Peserta::create([
+            // Peserta::create([
+            $user->peserta()->create([
                 'name' => $peserta['name'],
                 'npm' => $peserta['npm'],
                 'phone' => $peserta['phone'],
                 'univ' => $peserta['univ'],
                 'alamat' => $peserta['alamat'],
-                'bidang_id' => $peserta['bidang_id'],
+                'peserta_bidang_id' => $peserta['peserta_bidang_id'],
                 'pembimbing_id' => $peserta['pembimbing_id'],
                 'foto' => $peserta['foto'], // Simpan path foto jika ada
             ]);
+
+            // Mail::to($peserta['email'])->send(new UserCreated($user, $peserta, $randomPassword));
+
             $affected++;
         }
 

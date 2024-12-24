@@ -11,7 +11,8 @@ class Bidang extends Model
 
     protected $fillable = [
         'name',
-        'kepala_bidang'
+        'kepala_bidang',
+        'jumlah_peserta'
     ];
 
     public function users()
@@ -27,7 +28,7 @@ class Bidang extends Model
     public function peserta()
     {
         return $this->hasMany(Peserta::class,
-        'bidang_id', 'id');
+        'peserta_bidang_id', 'id');
 
     }
 }

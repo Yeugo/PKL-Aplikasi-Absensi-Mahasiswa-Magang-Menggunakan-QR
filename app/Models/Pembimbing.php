@@ -16,7 +16,10 @@ class Pembimbing extends Model
         'nip',
         'phone',
         'alamat',
-        'bidang_id'
+        'bidang_id',
+        'user_id',
+        'foto'
+
     ];
 
     public function peserta()

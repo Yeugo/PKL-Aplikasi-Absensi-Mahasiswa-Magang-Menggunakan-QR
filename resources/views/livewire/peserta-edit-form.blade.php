@@ -1,5 +1,5 @@
 <div>
-    <form wire:submit.prevent="savePeserta" method="post" novalidate>
+    <form wire:submit.prevent="savePeserta" method="post" novalidate enctype="multipart/form-data">
         @include('partials.alerts')
         @foreach ($peserta as $peserta)
 
@@ -33,15 +33,15 @@
                     <x-form-error key="peserta.{{ $loop->index }}.univ" />
                 </div>
                 <div class="mb-3">
-                    <x-form-label id="bidang_id{{ $peserta['id'] }}" label='Bidang {{ $loop->iteration }}' />
-                    <select class="form-select" aria-label="Default select example" name="bidang_id"
-                        wire:model.defer="peserta.{{ $loop->index }}.bidang_id">
+                    <x-form-label id="peserta_bidang_id{{ $peserta['id'] }}" label='Bidang {{ $loop->iteration }}' />
+                    <select class="form-select" aria-label="Default select example" name="peserta_bidang_id"
+                        wire:model.defer="peserta.{{ $loop->index }}.peserta_bidang_id">
                         <option selected disabled>-- Pilih Bidang/Divisi --</option>
                         @foreach ($bidangs as $bidang)
                         <option value="{{ $bidang->id }}">{{ ucfirst($bidang->name) }}</option>
                         @endforeach
                     </select>
-                    <x-form-error key="bidangs.{{ $loop->index }}.bidang_id" />
+                    <x-form-error key="peserta.{{ $loop->index }}.peserta_bidang_id" />
                 </div>
                 <div class="mb-3">
                     <x-form-label id="pembimbing_id{{ $peserta['id'] }}" label='Role {{ $loop->iteration }}' />
@@ -52,7 +52,7 @@
                         <option value="{{ $pembimbing->id }}">{{ ucfirst($pembimbing->name) }}</option>
                         @endforeach
                     </select>
-                    <x-form-error key="users.{{ $loop->index }}.pembimbing_id" />
+                    <x-form-error key="peserta.{{ $loop->index }}.pembimbing_id" />
                 </div>
                 <div class="mb-3">
                     <x-form-label id="foto{{ $peserta['id'] }}" 

@@ -33,7 +33,7 @@ class PesertaEditForm extends Component
                 'original_phone' => $item->phone,
                 'univ' => $item->univ,
                 'alamat' => $item->alamat,
-                'bidang_id' => $item->bidang_id,
+                'peserta_bidang_id' => $item->peserta_bidang_id,
                 'pembimbing_id' => $item->pembimbing_id,
                 'foto' => null,
                 'current_foto' => $item->foto,
@@ -55,7 +55,7 @@ class PesertaEditForm extends Component
             'peserta.*.phone' => 'required',
             'peserta.*.univ' => 'required',
             'peserta.*.alamat' => 'required',
-            'peserta.*.bidang_id' => 'required|in:' . $bidangIdRuleIn,
+            'peserta.*.peserta_bidang_id' => 'required|in:' . $bidangIdRuleIn,
             'peserta.*.pembimbing_id' => 'required|in:' . $pembimbingIdRuleIn,
             'peserta.*.foto' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
@@ -82,7 +82,7 @@ class PesertaEditForm extends Component
         //         'phone' => $peserta['phone'],
         //         'univ' => $peserta['univ'],
         //         'alamat' => $peserta['alamat'],
-        //         'bidang_id' => $peserta['bidang_id'],
+        //         'peserta_bidang_id' => $peserta['peserta_bidang_id'],
         //         'pembimbing_id' => $peserta['pembimbing_id'],
         //     ]);
         // }
@@ -117,7 +117,7 @@ class PesertaEditForm extends Component
                 'phone' => $peserta['phone'],
                 'univ' => $peserta['univ'],
                 'alamat' => $peserta['alamat'],
-                'bidang_id' => $peserta['bidang_id'],
+                'peserta_bidang_id' => $peserta['peserta_bidang_id'],
                 'pembimbing_id' => $peserta['pembimbing_id'],
                 'foto' => $peserta['foto'],
             ]);

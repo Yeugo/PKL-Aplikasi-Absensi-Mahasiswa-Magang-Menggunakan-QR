@@ -57,7 +57,13 @@ final class PesertaTable extends PowerGridComponent
                 return $this->dispatchBrowserEvent('showToast', ['success' => false, 'message' => 'Pilih data yang ingin dihapus terlebih dahulu.']);
 
             try {
-                Peserta::whereIn('id', $ids)->delete();
+                // Peserta::whereIn('id', $ids)->delete();
+                foreach ($ids as $id) {
+                    $peserta = Peserta::find($id);
+                    if ($peserta) {
+                        $peserta->delete();  // Akan memanggil observer deleted()
+                    }
+                }
                 $this->dispatchBrowserEvent('showToast', ['success' => true, 'message' => 'Data Peserta Magang berhasil dihapus.']);
             } catch (\Illuminate\Database\QueryException $ex) {
                 $this->dispatchBrowserEvent('showToast', ['success' => false, 'message' => 'Data gagal dihapus, kemungkinan ada data lain yang menggunakan data tersebut.']);
@@ -143,7 +149,7 @@ final class PesertaTable extends PowerGridComponent
     public function datasource(): Builder
     {
         return Peserta::query()
-            ->join('bidangs', 'peserta.bidang_id', '=', 'bidangs.id')
+            ->join('bidangs', 'peserta.peserta_bidang_id', '=', 'bidangs.id')
             ->join('pembimbing', 'peserta.pembimbing_id', '=', 'pembimbing.id')
             ->select('peserta.*', 'pembimbing.name as pembimbingname','bidangs.name as bidang');
     }
@@ -233,7 +239,7 @@ final class PesertaTable extends PowerGridComponent
 
             Column::make('Bidang', 'bidang')
                 ->searchable()
-                ->makeInputMultiSelect(Bidang::all(), 'name', 'bidang_id')
+                ->makeInputMultiSelect(Bidang::all(), 'name', 'peserta_bidang_id')
                 ->sortable(),
 
             Column::make('Pembimbing', 'pembimbingname')

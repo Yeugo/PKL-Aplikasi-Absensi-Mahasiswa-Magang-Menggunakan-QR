@@ -1,5 +1,5 @@
 <div>
-    <form wire:submit.prevent="savePembimbings" method="post" novalidate>
+    <form wire:submit.prevent="savePembimbings" method="post" novalidate enctype="multipart/form-data">
         @include('partials.alerts')
         @foreach ($pembimbing as $i => $pembimbing)
         <div class="mb-3">
@@ -14,6 +14,12 @@
                     <x-form-input id="nip{{ $i }}" name="nip{{ $i }}"
                      wire:model.defer="pembimbing.{{ $i }}.nip" />
                     <x-form-error key="pembimbing.{{ $i }}.nip" />
+                </div>
+                <div class="mb-3">
+                    <x-form-label id="email{{ $i }}" label='Email Pembimbing {{ $i + 1 }}' />
+                    <x-form-input id="email{{ $i }}" name="email{{ $i }}" type="email"
+                        wire:model.defer="pembimbing.{{ $i }}.email" placeholder="Email aktif" />
+                    <x-form-error key="pembimbing.{{ $i }}.email" />
                 </div>
                 <div class="mb-3">
                     <x-form-label id="phone{{ $i }}" label='No. Telp {{ $i + 1 }}' />
@@ -37,6 +43,11 @@
                         @endforeach
                     </select>
                     <x-form-error key="pembimbing.{{ $i }}.bidang_id" />
+                </div>
+                <div class="mb-3">
+                    <x-form-label id="foto{{ $i }}" label="Foto Pembimbing {{ $i + 1 }}" />
+                    <input type="file" class="form-control" id="foto{{ $i }}" wire:model="pembimbing.{{ $i }}.foto">
+                    <x-form-error key="pembimbing.{{ $i }}.foto" />
                 </div>
                 
                 

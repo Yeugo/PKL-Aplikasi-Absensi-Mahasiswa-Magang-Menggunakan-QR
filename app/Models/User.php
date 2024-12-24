@@ -2,11 +2,12 @@
 
 namespace App\Models;
 
+use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
-use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
@@ -74,16 +75,15 @@ class User extends Authenticatable
         return $this->role_id === self::USER_ROLE_ID;
     }
 
-    protected static function boot()
+    public function peserta(): HasOne
     {
-        parent::boot();
-
-        static::created(function ($user) {
-            $user->bidang->increment('jumlah_peserta');
-        });
-
-        static::deleted(function ($user) {
-            $user->bidang->decrement('jumlah_peserta');
-        });
+        return $this->hasOne(Peserta::class, 'user_id', 'id');
     }
+
+    public function pembimbing(): HasOne
+    {
+        return $this->hasOne(Pembimbing::class, 'user_id', 'id');
+    }
+
+    
 }

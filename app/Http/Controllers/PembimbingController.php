@@ -10,14 +10,14 @@ class PembimbingController extends Controller
     public function index()
     {
         return view('pembimbing.index', [
-            "title" => "Data Peserta Magang"
+            "title" => "Data Pembimbing Magang"
         ]);
     }
 
     public function create()
     {
         return view('pembimbing.create',[
-            "title" => "Data Pembimbing Magang"
+            "title" => "Tambah Data Pembimbing Magang"
         ]);
     }
 

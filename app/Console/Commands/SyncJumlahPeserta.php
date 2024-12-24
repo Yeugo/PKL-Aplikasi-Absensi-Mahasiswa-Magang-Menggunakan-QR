@@ -2,22 +2,33 @@
 
 namespace App\Console\Commands;
 
-use Illuminate\Console\Command;
 use App\Models\Bidang;
+use App\Models\Peserta;
+use Illuminate\Console\Command;
 
 class SyncJumlahPeserta extends Command
 {
+    // Nama dan deskripsi command
     protected $signature = 'sync:jumlah-peserta';
-    protected $description = 'Sinkronkan jumlah peserta ke kolom jumlah_peserta di tabel bidangs';
+    protected $description = 'Sinkronisasi jumlah peserta ke kolom jumlah_peserta di tabel bidangs';
 
+    // Logika command
     public function handle()
     {
-        $bidangs = Bidang::withCount('users')->get();
+        // Ambil semua bidang
+        $bidangs = Bidang::all();
 
         foreach ($bidangs as $bidang) {
-            $bidang->update(['jumlah_peserta' => $bidang->users_count]);
+            // Hitung jumlah peserta berdasarkan bidang_id
+            $jumlahPeserta = Peserta::where('peserta_bidang_id', $bidang->id)->count();
+            
+            // Update jumlah_peserta di tabel bidangs
+            $bidang->update(['jumlah_peserta' => $jumlahPeserta]);
+
+            // Menampilkan pesan sukses
+            $this->info("Bidang {$bidang->id} telah disinkronkan dengan jumlah peserta {$jumlahPeserta}");
         }
 
-        $this->info('Jumlah peserta berhasil disinkronkan.');
+        $this->info('Sinkronisasi jumlah peserta selesai.');
     }
 }

@@ -33,7 +33,7 @@
                     <ul class="ps-3">
                         <li class="mb-1">
                             <span class="fw-bold d-block">Nama : </span>
-                            <span>{{ auth()->user()->name }}</span>
+                            <span>{{ auth()->user()->peserta->name }}</span>
                         </li>
                         <li class="mb-1">
                             <span class="fw-bold d-block">Email : </span>

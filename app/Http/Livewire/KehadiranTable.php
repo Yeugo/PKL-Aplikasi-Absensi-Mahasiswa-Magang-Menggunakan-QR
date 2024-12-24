@@ -47,9 +47,14 @@ final class KehadiranTable extends PowerGridComponent
     public function datasource(): Builder
     {
         return Kehadiran::query()
+            // ->where('absensi_id', $this->absensiId)
+            // ->join('users', 'kehadiran.user_id', '=', 'users.id')
+            // ->select('kehadiran.*', 'users.name as user_name');
             ->where('absensi_id', $this->absensiId)
             ->join('users', 'kehadiran.user_id', '=', 'users.id')
-            ->select('kehadiran.*', 'users.name as user_name');
+            ->join('peserta', 'users.id', '=', 'peserta.user_id') // Relasi ke peserta
+            ->select('kehadiran.*', 'peserta.name as peserta_name'); // Ambil nama dari tabel peserta
+            
     }
 
     /*
@@ -113,9 +118,9 @@ final class KehadiranTable extends PowerGridComponent
                 ->searchable()
                 ->sortable(),
 
-            Column::make('Nama', 'user_name')
+            Column::make('Nama', 'peserta_name')
                 ->searchable()
-                ->makeInputText('users.name')
+                ->makeInputText('peserta.name')
                 ->sortable(),
 
             Column::make('Tanggal Hadir', 'tgl_hadir')
