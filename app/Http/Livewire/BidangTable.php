@@ -2,14 +2,15 @@
 
 namespace App\Http\Livewire;
 
-use App\Models\Bidang;
 use App\Models\User;
-use Barryvdh\DomPDF\Facade\Pdf;
+use App\Models\Bidang;
+use App\Models\Peserta;
 use Illuminate\Support\Carbon;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Database\QueryException;
 use Illuminate\Database\Eloquent\Builder;
-use PowerComponents\LivewirePowerGrid\Rules\{Rule, RuleActions};
 use PowerComponents\LivewirePowerGrid\Traits\ActionButton;
+use PowerComponents\LivewirePowerGrid\Rules\{Rule, RuleActions};
 use PowerComponents\LivewirePowerGrid\{Button, Column, Exportable, Footer, Header, PowerGrid, PowerGridComponent, PowerGridEloquent,};
 
 final class BidangTable extends PowerGridComponent
@@ -175,7 +176,6 @@ final class BidangTable extends PowerGridComponent
             ->addColumn('id')
             ->addColumn('name')
             ->addColumn('kepala_bidang')
-            // 
             ->addColumn('jumlah_peserta')
             ->addColumn('created_at')
             ->addColumn('created_at_formatted', fn (Bidang $model) => Carbon::parse($model->created_at)->format('d/m/Y H:i:s'));

@@ -213,10 +213,12 @@ final class UserTable extends PowerGridComponent
         return [
             Column::make('ID', 'id', 'users.id')
                 ->searchable()
+                ->makeInputText()
                 ->sortable(),
             
             Column::make('Email', 'email')
                 ->searchable()
+                ->makeInputText()
                 ->sortable(),
 
             Column::make('Name', 'name', 'peserta.name')

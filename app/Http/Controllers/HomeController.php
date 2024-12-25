@@ -155,4 +155,11 @@ class HomeController extends Controller
             "message" => "Atas nama '" . auth()->user()->name . "' berhasil melakukan absensi pulang."
         ]);
     }
+
+    public function kegiatan()
+    {
+        return view('home.kegiatanPeserta', [
+            "title" => "Data Kegiatan Peserta Magang"
+        ]);
+    }
 }

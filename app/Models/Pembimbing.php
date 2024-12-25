@@ -37,4 +37,9 @@ class Pembimbing extends Model
         return $this->peserta->pluck('name')->join(', ');
     }
 
+    public function kegiatan()
+    {
+        return $this->hasMany(Kegiatan::class);
+    }
+
 }

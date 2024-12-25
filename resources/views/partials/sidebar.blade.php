@@ -88,6 +88,13 @@
                     Data Kehadiran
                 </a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link {{ request()->routeIs('kegiatan.*') ? 'active' : '' }}"
+                    href="{{ route('kegiatan.index') }}">
+                    <span data-feather="clipboard" class="align-text-bottom"></span>
+                    Data Kegiatan
+                </a>
+            </li>
             @endif
         </ul>
 

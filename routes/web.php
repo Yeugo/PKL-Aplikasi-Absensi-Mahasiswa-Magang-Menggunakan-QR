@@ -1,23 +1,25 @@
 <?php
 
-use App\Http\Controllers\AbsensiController;
+use Livewire\Livewire;
+use App\Models\Peserta;
+use App\Models\Kegiatan;
+use FontLib\Table\Type\name;
+use App\Http\Livewire\InternTable;
+use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\BidangController;
-use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\InternController;
-use App\Http\Controllers\HolidayController;
 use App\Http\Controllers\HomeController;
-use App\Http\Controllers\KehadiranController;
-use App\Http\Controllers\PembimbingController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\BidangController;
+use App\Http\Controllers\InternController;
+use App\Http\Controllers\AbsensiController;
+use App\Http\Controllers\HolidayController;
 use App\Http\Controllers\PesertaController;
+use App\Http\Controllers\KegiatanController;
 use App\Http\Controllers\PositionController;
 use App\Http\Controllers\PresenceController;
-use App\Http\Controllers\UserController;
-use App\Http\Livewire\InternTable;
-use App\Models\Peserta;
-use FontLib\Table\Type\name;
-use Illuminate\Support\Facades\Route;
-use Livewire\Livewire;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\KehadiranController;
+use App\Http\Controllers\PembimbingController;
 use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 
 /*
@@ -57,6 +59,9 @@ Route::middleware('auth')->group(function () {
         Route::get('/kehadiran/qrcode', [KehadiranController::class, 'showQrcode'])->name('kehadiran.qrcode');
         Route::get('/kehadiran/qrcode/download-pdf', [KehadiranController::class, 'downloadQrCodePDF'])->name('kehadiran.qrcode.download-pdf');
         Route::get('/kehadiran/{absensi}', [KehadiranController::class, 'show'])->name('kehadiran.show');
+        // kegiatan
+        Route::resource('/kegiatan', KegiatanController::class)->only(['index']);
+        Route::get('kegiatan/edit', [KegiatanController::class, 'edit'])->name('kegiatan.edit');
         // not present data
         Route::get('/kehadiran/{absensi}/not-present', [KehadiranController::class, 'notPresent'])->name('kehadiran.not-present');
         Route::post('/kehadiran/{absensi}/not-present', [KehadiranController::class, 'notPresent']);
@@ -76,6 +81,8 @@ Route::middleware('auth')->group(function () {
 
         Route::get('/absensi/{absensi}', [HomeController::class, 'show'])->name('show');
         Route::get('/absensi/{absensi}/izin', [HomeController::class, 'permission'])->name('permission');
+        // kegiatan
+        Route::get('/kegiatanpeserta', [KegiatanController::class, 'indexPeserta'])->name('kegiatanPeserta');
     });
 
     Route::delete('/logout', [AuthController::class, 'logout'])->name('auth.logout');

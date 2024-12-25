@@ -29,8 +29,24 @@
                 <div class="card-header">
                     Informasi Peserta Magang
                 </div>
-                <div class="card-body">
-                    <ul class="ps-3">
+                <div class="card-body text-center">
+                    <!-- Foto Profil -->
+                    <div class="mb-3">
+                        @if(auth()->user()->peserta && auth()->user()->peserta->foto)
+                            <img src="{{ asset('storage/' . auth()->user()->peserta->foto) }}" 
+                                alt="Foto Profil {{ auth()->user()->peserta->name }}" 
+                                class="rounded-circle" 
+                                style="width: 120px; height: 120px; object-fit: cover;">
+                        @else
+                            <img src="https://via.placeholder.com/120" 
+                                alt="Foto Profil Default" 
+                                class="rounded-circle" 
+                                style="width: 120px; height: 120px; object-fit: cover;">
+                        @endif
+                    </div>
+
+                    <!-- Informasi Pengguna -->
+                    <ul class="ps-3 text-start">
                         <li class="mb-1">
                             <span class="fw-bold d-block">Nama : </span>
                             <span>{{ auth()->user()->peserta->name }}</span>
@@ -41,7 +57,7 @@
                         </li>
                         <li class="mb-1">
                             <span class="fw-bold d-block">No. Telp : </span>
-                            <a href="tel:{{ auth()->user()->phone }}">{{ auth()->user()->phone }}</a>
+                            <a href="tel:{{ auth()->user()->phone }}">{{ auth()->user()->peserta->phone }}</a>
                         </li>
                         <li class="mb-1">
                             <span class="fw-bold d-block">Bergabung Pada : </span>
@@ -49,6 +65,12 @@
                                 auth()->user()->created_at->format('d M Y') }})</span>
                         </li>
                     </ul>
+                    <!-- Tombol Akses Catatan Kegiatan -->
+                    <div class="mt-3">
+                        <a href="{{ route('home.kegiatanPeserta') }}" class="btn btn-primary">
+                            <i class="bi bi-journal-text"></i> Catatan Kegiatan
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
