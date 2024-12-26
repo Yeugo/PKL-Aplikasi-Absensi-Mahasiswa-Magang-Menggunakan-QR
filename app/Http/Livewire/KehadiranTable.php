@@ -2,12 +2,14 @@
 
 namespace App\Http\Livewire;
 
+use App\Models\Bidang;
 use App\Models\Kehadiran;
 use Illuminate\Support\Carbon;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Database\QueryException;
 use Illuminate\Database\Eloquent\Builder;
-use PowerComponents\LivewirePowerGrid\Rules\{Rule, RuleActions};
 use PowerComponents\LivewirePowerGrid\Traits\ActionButton;
+use PowerComponents\LivewirePowerGrid\Rules\{Rule, RuleActions};
 use PowerComponents\LivewirePowerGrid\{Button, Column, Exportable, Footer, Header, PowerGrid, PowerGridComponent, PowerGridEloquent};
 
 final class KehadiranTable extends PowerGridComponent
@@ -17,6 +19,26 @@ final class KehadiranTable extends PowerGridComponent
     public $absensiId;
     public string $sortField = 'kehadiran.created_at';
     public string $sortDirection = 'desc';
+
+    protected function getListeners()
+    {
+        return array_merge(
+            parent::getListeners(),
+            [
+                'exportToPDF'
+            ]
+        );
+    }
+
+    public function header(): array
+    {
+        return [
+            Button::add('exportPDF')
+                ->caption(__('Cetak'))
+                ->class('btn btn-secondary border-0')
+                ->emit('exportToPDF', []),
+        ];
+    }
 
     // Feature Setup
     public function setUp(): array
@@ -29,6 +51,31 @@ final class KehadiranTable extends PowerGridComponent
                 ->showPerPage()
                 ->showRecordCount(),
         ];
+    }
+
+    public function exportToPDF()
+    {
+        $selectedIds = $this->checkedValues();
+
+        if (empty($selectedIds)) {
+            $this->dispatchBrowserEvent('showToast', ['success' => false, 'message' => 'Pilih data yang ingin di export terlebih dahulu. ']);
+            return;
+        }
+
+        // $selectedData = Kehadiran::whereIn('id', $this->checkedValues())
+        // ->get();
+
+        $selectedData = Kehadiran::whereIn('id', $this->checkedValues())
+        ->get();
+
+        $pdf = Pdf::loadView('exports.KehadiranPdf', compact('selectedData'))
+        ->setPaper('a4', 'potrait');
+
+        return response()->streamDownload(
+            fn() => print($pdf->output()),
+            'ExportKehadiran.pdf'
+        );
+        
     }
 
     /*
@@ -53,7 +100,8 @@ final class KehadiranTable extends PowerGridComponent
             ->where('absensi_id', $this->absensiId)
             ->join('users', 'kehadiran.user_id', '=', 'users.id')
             ->join('peserta', 'users.id', '=', 'peserta.user_id') // Relasi ke peserta
-            ->select('kehadiran.*', 'peserta.name as peserta_name'); // Ambil nama dari tabel peserta
+            ->join('bidangs', 'peserta.peserta_bidang_id', '=', 'bidangs.id' )
+            ->select('kehadiran.*', 'peserta.name as peserta_name', 'bidangs.name as bidang'); // Ambil nama dari tabel peserta
             
     }
 
@@ -88,6 +136,7 @@ final class KehadiranTable extends PowerGridComponent
         return PowerGrid::eloquent()
             ->addColumn('id')
             ->addColumn('user_name')
+            ->addColumn('bidang')
             ->addColumn("tgl_hadir")
             ->addColumn("absen_masuk")
             ->addColumn("absen_keluar", fn (Kehadiran $model) => $model->absen_keluar ?? '<span class="badge text-bg-danger">Belum Absensi Pulang</span>')
@@ -121,6 +170,11 @@ final class KehadiranTable extends PowerGridComponent
             Column::make('Nama', 'peserta_name')
                 ->searchable()
                 ->makeInputText('peserta.name')
+                ->sortable(),
+
+            Column::make('Bidang', 'bidang')
+                ->searchable()
+                ->makeInputMultiSelect(Bidang::all(), 'name', 'peserta_bidang_id')
                 ->sortable(),
 
             Column::make('Tanggal Hadir', 'tgl_hadir')

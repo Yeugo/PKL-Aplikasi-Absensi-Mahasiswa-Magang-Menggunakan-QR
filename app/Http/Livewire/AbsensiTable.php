@@ -4,10 +4,11 @@ namespace App\Http\Livewire;
 
 use App\Models\Absensi;
 use Illuminate\Support\Carbon;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Database\QueryException;
 use Illuminate\Database\Eloquent\Builder;
-use PowerComponents\LivewirePowerGrid\Rules\{Rule, RuleActions};
 use PowerComponents\LivewirePowerGrid\Traits\ActionButton;
+use PowerComponents\LivewirePowerGrid\Rules\{Rule, RuleActions};
 use PowerComponents\LivewirePowerGrid\{Button, Column, Detail, Exportable, Footer, Header, PowerGrid, PowerGridComponent, PowerGridEloquent};
 
 final class AbsensiTable extends PowerGridComponent
@@ -25,7 +26,7 @@ final class AbsensiTable extends PowerGridComponent
             [
                 'bulkCheckedDelete',
                 'bulkCheckedEdit',
-                'exportToPdf'
+                'exportlahwoi'
             ]
         );
     }
@@ -37,6 +38,10 @@ final class AbsensiTable extends PowerGridComponent
                 ->caption(__('Hapus'))
                 ->class('btn btn-danger border-0')
                 ->emit('bulkCheckedDelete', []),
+            Button::add('exportPDF')
+                ->caption(__('Cetak'))
+                ->class('btn btn-secondary border-0')
+                ->emit('exportlahwoi', []),
         ];
     }
 
@@ -56,6 +61,8 @@ final class AbsensiTable extends PowerGridComponent
             }
         }
     }
+
+    
 
     /*
     |--------------------------------------------------------------------------
@@ -78,6 +85,31 @@ final class AbsensiTable extends PowerGridComponent
                 ->showRecordCount(),
         ];
     }
+
+    public function exportlahwoi()
+    {
+        $selectedIds = $this->checkedValues();
+
+        if (empty($selectedIds)) {
+            $this->dispatchBrowserEvent('showToast', ['success' => false, 'message' => 'Pilih data yang ingin di export terlebih dahulu. ']);
+            return;
+        }
+
+        $selectedData = Absensi::whereIn('id', $this->checkedValues())
+        ->get();
+
+        $pdf = Pdf::loadView('exports.AbsensiPdf', compact('selectedData'))
+        ->setPaper('a4', 'potrait');
+
+        return response()->streamDownload(
+            fn() => print($pdf->output()),
+            'ExportAbsensi.pdf'
+        );
+        
+    }
+
+
+    
 
     /*
     |--------------------------------------------------------------------------

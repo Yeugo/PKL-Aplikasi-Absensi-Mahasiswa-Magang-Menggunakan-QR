@@ -67,17 +67,17 @@
                     Pembimbing
                 </a>
             </li>
-            <li class="nav-item">
+            {{-- <li class="nav-item">
                 <a class="nav-link {{ request()->routeIs('holidays.*') ? 'active' : '' }}"
                     href="{{ route('holidays.index') }}">
                     <span data-feather="calendar" class="align-text-bottom"></span>
                     Hari Libur
                 </a>
-            </li>
+            </li> --}}
             <li class="nav-item">
                 <a class="nav-link {{ request()->routeIs('absensi.*') ? 'active' : '' }}"
                     href="{{ route('absensi.index') }}">
-                    <span data-feather="clipboard" class="align-text-bottom"></span>
+                    <span data-feather="calendar" class="align-text-bottom"></span>
                     Absensi
                 </a>
             </li>

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -25,7 +26,7 @@
 
         .kop .text {
             text-align: center;
-            flex: 1;
+            flex: 1;    
         }
 
         .kop h1 {
@@ -46,14 +47,18 @@
             width: 100%;
             border-collapse: collapse;
             margin-top: 20px;
-            font-size: 12px; /* Ukuran font diperkecil */
+            font-size: 12px;
+            /* Ukuran font diperkecil */
         }
 
-        table, th, td {
+        table,
+        th,
+        td {
             border: 1px solid black;
         }
 
-        th, td {
+        th,
+        td {
             padding: 6px 8px;
             text-align: left;
         }
@@ -66,8 +71,10 @@
             size: A4;
             margin: 20mm;
         }
+
     </style>
 </head>
+
 <body>
     <div class="kop">
         <div class="text">
@@ -79,35 +86,29 @@
 
     <hr>
 
-    <h3 style="text-align: center;">Laporan Peserta Magang</h3>
-
+    <h3 style="text-align: center;">Jadwal Absensi Peserta Magang</h3>
     <table>
         <thead>
             <tr>
                 <th>ID</th>
-                <th>Nama</th>
-                <th>NPM / NIM</th>
-                <th>Telepon</th>
-                <th>Universitas</th>
-                <th>Alamat</th>
-                <th>Bidang</th>
-                <th>Pembimbing</th>
+                <th>Absensi</th>
+                <th>Keterangan</th>
+                <th>Waktu Absen Masuk</th>
+                <th>Waktu Absen Keluar</th>
             </tr>
         </thead>
         <tbody>
             @foreach ($selectedData as $data)
-                <tr>
-                    <td>{{ $data->id }}</td>
-                    <td>{{ $data->name }}</td>
-                    <td>{{ $data->npm }}</td>
-                    <td>{{ $data->phone }}</td>
-                    <td>{{ $data->univ}}</td>
-                    <td>{{ $data->alamat }}</td>
-                    <td>{{ $data->bidang->name ?? 'N/A' }}</td>
-                    <td>{{ $data->pembimbing->name ?? 'N/A' }}</td>
-                </tr>
+            <tr>
+                <td>{{ $data->id }}</td>
+                <td>{{ $data->title }}</td>
+                <td>{{ $data->description }}</td>
+                <td>{{ $data->start_time }}</td>
+                <td>{{ $data->end_time }}</td>
+            </tr>
             @endforeach
         </tbody>
     </table>
 </body>
+
 </html>

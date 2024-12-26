@@ -18,10 +18,7 @@ class Kegiatan extends Model
         'tgl_kegiatan',
         'waktu_mulai',
         'waktu_selesai',
-        'jenis_kegiatan',
-        'feedback',
         'peserta_id',
-        'pembimbing_id',
     ];
 
     public function peserta()

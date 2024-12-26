@@ -5,11 +5,6 @@
         <div class="mb-3">
             <div class="w-100">
                 <div class="mb-3">
-                    <x-form-label id="name{{ $i }}" label='Nama User {{ $i + 1 }}' />
-                    <x-form-input id="name{{ $i }}" name="name{{ $i }}" wire:model.defer="users.{{ $i }}.name" />
-                    <x-form-error key="users.{{ $i }}.name" />
-                </div>
-                <div class="mb-3">
                     <x-form-label id="email{{ $i }}" label='Email User {{ $i + 1 }}' />
                     <x-form-input id="email{{ $i }}" name="email{{ $i }}" type="email"
                         wire:model.defer="users.{{ $i }}.email" placeholder="Email aktif" />
@@ -21,23 +16,6 @@
                     <x-form-input id="password{{ $i }}" name="password{{ $i }}"
                         wire:model.defer="users.{{ $i }}.password" required="false" />
                     <x-form-error key=" users.{{ $i }}.password" />
-                </div>
-                <div class="mb-3">
-                    <x-form-label id="phone{{ $i }}" label='No. Telp {{ $i + 1 }}' />
-                    <x-form-input id="phone{{ $i }}" name="phone{{ $i }}" wire:model.defer="users.{{ $i }}.phone"
-                        placeholder="Format: 08**" />
-                    <x-form-error key="users.{{ $i }}.phone" />
-                </div>
-                <div class="mb-3">
-                    <x-form-label id="bidang_id{{ $i }}" label='Bidang / Divisi {{ $i + 1 }}' />
-                    <select class="form-select" aria-label="Default select example" name="bidang_id"
-                        wire:model.defer="users.{{ $i }}.bidang_id">
-                        <option selected disabled>-- Pilih Bidang --</option>
-                        @foreach ($bidangs as $bidang)
-                        <option value="{{ $bidang->id }}">{{ ucfirst($bidang->name) }}</option>
-                        @endforeach
-                    </select>
-                    <x-form-error key="users.{{ $i }}.bidang_id" />
                 </div>
                 <div class="mb-3">
                     <x-form-label id="role_id{{ $i }}" label='Role {{ $i + 1 }}' />

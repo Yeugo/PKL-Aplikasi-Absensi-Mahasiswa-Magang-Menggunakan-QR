@@ -83,6 +83,11 @@ Route::middleware('auth')->group(function () {
         Route::get('/absensi/{absensi}/izin', [HomeController::class, 'permission'])->name('permission');
         // kegiatan
         Route::get('/kegiatanpeserta', [KegiatanController::class, 'indexPeserta'])->name('kegiatanPeserta');
+        Route::post('/kegiatan', [KegiatanController::class, 'store'])->name('kegiatan.store');
+        Route::delete('/kegiatan/{id}', [KegiatanController::class, 'destroy'])->name('kegiatan.destroy');
+        Route::get('home/kegiatan/{id}/edit', [KegiatanController::class, 'edit'])->name('home.kegiatan.edit');
+        // Route untuk menyimpan perubahan (update) kegiatan
+        Route::put('home/kegiatan/{id}', [KegiatanController::class, 'update'])->name('home.kegiatan.update');
     });
 
     Route::delete('/logout', [AuthController::class, 'logout'])->name('auth.logout');

@@ -79,19 +79,18 @@
 
     <hr>
 
-    <h3 style="text-align: center;">Laporan Peserta Magang</h3>
+    <h3 style="text-align: center;">Laporan Pembimbing Magang</h3>
 
     <table>
         <thead>
             <tr>
                 <th>ID</th>
                 <th>Nama</th>
-                <th>NPM / NIM</th>
+                <th>NIP</th>
                 <th>Telepon</th>
-                <th>Universitas</th>
                 <th>Alamat</th>
                 <th>Bidang</th>
-                <th>Pembimbing</th>
+                <th>Peserta yg Dibimbing</th>
             </tr>
         </thead>
         <tbody>
@@ -99,12 +98,11 @@
                 <tr>
                     <td>{{ $data->id }}</td>
                     <td>{{ $data->name }}</td>
-                    <td>{{ $data->npm }}</td>
+                    <td>{{ $data->nip }}</td>
                     <td>{{ $data->phone }}</td>
-                    <td>{{ $data->univ}}</td>
                     <td>{{ $data->alamat }}</td>
                     <td>{{ $data->bidang->name ?? 'N/A' }}</td>
-                    <td>{{ $data->pembimbing->name ?? 'N/A' }}</td>
+                    <td>{{ $data->peserta_names ?? 'N/A' }}</td>
                 </tr>
             @endforeach
         </tbody>

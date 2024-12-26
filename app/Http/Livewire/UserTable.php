@@ -2,17 +2,18 @@
 
 namespace App\Http\Livewire;
 
-use App\Models\Bidang;
 use App\Models\Role;
 use App\Models\User;
+use App\Models\Bidang;
+use Illuminate\Support\Str;
 use Illuminate\Support\Carbon;
+use Barryvdh\DomPDF\Facade\Pdf;
+use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Database\QueryException;
 use Illuminate\Database\Eloquent\Builder;
-use Maatwebsite\Excel\Facades\Excel;
-use PowerComponents\LivewirePowerGrid\Rules\{Rule, RuleActions};
 use PowerComponents\LivewirePowerGrid\Traits\ActionButton;
+use PowerComponents\LivewirePowerGrid\Rules\{Rule, RuleActions};
 use PowerComponents\LivewirePowerGrid\{Button, Column, Exportable, Footer, Header, PowerGrid, PowerGridComponent, PowerGridEloquent};
-use Barryvdh\DomPDF\Facade\Pdf;
 
 final class UserTable extends PowerGridComponent
 {
@@ -150,9 +151,16 @@ final class UserTable extends PowerGridComponent
     public function datasource(): Builder
     {
         return User::query()
-            ->join('roles', 'users.role_id', '=', 'roles.id')
-            ->join('peserta', 'users.id', '=', 'user_id')
-            ->select('users.*', 'roles.name as role', 'peserta.name as name');
+        ->join('roles', 'users.role_id', '=', 'roles.id')
+        ->leftJoin('peserta', 'users.id', '=', 'peserta.user_id')
+        ->leftJoin('pembimbing', 'users.id', '=', 'pembimbing.user_id')
+        ->select(
+            'users.id as user_id',
+            'users.email as user_email',
+            'roles.name as role_name',
+            'peserta.name as peserta_name',
+            'pembimbing.name as pembimbing_name'
+        );
     }
 
     /*
@@ -184,11 +192,13 @@ final class UserTable extends PowerGridComponent
     public function addColumns(): PowerGridEloquent
     {
         return PowerGrid::eloquent()
-            ->addColumn('id')
-            ->addColumn('email')
-            ->addColumn('name')
-            ->addColumn('role', function (User $model) {
-                return ucfirst($model->role);
+            ->addColumn('user_id')
+            ->addColumn('user_email')
+            ->addColumn('name', function ($user) {
+                return $user->peserta_name ?? $user->pembimbing_name ?? 'Unknown';
+            })
+            ->addColumn('role_name', function ($row) {
+                return Str::title($row->role_name); // Mengubah ke kapital
             })
             ->addColumn('created_at')
             ->addColumn('created_at_formatted', fn (User $model) => Carbon::parse($model->created_at)->format('d/m/Y H:i:s'));
@@ -211,23 +221,22 @@ final class UserTable extends PowerGridComponent
     public function columns(): array
     {
         return [
-            Column::make('ID', 'id', 'users.id')
+            Column::make('ID', 'user_id')
+                ->searchable()
+                ->makeInputText()
+                ->sortable(),
+
+            Column::make('Name', 'name')
                 ->searchable()
                 ->makeInputText()
                 ->sortable(),
             
-            Column::make('Email', 'email')
+            Column::make('Email', 'user_email')
                 ->searchable()
                 ->makeInputText()
                 ->sortable(),
 
-            Column::make('Name', 'name', 'peserta.name')
-                ->searchable()
-                ->makeInputText()
-                ->editOnClick()
-                ->sortable(),
-
-            Column::make('Role', 'role', 'roles.name')
+            Column::make('Role', 'role_name')
                 ->searchable()
                 ->makeInputMultiSelect(Role::all(), 'name', 'role_id')
                 ->sortable(),

@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
+use App\Models\Izin;
 use App\Models\Absensi;
 use App\Models\Holiday;
 use App\Models\Presence;
 use Carbon\CarbonPeriod;
-use App\Models\Attendance;
-use App\Models\Izin;
 use App\Models\Kehadiran;
+use App\Models\Attendance;
 use App\Models\Permission;
 use Illuminate\Http\Request;
 
@@ -23,10 +24,19 @@ class HomeController extends Controller
             ->sortByDesc('data.is_end')
             ->sortByDesc('data.is_start');
 
+            $kehadiranCount = Kehadiran::where('user_id', auth()->id())
+            ->whereBetween('tgl_hadir', [Carbon::now()->startOfMonth(), Carbon::now()->endOfMonth()])
+            ->count();
+
+        
+
         return view('home.index', [
-            "title" => "Beranda",
-            "absensis" => $absensis
+            "title" => "Absensi",
+            "absensis" => $absensis,
+            "kehadiranCount" => $kehadiranCount
         ]);
+
+
     }
 
     public function show(Absensi $absensi)

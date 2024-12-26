@@ -103,27 +103,27 @@ final class PembimbingTable extends PowerGridComponent
         ];
     }
 
-    // public function exportToPDF()
-    // {
-    //     $selectedIds = $this->checkedValues();
+    public function exportToPDF()
+    {
+        $selectedIds = $this->checkedValues();
 
-    //     if (empty($selectedIds)) {
-    //         $this->dispatchBrowserEvent('showToast', ['success' => false, 'message' => 'Pilih data yang ingin di export terlebih dahulu. ']);
-    //         return;
-    //     }
+        if (empty($selectedIds)) {
+            $this->dispatchBrowserEvent('showToast', ['success' => false, 'message' => 'Pilih data yang ingin di export terlebih dahulu. ']);
+            return;
+        }
 
-    //     $selectedData = Peserta::whereIn('id', $this->checkedValues())
-    //     ->get();
+        $selectedData = Pembimbing::whereIn('id', $this->checkedValues())
+        ->get();
 
-    //     $pdf = Pdf::loadView('exports.PesertaPdf', compact('selectedData'))
-    //     ->setPaper('a4', 'potrait');
+        $pdf = Pdf::loadView('exports.PembimbingPdf', compact('selectedData'))
+        ->setPaper('a4', 'potrait');
 
-    //     return response()->streamDownload(
-    //         fn() => print($pdf->output()),
-    //         'ExportPeserta.pdf'
-    //     );
+        return response()->streamDownload(
+            fn() => print($pdf->output()),
+            'ExportPembimbing.pdf'
+        );
         
-    // }
+    }
 
     /**
      * PowerGrid datasource.

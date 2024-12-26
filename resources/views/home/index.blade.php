@@ -3,7 +3,7 @@
 @section('content')
 <div class="container py-5">
     <div class="row">
-        <div class="col-md-8">
+        <div class="col-md-4">
             <div class="card shadow-sm mb-2">
                 <div class="card-header">
                     Daftar Absensi Hari Ini
@@ -24,53 +24,12 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-4">
-            <div class="card shadow-sm">
-                <div class="card-header">
-                    Informasi Peserta Magang
-                </div>
-                <div class="card-body text-center">
-                    <!-- Foto Profil -->
-                    <div class="mb-3">
-                        @if(auth()->user()->peserta && auth()->user()->peserta->foto)
-                            <img src="{{ asset('storage/' . auth()->user()->peserta->foto) }}" 
-                                alt="Foto Profil {{ auth()->user()->peserta->name }}" 
-                                class="rounded-circle" 
-                                style="width: 120px; height: 120px; object-fit: cover;">
-                        @else
-                            <img src="https://via.placeholder.com/120" 
-                                alt="Foto Profil Default" 
-                                class="rounded-circle" 
-                                style="width: 120px; height: 120px; object-fit: cover;">
-                        @endif
-                    </div>
 
-                    <!-- Informasi Pengguna -->
-                    <ul class="ps-3 text-start">
-                        <li class="mb-1">
-                            <span class="fw-bold d-block">Nama : </span>
-                            <span>{{ auth()->user()->peserta->name }}</span>
-                        </li>
-                        <li class="mb-1">
-                            <span class="fw-bold d-block">Email : </span>
-                            <a href="mailto:{{ auth()->user()->email }}">{{ auth()->user()->email }}</a>
-                        </li>
-                        <li class="mb-1">
-                            <span class="fw-bold d-block">No. Telp : </span>
-                            <a href="tel:{{ auth()->user()->phone }}">{{ auth()->user()->peserta->phone }}</a>
-                        </li>
-                        <li class="mb-1">
-                            <span class="fw-bold d-block">Bergabung Pada : </span>
-                            <span>{{ auth()->user()->created_at->diffForHumans() }} ({{
-                                auth()->user()->created_at->format('d M Y') }})</span>
-                        </li>
-                    </ul>
-                    <!-- Tombol Akses Catatan Kegiatan -->
-                    <div class="mt-3">
-                        <a href="{{ route('home.kegiatanPeserta') }}" class="btn btn-primary">
-                            <i class="bi bi-journal-text"></i> Catatan Kegiatan
-                        </a>
-                    </div>
+        <div class="col-md-3">
+            <div class="card shadow">
+                <div class="card-body">
+                    <h6 class="fs-6 fw-light">Jumlah Absensi Bulan Ini</h6>
+                    <h4 class="fw-bold">{{ $kehadiranCount }}</h4>
                 </div>
             </div>
         </div>

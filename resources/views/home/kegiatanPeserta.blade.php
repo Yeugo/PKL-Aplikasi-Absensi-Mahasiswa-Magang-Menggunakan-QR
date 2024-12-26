@@ -46,9 +46,11 @@
                                     <td>{{ $kegiatan->waktu_mulai }}</td>
                                     <td>{{ $kegiatan->waktu_selesai }}</td>
                                     <td>
-                                        <a href="#" class="btn btn-warning btn-sm">Edit</a>
+                                        <button class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#kegiatanModal" id="editKegiatanBtn" data-id="{{ $kegiatan->id }}">
+                                            Edit
+                                        </button>
 
-                                        <form action="#" method="POST" class="d-inline-block">
+                                        <form action="{{ route('home.kegiatan.destroy', $kegiatan->id) }}" method="POST" class="d-inline-block">
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit" class="btn btn-danger btn-sm">Hapus</button>
@@ -74,7 +76,7 @@
             </div>
             <div class="modal-body">
                 <!-- Formulir Tambah Kegiatan -->
-                <form action="#" method="POST">
+                <form action="{{ route('home.kegiatan.store') }}" method="POST">
                     @csrf
                     <div class="mb-3">
                         <label for="judul" class="form-label">Judul Kegiatan</label>
@@ -85,8 +87,16 @@
                         <textarea class="form-control" id="deskripsi" name="deskripsi" rows="3" required></textarea>
                     </div>
                     <div class="mb-3">
-                        <label for="tanggal_kegiatan" class="form-label">Tanggal Kegiatan</label>
-                        <input type="date" class="form-control" id="tanggal_kegiatan" name="tanggal_kegiatan" required>
+                        <label for="tgl_kegiatan" class="form-label">Tanggal Kegiatan</label>
+                        <input type="date" class="form-control" id="tgl_kegiatan" name="tgl_kegiatan" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="waktu_mulai" class="form-label">Waktu Mulai</label>
+                        <input type="time" class="form-control" id="waktu_mulai" name="waktu_mulai" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="waktu_selesai" class="form-label">Waktu Selesai</label>
+                        <input type="time" class="form-control" id="waktu_selesai" name="waktu_selesai" required>
                     </div>
                     <button type="submit" class="btn btn-primary">Tambah Kegiatan</button>
                 </form>
@@ -96,3 +106,6 @@
 </div>
 
 @endsection
+
+@push('scripts')
+
