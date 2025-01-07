@@ -14,7 +14,7 @@
     <title>{{ $title }} | Absensi App</title>
 </head>
 
-<body>
+<body id="page-top">
 
     <x-toast-container />
 

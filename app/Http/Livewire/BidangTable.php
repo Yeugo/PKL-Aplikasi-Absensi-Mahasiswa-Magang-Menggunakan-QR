@@ -87,7 +87,7 @@ final class BidangTable extends PowerGridComponent
     */
     public function setUp(): array
     {
-        $this->showCheckBox();
+        $this->showCheckBox('text-center align-middle');
 
         return [
             // Exportable::make('export')

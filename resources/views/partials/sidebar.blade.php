@@ -1,4 +1,4 @@
-<nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
+{{-- <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
     <div class="position-sticky pt-3">
         <!-- Profil User -->
         <div class="d-flex flex-column align-items-center pb-3 border-bottom profile-bg-dark">
@@ -11,7 +11,7 @@
             <img 
                 src="{{ $pembimbing && $pembimbing->foto ? asset('storage/' . $pembimbing->foto) : asset('storage/default-profile.png') }}" 
                 alt="Profile Photo" 
-                class="rounded-circle mb-2" 
+                class="rounded-circle mb-2 border border-3"  
                 style="width: 80px; height: 80px; object-fit: cover;">
             
             <!-- Menampilkan Nama Pengguna -->
@@ -27,71 +27,57 @@
             <li class="nav-item">
                 <a class="nav-link {{ request()->routeIs('dashboard.*') ? 'active' : '' }}" aria-current="page"
                     href="{{ route('dashboard.index') }}">
-                    <span data-feather="home" class="align-text-bottom"></span>
+                    <i class="bi bi-house-door me-2"></i>
                     Dashboard
                 </a>
             </li>
             <li class="nav-item">
                 <a class="nav-link {{ request()->routeIs('bidangs.*') ? 'active' : '' }}"
                     href="{{ route('bidangs.index') }}">
-                    <span data-feather="archive" class="align-text-bottom"></span>
+                    <i class="bi bi-archive me-2"></i>
                     Bidang / Divisi
                 </a>
             </li>
         </li>
-        {{-- <li class="nav-item">
-            <a class="nav-link {{ request()->routeIs('positions.*') ? 'active' : '' }}"
-                href="{{ route('positions.index') }}">
-                <span data-feather="tag" class="align-text-bottom"></span>
-                Jabatan / Posisi
-            </a>
-        </li> --}}
             <li class="nav-item">
                 <a class="nav-link {{ request()->routeIs('users.*') ? 'active' : '' }}"
                     href="{{ route('users.index') }}">
-                    <span data-feather="users" class="align-text-bottom"></span>
+                    <i class="bi bi-people me-2"></i>
                     User
                 </a>
             </li>
             <li class="nav-item">
                 <a class="nav-link {{ request()->routeIs('peserta.*') ? 'active' : '' }}"
                     href="{{ route('peserta.index') }}">
-                    <span data-feather="users" class="align-text-bottom"></span>
+                    <i class="bi bi-person-lines-fill me-2"></i>
                     Peserta Magang
                 </a>
             </li>
             <li class="nav-item">
                 <a class="nav-link {{ request()->routeIs('pembimbing.*') ? 'active' : '' }}"
                     href="{{ route('pembimbing.index') }}">
-                    <span data-feather="users" class="align-text-bottom"></span>
+                    <i class="bi bi-person-workspace me-2"></i>
                     Pembimbing
                 </a>
             </li>
-            {{-- <li class="nav-item">
-                <a class="nav-link {{ request()->routeIs('holidays.*') ? 'active' : '' }}"
-                    href="{{ route('holidays.index') }}">
-                    <span data-feather="calendar" class="align-text-bottom"></span>
-                    Hari Libur
-                </a>
-            </li> --}}
             <li class="nav-item">
                 <a class="nav-link {{ request()->routeIs('absensi.*') ? 'active' : '' }}"
                     href="{{ route('absensi.index') }}">
-                    <span data-feather="calendar" class="align-text-bottom"></span>
+                    <i class="bi bi-calendar-check me-2"></i>
                     Absensi
                 </a>
             </li>
             <li class="nav-item">
                 <a class="nav-link {{ request()->routeIs('kehadiran.*') ? 'active' : '' }}"
                     href="{{ route('kehadiran.index') }}">
-                    <span data-feather="clipboard" class="align-text-bottom"></span>
+                    <i class="bi bi-journal-check me-2"></i>
                     Data Kehadiran
                 </a>
             </li>
             <li class="nav-item">
                 <a class="nav-link {{ request()->routeIs('kegiatan.*') ? 'active' : '' }}"
                     href="{{ route('kegiatan.index') }}">
-                    <span data-feather="clipboard" class="align-text-bottom"></span>
+                    <i class="bi bi-list-task me-2"></i>
                     Data Kegiatan
                 </a>
             </li>
@@ -105,4 +91,116 @@
             <button class="w-full mt-4 d-block bg-transparent border-0 fw-bold text-danger px-3">Keluar</button>
         </form>
     </div>
-</nav>
+</nav> --}}
+<ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+
+    <!-- Sidebar - Brand -->
+    <a class="sidebar-brand d-flex align-items-center justify-content-center" href="#">
+        <div class="sidebar-brand-icon ">
+            <img src="{{ asset('storage/assets/logobjm.png') }}" alt="Dashboard Icon" style="width: 70px; height: auto; margin-right: -10px ">
+        </div>
+        <div class="sidebar-brand-text">Absensi DKP3</div>
+    </a>
+
+    <!-- Divider -->
+    <hr class="sidebar-divider my-0">
+
+    <!-- Nav Item - Dashboard -->
+    @if (auth()->user()->isAdmin() or auth()->user()->isOperator())
+    <li class="nav-item {{ request()->routeIs('dashboard.*') ? 'active' : '' }}">
+        <a class="nav-link" href="{{ route('dashboard.index') }}">
+            <i class="bi bi-house-door"></i>
+            <span>{{ __('Dashboard') }}</span></a>
+    </li>
+
+    <!-- Divider -->
+    <hr class="sidebar-divider">
+
+    <!-- Heading -->
+    <div class="sidebar-heading">
+        {{ __('CRUD') }}
+    </div>
+
+    <!-- Nav Item - Bidang -->
+    <li class="nav-item {{ request()->routeIs('bidangs.*') ? 'active' : '' }}">
+        <a class="nav-link" href="{{ route('bidangs.index') }}">
+            <i class="bi bi-archive"></i>
+            <span>{{ __('Bidang / Divisi') }}</span>
+        </a>
+    </li>
+
+    <!-- Nav Item - User -->
+    <li class="nav-item {{ request()->routeIs('users.*') ? 'active' : '' }}">
+        <a class="nav-link" href="{{ route('users.index') }}">
+            <i class="bi bi-person"></i>
+            <span>{{ __('User') }}</span>
+        </a>
+    </li>
+
+    <!-- Nav Item - Peserta Magang -->
+    <li class="nav-item {{ request()->routeIs('peserta.*') ? 'active' : '' }}">
+        <a class="nav-link" href="{{ route('peserta.index') }}">
+            <i class="bi bi-person-lines-fill"></i>
+            <span>{{ __('Peserta Magang') }}</span>
+        </a>
+    </li>
+
+    <!-- Nav Item - Pembimbing -->
+    <li class="nav-item {{ request()->routeIs('pembimbing.*') ? 'active' : '' }}">
+        <a class="nav-link" href="{{ route('pembimbing.index') }}">
+            <i class="bi bi-person-lines-fill"></i>
+            <span>{{ __('Pembimbing') }}</span>
+        </a>
+    </li>
+
+    <!-- Nav Item - Absensi -->
+    <li class="nav-item {{ request()->routeIs('absensi.*') ? 'active' : '' }}">
+        <a class="nav-link" href="{{ route('absensi.index') }}">
+            <i class="bi bi-calendar-check"></i>
+            <span>{{ __('Absensi') }}</span>
+        </a>
+    </li>
+
+    <!-- Nav Item - Kehadiran -->
+    <li class="nav-item {{ request()->routeIs('kehadiran.*') ? 'active' : '' }}">
+        <a class="nav-link" href="{{ route('kehadiran.index') }}">
+            <i class="bi bi-journal-check"></i>
+            <span>{{ __('Kehadiran') }}</span>
+        </a>
+    </li>
+
+    <!-- Nav Item - Kegiatan -->
+    <li class="nav-item {{ request()->routeIs('kegiatan.*') ? 'active' : '' }}">
+        <a class="nav-link" href="{{ route('kegiatan.index') }}">
+            <i class="bi bi-journal-bookmark-fill"></i>
+            <span>{{ __('Kegiatan') }}</span>
+        </a>
+    </li>
+    @endif
+    <li class="nav-item">
+
+        {{-- <form action="{{ route('auth.logout') }}" method="post"
+        onsubmit="return confirm('Apakah anda yakin ingin keluar?')">
+        @method('DELETE')
+        @csrf
+        <button class="w-full mt-4 d-block bg-transparent border-0 fw-bold text-danger px-3">Keluar</button>
+        </form> --}}
+        <a class="nav-link" href="#" onclick="event.preventDefault(); if(confirm('Apakah anda yakin ingin keluar?')) { document.getElementById('logout-form').submit(); }">
+            <i class="bi bi-box-arrow-right"></i>
+            <span>{{ __('Keluar') }}</span>
+        </a>
+        <form id="logout-form" action="{{ route('auth.logout') }}" method="POST" style="display: none;">
+            @method('DELETE')
+            @csrf
+        </form>
+    </li>
+
+    <!-- Divider -->
+    <hr class="sidebar-divider d-none d-md-block">
+
+    <!-- Sidebar Toggler (Sidebar) -->
+    <div class="text-center d-none d-md-inline">
+        <button class="rounded-circle border-0" id="sidebarToggle"></button>
+    </div>
+
+</ul>

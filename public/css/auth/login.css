@@ -34,7 +34,7 @@ body {
 
 /* Background styling */
 body {
-    background: linear-gradient(to right, #a8e063, #56ab2f);
+    background: linear-gradient(to right, #63cbe0, #10a5c3);
     /* Hijau muda ke hijau */
     min-height: 100vh;
     display: flex;
@@ -83,7 +83,7 @@ body {
 }
 
 .form-container .form-control {
-    border: 1px solid #56ab2f;
+    border: 1px solid #06a4c4;
     /* Hijau untuk border */
     border-radius: 8px;
     /* Border lebih bulat */
@@ -93,8 +93,8 @@ body {
 }
 
 .form-container .form-control:focus {
-    border-color: #a8e063;
-    box-shadow: 0 0 0 0.2rem rgba(168, 224, 99, 0.25);
+    border-color: #21daff;
+    box-shadow: 0 0 0 0.2rem rgba(20, 167, 253, 0.25);
 }
 
 .form-container .form-check-label {
@@ -104,7 +104,7 @@ body {
 
 /* Button styling */
 .form-container button {
-    background-color: #56ab2f;
+    background-color: #0d9ab6;
     /* Hijau */
     border: none;
     color: #fff;
@@ -117,7 +117,7 @@ body {
 }
 
 .form-container button:hover {
-    background-color: #3d8f3c;
+    background-color: #0b8097;
     /* Hijau lebih gelap saat hover */
 }
 
