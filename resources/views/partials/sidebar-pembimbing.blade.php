@@ -106,7 +106,7 @@
     <hr class="sidebar-divider my-0">
 
     <!-- Nav Item - Dashboard -->
-    @if (auth()->user()->isAdmin() or auth()->user()->isOperator())
+    @if (auth()->user()->isPembimbing())
     <li class="nav-item {{ request()->routeIs('dashboard.*') ? 'active' : '' }}">
         <a class="nav-link" href="{{ route('dashboard.index') }}">
             <i class="bi bi-house-door"></i>
@@ -121,35 +121,11 @@
         {{ __('CRUD') }}
     </div>
 
-    <!-- Nav Item - User -->
-    <li class="nav-item {{ request()->routeIs('users.*') ? 'active' : '' }}">
-        <a class="nav-link" href="{{ route('users.index') }}">
-            <i class="bi bi-person"></i>
-            <span>{{ __('User') }}</span>
-        </a>
-    </li>
-
-    <!-- Nav Item - Bidang -->
-    <li class="nav-item {{ request()->routeIs('bidangs.*') ? 'active' : '' }}">
-        <a class="nav-link" href="{{ route('bidangs.index') }}">
-            <i class="bi bi-archive"></i>
-            <span>{{ __('Bidang / Divisi') }}</span>
-        </a>
-    </li>
-
     <!-- Nav Item - Peserta Magang -->
     <li class="nav-item {{ request()->routeIs('peserta.*') ? 'active' : '' }}">
         <a class="nav-link" href="{{ route('peserta.index') }}">
             <i class="bi bi-person-lines-fill"></i>
             <span>{{ __('Peserta Magang') }}</span>
-        </a>
-    </li>
-
-    <!-- Nav Item - Pembimbing -->
-    <li class="nav-item {{ request()->routeIs('pembimbing.*') ? 'active' : '' }}">
-        <a class="nav-link" href="{{ route('pembimbing.index') }}">
-            <i class="bi bi-person-lines-fill"></i>
-            <span>{{ __('Pembimbing') }}</span>
         </a>
     </li>
 

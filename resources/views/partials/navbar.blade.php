@@ -60,10 +60,10 @@
         <!-- Nav Item - User Information -->
         <li class="nav-item dropdown no-arrow">
             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{ $pembimbing ? $pembimbing->name : 'Nama Tidak Tersedia' }}</span>
+                <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{ $pembimbing ? $pembimbing->name : 'Admin' }}</span>
                 {{-- <figure class="img-profile rounded-circle avatar font-weight-bold" data-initial="{{ $pembimbing && $pembimbing->foto ? asset('storage/' . $pembimbing->foto) : asset('storage/default-profile.png') }}"></figure> --}}
                 <img 
-                src="{{ $pembimbing && $pembimbing->foto ? asset('storage/' . $pembimbing->foto) : asset('storage/default-profile.png') }}" 
+                src="{{ $pembimbing && $pembimbing->foto ? asset('storage/' . $pembimbing->foto) : asset('storage/assets/admin.jpg') }}" 
                 alt="Profile Photo" 
                 class="img-profile rounded-circle avatar"  
                 style="">

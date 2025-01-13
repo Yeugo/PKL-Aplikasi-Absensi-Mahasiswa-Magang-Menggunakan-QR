@@ -102,6 +102,7 @@ class KehadiranController extends Controller
                     "not_presence_date" => $byDate,
                     "users" => User::query()
                         ->onlyEmployees()
+                        ->with('peserta')
                         ->get()
                         ->toArray()
                 ];

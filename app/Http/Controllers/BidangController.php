@@ -32,7 +32,7 @@ class BidangController extends Controller
         $bidangs = Bidang::query()->whereIn('id', $ids)->get();
 
         return view('bidangs.edit', [
-            "title" => "Edit Data Bidang / Divisi",
+            "title" => "Edit Data bidangs Magang",
             "bidangs" => $bidangs
         ]);
     }

@@ -29,13 +29,10 @@ class UserController extends Controller
             return redirect()->back();
         $ids = explode('-', $ids);
 
-        // ambil data user yang hanya memiliki User::USER_ROLE_ID / role untuk karyawaan
-        $users = User::query()
-            ->whereIn('id', $ids)
-            ->get();
+        $users = User::query()->whereIn('id', $ids)->get();
 
         return view('users.edit', [
-            "title" => "Edit Data User",
+            "title" => "Edit Data users",
             "users" => $users
         ]);
     }

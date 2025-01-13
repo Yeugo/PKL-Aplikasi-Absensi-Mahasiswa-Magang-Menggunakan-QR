@@ -30,7 +30,7 @@ final class UserTable extends PowerGridComponent
             [
                 'bulkCheckedDelete',
                 'bulkCheckedEdit',
-                'exportToPDF',
+                'exportToPDF'
             ]
         );
     }
@@ -38,18 +38,18 @@ final class UserTable extends PowerGridComponent
     public function header(): array
     {
         return [
-            // Button::add('bulk-checked')
-            //     ->caption(__('Hapus'))
-            //     ->class('btn btn-danger border-1')
-            //     ->emit('bulkCheckedDelete', []),
-            // Button::add('bulk-edit-checked')
-            //     ->caption(__('Edit'))
-            //     ->class('btn btn-success border-1')
-            //     ->emit('bulkCheckedEdit', []),
-            // Button::add('export-pdf')
-            //     ->caption(__('Cetak'))
-            //     ->class('btn btn-secondary border-1')
-            //     ->emit('exportToPDF', []),
+            Button::add('bulk-checked')
+                ->caption(__('Hapus'))
+                ->class('btn btn-danger border-0')
+                ->emit('bulkCheckedDelete', []),
+            Button::add('bulk-edit-checked')
+                ->caption(__('Edit'))
+                ->class('btn btn-success border-0')
+                ->emit('bulkCheckedEdit', []),
+            Button::add('exportPDF')
+                ->caption(__('Cetak'))
+                ->class('btn btn-secondary border-0')
+                ->emit('exportToPDF', []),
         ];
     }
 
@@ -85,7 +85,7 @@ final class UserTable extends PowerGridComponent
                 return $this->dispatchBrowserEvent('showToast', ['success' => false, 'message' => 'Pilih data yang ingin diedit terlebih dahulu.']);
 
             $ids = join('-', $ids);
-            // return redirect(route('employees.edit', ['ids' => $ids])); // tidak berfungsi/menredirect
+            // return redirect(route('department.edit', ['ids' => $ids])); // tidak berfungsi/menredirect
             return $this->dispatchBrowserEvent('redirect', ['url' => route('users.edit', ['ids' => $ids])]);
         }
     }
@@ -102,9 +102,6 @@ final class UserTable extends PowerGridComponent
         $this->showCheckBox();
 
         return [
-            // Exportable::make('export')
-            //     ->striped()
-            //     ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV),
             Header::make()->showSearchInput(),
             Footer::make()
                 ->showPerPage()
@@ -155,21 +152,13 @@ final class UserTable extends PowerGridComponent
         ->leftJoin('peserta', 'users.id', '=', 'peserta.user_id')
         ->leftJoin('pembimbing', 'users.id', '=', 'pembimbing.user_id')
         ->select(
-            'users.id as user_id',
+            'users.id as id',
             'users.email as user_email',
             'roles.name as role_name',
             'peserta.name as peserta_name',
             'pembimbing.name as pembimbing_name'
         );
     }
-
-    /*
-    |--------------------------------------------------------------------------
-    |  Relationship Search
-    |--------------------------------------------------------------------------
-    | Configure here relationships to be used by the Search and Table Filters.
-    |
-    */
 
     /**
      * Relationship search.
@@ -180,6 +169,7 @@ final class UserTable extends PowerGridComponent
     {
         return [];
     }
+
 
     /*
     |--------------------------------------------------------------------------
@@ -192,7 +182,7 @@ final class UserTable extends PowerGridComponent
     public function addColumns(): PowerGridEloquent
     {
         return PowerGrid::eloquent()
-            ->addColumn('user_id')
+            ->addColumn('id')
             ->addColumn('user_email')
             ->addColumn('name', function ($user) {
                 return $user->peserta_name ?? $user->pembimbing_name ?? 'Unknown';
@@ -221,7 +211,7 @@ final class UserTable extends PowerGridComponent
     public function columns(): array
     {
         return [
-            Column::make('ID', 'user_id')
+            Column::make('ID', 'id', 'users.id')
                 ->searchable()
                 ->makeInputText()
                 ->sortable(),

@@ -10,14 +10,12 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\BidangController;
-use App\Http\Controllers\InternController;
 use App\Http\Controllers\AbsensiController;
 use App\Http\Controllers\HolidayController;
 use App\Http\Controllers\PesertaController;
 use App\Http\Controllers\KegiatanController;
-use App\Http\Controllers\PositionController;
-use App\Http\Controllers\PresenceController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\DashboardPembimbingController;
 use App\Http\Controllers\KehadiranController;
 use App\Http\Controllers\PembimbingController;
 use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
@@ -34,26 +32,14 @@ use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 */
 
 Route::middleware('auth')->group(function () {
-    Route::middleware('role:admin')->group(function () {
-        Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
-        // users
-        Route::resource('/users', UserController::class)->only(['index', 'create']);
-        Route::get('/users/edit', [UserController::class, 'edit'])->name('users.edit');
-        // holidays (hari libur)
-        Route::resource('/holidays', HolidayController::class)->only(['index', 'create']);
-        Route::get('/holidays/edit', [HolidayController::class, 'edit'])->name('holidays.edit');
+    Route::middleware('role:admin,pembimbing')->group(function () {
+        Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard.index');       
         // absensis (absensi)
         Route::resource('/absensi', AbsensiController::class)->only(['index', 'create']);
         Route::get('/absensi/edit', [AbsensiController::class, 'edit'])->name('absensi.edit');
-        // department
-        Route::resource('/bidangs', BidangController::class)->only(['index', 'create']);
-        Route::get('/bidangs/edit', [BidangController::class, 'edit'])->name('bidangs.edit');
         // peserta
         Route::resource('/peserta', PesertaController::class)->only(['index', 'create']);
         Route::get('peserta/edit', [PesertaController::class, 'edit'])->name('peserta.edit');
-        // pembimbing
-        Route::resource('/pembimbing', PembimbingController::class)->only(['index', 'create']);
-        Route::get('pembimbing/edit', [PembimbingController::class, 'edit'])->name('pembimbing.edit');
         // presences (kehadiran)
         Route::resource('/kehadiran', KehadiranController::class)->only(['index']);
         Route::get('/kehadiran/qrcode', [KehadiranController::class, 'showQrcode'])->name('kehadiran.qrcode');
@@ -69,8 +55,22 @@ Route::middleware('auth')->group(function () {
         Route::post('/kehadiran/{absensi}/present', [KehadiranController::class, 'presentUser'])->name('kehadiran.present');
         Route::post('/kehadiran/{absensi}/acceptPermission', [KehadiranController::class, 'acceptPermission'])->name('kehadiran.acceptPermission');
         // employees permissions
-
         Route::get('/kehadiran/{absensi}/izin', [KehadiranController::class, 'permissions'])->name('kehadiran.izin');
+    });
+
+    Route::middleware('role:admin')->group(function () {
+        // users
+        Route::resource('/users', UserController::class)->only(['index', 'create']);
+        Route::get('/users/edit', [UserController::class, 'edit'])->name('users.edit');
+        // holidays (hari libur)
+        Route::resource('/holidays', HolidayController::class)->only(['index', 'create']);
+        Route::get('/holidays/edit', [HolidayController::class, 'edit'])->name('holidays.edit');
+        // pembimbing
+        Route::resource('/pembimbing', PembimbingController::class)->only(['index', 'create']);
+        Route::get('pembimbing/edit', [PembimbingController::class, 'edit'])->name('pembimbing.edit');
+        // department
+        Route::resource('/bidangs', BidangController::class)->only(['index', 'create']);
+        Route::get('/bidangs/edit', [BidangController::class, 'edit'])->name('bidangs.edit');
     });
 
     Route::middleware('role:user')->name('home.')->group(function () {

@@ -1,3 +1,5 @@
+{{-- @dd($selectedData, $tahunList) --}}
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -93,20 +95,25 @@
                 <th>ID</th>
                 <th>Name</th>
                 <th>Kepala Bidang</th>
-                <th>Jumlah Peserta Magang</th>
-                <th>Created at</th>
+                <th>Jumlah Peserta (Saat Ini)</th>
+                @foreach ($tahunList as $tahun)
+                <th>{{ $tahun }}</th>
+                @endforeach
             </tr>
         </thead>
         <tbody>
-            @foreach ($selectedData as $data)
-            <tr>
-                <td>{{ $data->id }}</td>
-                <td>{{ $data->name }}</td>
-                <td>{{ $data->kepala_bidang }}</td>
-                <td style="text-align: center">{{ $data->jumlah_peserta }}</td>
-                <td>{{ \Carbon\Carbon::parse($data->created_at)->format('d/m/Y H:i:s') }}</td>
-            </tr>
+            @foreach ($selectedData as $bidang)
+                <tr>
+                    <td>{{ $bidang->id }}</td>
+                    <td>{{ $bidang->name }}</td>
+                    <td>{{ $bidang->kepala_bidang }}</td>
+                    <td>{{ $bidang->jumlah_peserta_per_tahun['jumlah_saat_ini'] }}</td> <!-- Kolom pertama: jumlah peserta saat ini -->
+                    @foreach ($tahunList as $tahun)
+                    <td>{{ $bidang->jumlah_peserta_per_tahun[$tahun] ?? 0 }}</td>
+                    @endforeach
             @endforeach
+
+            
         </tbody>
     </table>
 </body>

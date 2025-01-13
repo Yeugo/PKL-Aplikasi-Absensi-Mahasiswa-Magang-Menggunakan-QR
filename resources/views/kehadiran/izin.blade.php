@@ -69,11 +69,11 @@
                 @foreach ($izins as $izin)
                 <tr>
                     <th scope="row">{{ $loop->iteration }}</th>
-                    <td>{{ $izin->user->name }}</td>
+                    <td>{{ $izin->user->peserta->name }}</td>
                     <td>
                         <a href="mailto:{{ $izin->user->email }}">{{ $izin->user->email }}</a>
                         <span class="fw-bold"> / </span>
-                        <a href="tel:{{ $izin->user->phone }}">{{ $izin->user->phone }}</a>
+                        <a href="tel:{{ $izin->user->peserta->phone }}">{{ $izin->user->peserta->phone }}</a>
                     </td>
                     {{-- <td>{{ $permission->user->position->name }}</td> --}}
                     @if ($izin->status)

@@ -15,6 +15,7 @@ class User extends Authenticatable
 
     const ADMIN_ROLE_ID = 1;
     const USER_ROLE_ID = 2;
+    const PEMBIMBING_ROLE_ID = 3;
 
     /**
      * The attributes that are mass assignable.
@@ -73,6 +74,11 @@ class User extends Authenticatable
     public function isUser()
     {
         return $this->role_id === self::USER_ROLE_ID;
+    }
+
+    public function isPembimbing()
+    {
+        return $this->role_id === self::PEMBIMBING_ROLE_ID;
     }
 
     public function peserta(): HasOne

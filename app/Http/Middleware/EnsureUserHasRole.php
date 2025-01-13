@@ -26,7 +26,11 @@ class EnsureUserHasRole
         }
 
         // return abort(403);
-        $route  = $userRole->name === 'user' ? 'home.index' : 'dashboard.index';
+        if ($userRole->name === 'user') {
+            $route = 'home.index';
+        } else {
+            $route = 'dashboard.index';
+        }
         return redirect()->route($route)->with('failed', 'Kamu tidak memilik izin untuk mengakses halaman tersebut.');
     }
 }

@@ -62,7 +62,7 @@
             <thead>
                 <tr>
                     <th scope="col">#</th>
-                    <th scope="col">Nama Karyawan</th>
+                    <th scope="col">Nama Peserta</th>
                     <th scope="col">Kontak</th>
                     {{-- <th scope="col">Posisi</th> --}}
                     <th scope="col">Handle</th>
@@ -72,11 +72,11 @@
                 @foreach ($data['users'] as $user)
                 <tr>
                     <th scope="row">{{ $loop->iteration }}</th>
-                    <td>{{ $user['name'] }}</td>
+                    <td>{{ $user['peserta']['name'] }}</td>
                     <td>
                         <a href="mailto:{{ $user['email'] }}">{{ $user['email'] }}</a>
                         <span class="fw-bold"> / </span>
-                        <a href="tel:{{ $user['phone'] }}">{{ $user['phone'] }}</a>
+                        {{-- <a href="tel:{{ $user['phone'] }}">{{ $user['phone'] }}</a> --}}
                     </td>
                     {{-- <td>{{ $user['position']['name'] }}</td> --}}
                     <td>

@@ -7,6 +7,7 @@ use App\Models\Bidang;
 use App\Models\Peserta;
 use Illuminate\Support\Carbon;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Database\QueryException;
 use Illuminate\Database\Eloquent\Builder;
 use PowerComponents\LivewirePowerGrid\Traits\ActionButton;
@@ -87,12 +88,9 @@ final class BidangTable extends PowerGridComponent
     */
     public function setUp(): array
     {
-        $this->showCheckBox('text-center align-middle');
+        $this->showCheckBox();
 
         return [
-            // Exportable::make('export')
-            //     ->striped()
-            //     ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV),
             Header::make()->showSearchInput(),
             Footer::make()
                 ->showPerPage()
@@ -105,23 +103,47 @@ final class BidangTable extends PowerGridComponent
         $selectedIds = $this->checkedValues();
 
         if (empty($selectedIds)) {
-            $this->dispatchBrowserEvent('showToast', ['success' => false, 'message' => 'Pilih data yang ingin di export terlebih dahulu. ']);
+            $this->dispatchBrowserEvent('showToast', ['success' => false, 'message' => 'Pilih data yang ingin diekspor terlebih dahulu.']);
             return;
         }
 
-        $selectedData = Bidang::whereIn('id', $this->checkedValues())
-        ->withCount('peserta')
-        ->get();
+        // Ambil data bidang berdasarkan ID yang dipilih
+        $selectedData = \App\Models\Bidang::whereIn('id', $selectedIds)->get();
 
-        $pdf = Pdf::loadView('exports.BidangPdf', compact('selectedData'))
-        ->setPaper('a4', 'potrait');
+        // Ambil daftar tahun dinamis (5 tahun terakhir atau lebih)
+        $tahunList = \App\Models\Peserta::selectRaw('DISTINCT YEAR(created_at) as tahun')
+            ->whereIn('peserta_bidang_id', $selectedIds)
+            ->orderBy('tahun', 'asc')
+            ->pluck('tahun');
+
+        // Hitung jumlah peserta per tahun untuk setiap bidang
+        $selectedData = $selectedData->map(function ($bidang) use ($tahunList) {
+            $jumlahPesertaPerTahun = [];
+        
+            // Tambahkan jumlah peserta saat ini sebagai kolom pertama
+            $jumlahPesertaPerTahun['jumlah_saat_ini'] = $bidang->jumlah_peserta;
+        
+            // Hitung jumlah peserta per tahun
+            foreach ($tahunList as $tahun) {
+                $jumlahPesertaPerTahun[$tahun] = \App\Models\Peserta::where('peserta_bidang_id', $bidang->id)
+                    ->whereYear('created_at', $tahun)
+                    ->count();
+            }
+        
+            $bidang->jumlah_peserta_per_tahun = $jumlahPesertaPerTahun;
+            return $bidang;
+        });
+
+        // Generate PDF menggunakan view Blade
+        $pdf = Pdf::loadView('exports.BidangPdf', compact('selectedData', 'tahunList'))
+            ->setPaper('a4', 'portrait');
 
         return response()->streamDownload(
             fn() => print($pdf->output()),
             'ExportBidang.pdf'
         );
-        
     }
+
 
 
 
@@ -136,7 +158,7 @@ final class BidangTable extends PowerGridComponent
     /**
      * PowerGrid datasource.
      *
-     * @return Builder<\App\Models\Position>
+     * @return Builder<\App\Models\Bidang>
      */
     public function datasource(): Builder
     {
@@ -172,13 +194,36 @@ final class BidangTable extends PowerGridComponent
     */
     public function addColumns(): PowerGridEloquent
     {
-        return PowerGrid::eloquent()
+        // return PowerGrid::eloquent()
+        //     ->addColumn('id')
+        //     ->addColumn('name')
+        //     ->addColumn('kepala_bidang')
+        //     ->addColumn('jumlah_peserta')
+        //     ->addColumn('created_at')
+        //     ->addColumn('created_at_formatted', fn (Bidang $model) => Carbon::parse($model->created_at)->format('d/m/Y H:i:s'));
+        $tahunList = DB::table('peserta')
+        ->selectRaw('YEAR(created_at) as tahun')
+        ->groupBy('tahun')
+        ->orderBy('tahun')
+        ->pluck('tahun');
+
+        $powerGrid = PowerGrid::eloquent()
             ->addColumn('id')
             ->addColumn('name')
             ->addColumn('kepala_bidang')
-            ->addColumn('jumlah_peserta')
             ->addColumn('created_at')
-            ->addColumn('created_at_formatted', fn (Bidang $model) => Carbon::parse($model->created_at)->format('d/m/Y H:i:s'));
+            ->addColumn('created_at_formatted', fn (Bidang $model) => Carbon::parse($model->created_at)->format('d/m/Y H:i:s'))
+            ->addColumn('jumlah_peserta');
+        foreach ($tahunList as $tahun) {
+            $powerGrid->addColumn("jumlah_peserta_$tahun", function (Bidang $model) use ($tahun) {
+                return DB::table('peserta')
+                    ->where('peserta_bidang_id', $model->id)
+                    ->whereYear('created_at', $tahun)
+                    ->count();
+            });
+        }
+
+        return $powerGrid;
     }
 
     /*
@@ -197,34 +242,50 @@ final class BidangTable extends PowerGridComponent
      */
     public function columns(): array
     {
-        return [
+        // Ambil 5 tahun terakhir
+        $tahunList = DB::table('peserta')
+        ->selectRaw('YEAR(created_at) as tahun')
+        ->whereRaw('YEAR(created_at) >= YEAR(NOW()) - 5') // Hanya ambil 5 tahun terakhir
+        ->groupBy('tahun')
+        ->orderBy('tahun')
+        ->pluck('tahun');
+
+        // Array untuk menyimpan kolom
+        $columns = [
             Column::make('ID', 'id')
                 ->searchable()
                 ->sortable(),
 
             Column::make('Name', 'name')
                 ->searchable()
-                ->makeInputText('name')
                 ->sortable(),
 
             Column::make('Kepala Bidang', 'kepala_bidang')
                 ->searchable()
-                ->makeInputText()
                 ->sortable(),
 
-            column::make('Jumlah Peserta Magang', 'jumlah_peserta')
+            Column::make('Jumlah Peserta (Saat ini)', 'jumlah_peserta')
                 ->searchable()
-                ->makeInputText()
                 ->sortable()
                 ->bodyAttribute('text-center'),
 
-            Column::make('Created at', 'created_at')
-                ->hidden(),
+            // Column::make('Created at', 'created_at')
+            //     ->hidden(),
 
-            Column::make('Created at', 'created_at_formatted', 'created_at')
-                ->makeInputDatePicker()
-                ->searchable()
+            // Column::make('Created at', 'created_at_formatted', 'created_at')
+            //     ->makeInputDatePicker()
+            //     ->searchable()
         ];
+
+        // Loop untuk menambahkan kolom jumlah peserta berdasarkan tahun
+        foreach ($tahunList as $tahun) {
+            $columns[] = Column::make("Jumlah Peserta ($tahun)", "jumlah_peserta_$tahun")
+                ->sortable("jumlah_peserta_$tahun")
+                ->bodyAttribute('text-center');
+        }
+
+        return $columns;
+    
     }
 
     /*
