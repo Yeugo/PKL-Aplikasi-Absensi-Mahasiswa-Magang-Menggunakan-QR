@@ -95,7 +95,7 @@
                 <th>ID</th>
                 <th>Name</th>
                 <th>Kepala Bidang</th>
-                <th>Jumlah Peserta (Saat Ini)</th>
+                {{-- <th>Jumlah Peserta (Saat Ini)</th> --}}
                 @foreach ($tahunList as $tahun)
                 <th>{{ $tahun }}</th>
                 @endforeach
@@ -107,7 +107,7 @@
                     <td>{{ $bidang->id }}</td>
                     <td>{{ $bidang->name }}</td>
                     <td>{{ $bidang->kepala_bidang }}</td>
-                    <td>{{ $bidang->jumlah_peserta_per_tahun['jumlah_saat_ini'] }}</td> <!-- Kolom pertama: jumlah peserta saat ini -->
+                    {{-- <td>{{ $bidang->jumlah_peserta_per_tahun['jumlah_saat_ini'] }}</td> <!-- Kolom pertama: jumlah peserta saat ini --> --}}
                     @foreach ($tahunList as $tahun)
                     <td>{{ $bidang->jumlah_peserta_per_tahun[$tahun] ?? 0 }}</td>
                     @endforeach

@@ -11,13 +11,14 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\BidangController;
 use App\Http\Controllers\AbsensiController;
+use App\Http\Controllers\AccountController;
 use App\Http\Controllers\HolidayController;
 use App\Http\Controllers\PesertaController;
 use App\Http\Controllers\KegiatanController;
 use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\DashboardPembimbingController;
 use App\Http\Controllers\KehadiranController;
 use App\Http\Controllers\PembimbingController;
+use App\Http\Controllers\DashboardPembimbingController;
 use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 
 /*
@@ -88,6 +89,12 @@ Route::middleware('auth')->group(function () {
         Route::get('home/kegiatan/{id}/edit', [KegiatanController::class, 'edit'])->name('home.kegiatan.edit');
         // Route untuk menyimpan perubahan (update) kegiatan
         Route::put('home/kegiatan/{id}', [KegiatanController::class, 'update'])->name('home.kegiatan.update');
+    });
+
+    Route::middleware('role:admin,pembimbing,user')->group(function() {
+        // account
+        Route::resource('/account', AccountController::class)->only(['index']);
+        Route::put('/account/edit', [AccountController::class, 'update'])->name('account.update');
     });
 
     Route::delete('/logout', [AuthController::class, 'logout'])->name('auth.logout');

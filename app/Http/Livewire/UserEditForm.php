@@ -37,7 +37,6 @@ class UserEditForm extends Component
 
         $this->validate([
             'users.*.email' => 'required|email',
-            'users.*.phone' => 'required',
             'users.*.password' => '',
             'users.*.role_id' => 'required|in:' . $roleIdRuleIn,
         ]);
@@ -52,11 +51,6 @@ class UserEditForm extends Component
         foreach ($this->users as $user) {
             // cek unique validasi
             $userBeforeUpdated = User::find($user['id']);
-
-            if (!$this->isUniqueOnDatabase($userBeforeUpdated, $user, 'phone', User::class)) {
-                $this->dispatchBrowserEvent('livewire-scroll', ['top' => 0]);
-                return session()->flash('failed', "No. Telp dari data user {$user['id']} sudah terdaftar. Silahkan masukan email yang berbeda!");
-            }
 
             if (!$this->isUniqueOnDatabase($userBeforeUpdated, $user, 'email', User::class)) {
                 $this->dispatchBrowserEvent('livewire-scroll', ['top' => 0]);

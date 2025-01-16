@@ -212,8 +212,8 @@ final class BidangTable extends PowerGridComponent
             ->addColumn('name')
             ->addColumn('kepala_bidang')
             ->addColumn('created_at')
-            ->addColumn('created_at_formatted', fn (Bidang $model) => Carbon::parse($model->created_at)->format('d/m/Y H:i:s'))
-            ->addColumn('jumlah_peserta');
+            ->addColumn('created_at_formatted', fn (Bidang $model) => Carbon::parse($model->created_at)->format('d/m/Y H:i:s'));
+            // ->addColumn('jumlah_peserta');
         foreach ($tahunList as $tahun) {
             $powerGrid->addColumn("jumlah_peserta_$tahun", function (Bidang $model) use ($tahun) {
                 return DB::table('peserta')
@@ -264,10 +264,10 @@ final class BidangTable extends PowerGridComponent
                 ->searchable()
                 ->sortable(),
 
-            Column::make('Jumlah Peserta (Saat ini)', 'jumlah_peserta')
-                ->searchable()
-                ->sortable()
-                ->bodyAttribute('text-center'),
+            // Column::make('Jumlah Peserta (Saat ini)', 'jumlah_peserta')
+            //     ->searchable()
+            //     ->sortable()
+            //     ->bodyAttribute('text-center'),
 
             // Column::make('Created at', 'created_at')
             //     ->hidden(),

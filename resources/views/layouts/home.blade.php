@@ -23,8 +23,8 @@
 
 
 <div id="wrapper">
-    {{-- @include('partials.sidebar') --}}
-    <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+    @include('partials.sidebar-peserta')
+    {{-- <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
         <!-- Sidebar - Brand -->
         <a class="sidebar-brand d-flex align-items-center justify-content-center" href="#">
@@ -47,6 +47,14 @@
     
         <!-- Divider -->
         <hr class="sidebar-divider">
+
+            <!-- Nav Item - Profil -->
+        <li class="nav-item {{ request()->routeIs('account.*') ? 'active' : '' }}">
+            <a class="nav-link" href="{{ route('account.index') }}">
+                <i class="bi bi-person-gear"></i>
+                <span>{{ __('Profil') }}</span>
+            </a>
+        </li>
     
         <!-- Nav Item - Keiatan -->
         <li class="nav-item {{ request()->routeIs('home.kegiatanPeserta') ? 'active' : '' }}">
@@ -75,7 +83,7 @@
             <button class="rounded-circle border-0" id="sidebarToggle"></button>
         </div>
     
-    </ul>
+    </ul> --}}
     <div id="content-wrapper" class="d-flex flex-column">
         <div id="main-content" >
             @include('partials.home-navbar')

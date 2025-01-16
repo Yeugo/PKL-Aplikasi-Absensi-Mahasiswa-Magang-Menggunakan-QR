@@ -55,7 +55,7 @@
     @elseif (auth()->user()->isPembimbing())
         @include('partials.sidebar-pembimbing')
     @else
-        @include('partials.sidebar-default')
+        @include('partials.sidebar-peserta')
     @endif
     <div id="content-wrapper" class="d-flex flex-column">
         <div id="main-content" >

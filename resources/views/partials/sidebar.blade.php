@@ -121,6 +121,15 @@
         {{ __('CRUD') }}
     </div>
 
+
+    <!-- Nav Item - Akun -->
+    <li class="nav-item {{ request()->routeIs('account.*') ? 'active' : '' }}">
+        <a class="nav-link" href="{{ route('account.index') }}">
+            <i class="bi bi-person-gear"></i>
+            <span>{{ __('Akun') }}</span>
+        </a>
+    </li>
+
     <!-- Nav Item - User -->
     <li class="nav-item {{ request()->routeIs('users.*') ? 'active' : '' }}">
         <a class="nav-link" href="{{ route('users.index') }}">
