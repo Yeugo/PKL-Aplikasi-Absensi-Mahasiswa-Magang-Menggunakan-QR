@@ -83,7 +83,7 @@ class User extends Authenticatable
 
     public function peserta(): HasOne
     {
-        return $this->hasOne(Peserta::class, 'user_id', 'id');
+        return $this->hasOne(Peserta::class);
     }
 
     public function pembimbing(): HasOne

@@ -140,8 +140,13 @@ final class KehadiranTable extends PowerGridComponent
             ->addColumn("tgl_hadir")
             ->addColumn("absen_masuk")
             ->addColumn("absen_keluar", fn (Kehadiran $model) => $model->absen_keluar ?? '<span class="badge text-bg-danger">Belum Absensi Pulang</span>')
-            ->addColumn("izin", fn (Kehadiran $model) => $model->izin ?
-                '<span class="badge text-bg-warning">Izin</span>' : '<span class="badge text-bg-success">Hadir</span>')
+            // ->addColumn("izin", fn (Kehadiran $model) => $model->izin ?
+            //     '<span class="badge text-bg-warning">Izin</span>' : '<span class="badge text-bg-success">Hadir</span>')
+            ->addColumn("izin", fn (Kehadiran $model) => match ($model->izin) {
+                1 => '<span class="badge text-bg-warning">Izin</span>',
+                2 => '<span class="badge text-bg-info">Libur</span>',
+                default => '<span class="badge text-bg-success">Hadir</span>',
+            })
             ->addColumn('created_at')
             ->addColumn('created_at_formatted', fn (Kehadiran $model) => Carbon::parse($model->created_at)->format('d/m/Y H:i:s'));
     }
@@ -195,7 +200,8 @@ final class KehadiranTable extends PowerGridComponent
                 ->sortable(),
 
             Column::make('Status', 'izin')
-                ->sortable(),
+                ->sortable()
+                ->bodyAttribute('text-center'),
 
             Column::make('Created at', 'created_at')
                 ->hidden(),

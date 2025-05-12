@@ -6,6 +6,7 @@ use App\Models\Kegiatan;
 use FontLib\Table\Type\name;
 use App\Http\Livewire\InternTable;
 use Illuminate\Support\Facades\Route;
+use App\Http\Livewire\PendaftaranIndex;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\UserController;
@@ -15,10 +16,12 @@ use App\Http\Controllers\AccountController;
 use App\Http\Controllers\HolidayController;
 use App\Http\Controllers\PesertaController;
 use App\Http\Controllers\KegiatanController;
+use App\Http\Livewire\PendaftaranCreateForm;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\KehadiranController;
 use App\Http\Controllers\PembimbingController;
 use App\Http\Controllers\DashboardPembimbingController;
+use App\Http\Controllers\PendaftaranController;
 use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 
 /*
@@ -72,6 +75,10 @@ Route::middleware('auth')->group(function () {
         // department
         Route::resource('/bidangs', BidangController::class)->only(['index', 'create']);
         Route::get('/bidangs/edit', [BidangController::class, 'edit'])->name('bidangs.edit');
+
+        Route::resource('/pendaftaran', PendaftaranController::class)->only(['index']);
+        Route::post('/pendaftaran/{id}/approve', [PendaftaranController::class, 'approve'])->name('pendaftaran.approve');
+        Route::post('/pendaftaran/{id}/reject', [PendaftaranController::class, 'reject'])->name('pendaftaran.reject');  
     });
 
     Route::middleware('role:user')->name('home.')->group(function () {
@@ -104,4 +111,10 @@ Route::middleware('guest')->group(function () {
     // auth
     Route::get('/login', [AuthController::class, 'index'])->name('auth.login');
     Route::post('/login', [AuthController::class, 'authenticate']);
+    
 });
+
+// pendaftaran peserta
+// Route::get('/pendaftaran', PendaftaranIndex::class)->name('pendaftaran.index');
+// Route::get('/pendaftaran/create', PendaftaranCreateForm::class)->name('pendaftaran.create');
+Route::get('/pendaftaran/create', [PendaftaranController::class, 'create'])->name('pendaftaran.create');

@@ -72,11 +72,18 @@
                 @foreach ($data['users'] as $user)
                 <tr>
                     <th scope="row">{{ $loop->iteration }}</th>
-                    <td>{{ $user['peserta']['name'] }}</td>
+                    {{-- <td>{{ $user['peserta']['name'] }}</td> --}}
+                    <td>
+                        @if(isset($user['peserta']))
+                            {{ $user['peserta']['name'] }}
+                        @else
+                            <span class="text-danger">Peserta tidak ditemukan</span>
+                        @endif
+                    </td>
                     <td>
                         <a href="mailto:{{ $user['email'] }}">{{ $user['email'] }}</a>
                         <span class="fw-bold"> / </span>
-                        {{-- <a href="tel:{{ $user['phone'] }}">{{ $user['phone'] }}</a> --}}
+                        <a href="tel:{{ $user['peserta']['phone'] }}">{{ $user['peserta']['phone'] }}</a>
                     </td>
                     {{-- <td>{{ $user['position']['name'] }}</td> --}}
                     <td>

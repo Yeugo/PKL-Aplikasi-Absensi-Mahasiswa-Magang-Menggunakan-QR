@@ -150,7 +150,7 @@ final class PesertaTable extends PowerGridComponent
     {
         return Peserta::query()
             ->join('bidangs', 'peserta.peserta_bidang_id', '=', 'bidangs.id')
-            ->join('pembimbing', 'peserta.pembimbing_id', '=', 'pembimbing.id')
+            ->leftjoin('pembimbing', 'peserta.pembimbing_id', '=', 'pembimbing.id')
             ->select('peserta.*', 'pembimbing.name as pembimbingname','bidangs.name as bidang');
     }
 
@@ -161,7 +161,13 @@ final class PesertaTable extends PowerGridComponent
      */
     public function relationSearch(): array
     {
-        return [];
+        
+
+        return [
+            'pembimbing' => [
+                'name',
+            ]
+        ];
     }
 
     /*
@@ -185,7 +191,7 @@ final class PesertaTable extends PowerGridComponent
                 return ucfirst($model->bidang);
             })
             ->addColumn('pembimbing', function (Peserta $model) {
-                return ucfirst($model->bidang);
+                return ucfirst($model->pembimbingname ?? "Belum ada Pembimbing");
             })
             ->addColumn('foto', function (Peserta $model) {
                 // Cek apakah foto ada, jika ada tampilkan dalam bentuk link
@@ -213,38 +219,38 @@ final class PesertaTable extends PowerGridComponent
 
             Column::make('Name', 'name', 'peserta.name')
                 ->searchable()
-                ->makeInputText()
+                // ->makeInputText()
                 ->editOnClick()
                 ->sortable(),
 
             Column::make('NPM', 'npm', 'peserta.npm')
                 ->searchable()
-                ->makeInputText()
+                // ->makeInputText()
                 ->sortable(),
 
             Column::make('No. Telp', 'phone', 'peserta.phone')
                 ->searchable()
-                ->makeInputText()
+                // ->makeInputText()
                 ->sortable(),
 
             Column::make('Universitas', 'univ', 'peserta.univ')
                 ->searchable()
-                ->makeInputText()
+                // ->makeInputText()
                 ->sortable(),
 
             Column::make('Alamat', 'alamat', 'peserta.alamat')
                 ->searchable()
-                ->makeInputText()
+                // ->makeInputText()
                 ->sortable(),
 
-            Column::make('Bidang', 'bidang')
+            Column::make('Bidang', 'bidang', 'bidangs.name')
                 ->searchable()
-                ->makeInputMultiSelect(Bidang::all(), 'name', 'peserta_bidang_id')
+                // ->makeInputMultiSelect(Bidang::all(), 'name', 'peserta_bidang_id')
                 ->sortable(),
 
             Column::make('Pembimbing', 'pembimbingname')
                 ->searchable()
-                ->makeInputMultiSelect(Pembimbing::all(), 'name', 'pembimbing_id')
+                // ->makeInputMultiSelect(Pembimbing::all(), 'name', 'pembimbing_id')
                 ->sortable(),
 
             Column::make('Foto', 'foto')
@@ -255,7 +261,7 @@ final class PesertaTable extends PowerGridComponent
                 ->hidden(),
 
             Column::make('Created at', 'created_at_formatted', 'peserta.created_at')
-                ->makeInputDatePicker()
+                // ->makeInputDatePicker()
                 ->searchable()
         ];
     }

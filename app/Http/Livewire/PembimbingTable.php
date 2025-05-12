@@ -229,10 +229,10 @@ final class PembimbingTable extends PowerGridComponent
                 ->searchable()
                 ->sortable(),
 
-            Column::make('Created at', 'created_at', 'peserta.created_at')
-                ->hidden(),
+            // Column::make('Created at', 'created_at', 'peserta.created_at')
+            //     ->hidden(),
 
-            Column::make('Created at', 'created_at_formatted', 'peserta.created_at')
+            Column::make('Created at', 'created_at_formatted', 'pembimbing.created_at')
                 ->makeInputDatePicker()
                 ->searchable()
         ];

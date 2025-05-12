@@ -42,4 +42,6 @@ class Peserta extends Model
     {
         return $this->hasMany(Kegiatan::class);
     }
+
+    
 }

@@ -7,6 +7,11 @@ body {
     height: 16px;
 }
 
+.small-font {
+    font-size: 0.875rem;
+    /* Ukuran font lebih kecil */
+}
+
 /*
    * Sidebar
    */

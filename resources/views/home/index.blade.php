@@ -3,6 +3,31 @@
 @section('content')
 <div class="container py-5">
     <div class="row">
+        <!-- Card Profil Peserta Magang -->
+        <div class="col-md-4">
+            <div class="card shadow-sm mb-2">
+                <div class="card-header">
+                    Profil Peserta Magang
+                </div>
+                <div class="card-body">
+                    <p class="card-text"><strong>Nama:</strong> {{ $peserta->name }}</p>
+                    <p class="card-text"><strong>NPM:</strong> {{ $peserta->npm }}</p>
+                    <p class="card-text"><strong>Telepon:</strong> {{ $peserta->phone }}</p>
+                    <p class="card-text"><strong>Universitas:</strong> {{ $peserta->univ }}</p>
+                    <p class="card-text"><strong>Alamat:</strong> {{ $peserta->alamat }}</p>
+                    <p class="card-text"><strong>Bidang:</strong> {{ $peserta->bidang->name ?? 'N/A' }}</p>
+                    <p class="card-text"><strong>Pembimbing:</strong> {{ $peserta->pembimbing->name ?? 'belum ada pembimbing' }}</p>
+                    <p class="card-text"><strong>Kontak Pembimbing:</strong> 
+                        @if($peserta->pembimbing)
+                            <a href="https://wa.me/{{ $peserta->pembimbing->phone }}" target="_blank">{{ $peserta->pembimbing->phone }}</a>
+                        @else
+                            belum ada pembimbing
+                        @endif
+                    </p>
+                </div>
+            </div>
+        </div>
+        
         <div class="col-md-4">
             <div class="card shadow-sm mb-2">
                 <div class="card-header">

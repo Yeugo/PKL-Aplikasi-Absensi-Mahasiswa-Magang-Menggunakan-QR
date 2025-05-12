@@ -108,6 +108,13 @@ class KehadiranController extends Controller
                 ];
         } else {
             $notPresentData = $this->getNotPresentEmployees($kehadirans);
+
+            foreach ($notPresentData as &$data) {
+                $data['users'] = User::query()
+                    ->whereIn('id', array_column($data['users'], 'id')) // Ambil ulang user berdasarkan ID
+                    ->with('peserta') // Memuat ulang relasi peserta
+                    ->get();// Jangan gunakan ->toArray()
+            }
         }
 
 
@@ -164,8 +171,12 @@ class KehadiranController extends Controller
             "absen_keluar" => now()->toTimeString()
         ]);
 
+        $peserta = is_string($user->peserta) ? json_decode($user->peserta) : $user->peserta;
+        $pesertaName = $peserta ? $peserta->name : "Peserta tidak ditemukan";
+
         return back()
-            ->with('success', "Berhasil menyimpan data hadir atas nama \"$user->peserta->name\".");
+            ->with('success', "Berhasil menyimpan data hadir atas nama \"$pesertaName\".");
+            // ->with('success', "Berhasil menyimpan data hadir atas nama \"$user->peserta->name\".");
             // ->with('success', 'Berhasil menyimpan data hadir atas nama "' . ($user->peserta->name ?? 'Nama tidak ditemukan') . '".');
     }
 
@@ -208,7 +219,7 @@ class KehadiranController extends Controller
         ]);
 
         return back()
-            ->with('success', "Berhasil menerima data izin karyawan atas nama \"$user->name\".");
+            ->with('success', "Berhasil menerima data izin peserta atas nama \"$user->name\".");
     }
 
     private function getNotPresentEmployees($kehadirans)

@@ -7,7 +7,7 @@
 </head>
 <body>
     <h1>Halo, {{ $peserta['name'] }}!</h1>
-    <p>Selamat, akun Anda telah berhasil dibuat.</p>
+    <p>Selamat, kamu diterima untuk program magang!.</p>
     <p>Detail akun Anda:</p>
     <ul>
         <li><strong>Email:</strong> {{ $user->email }}</li>

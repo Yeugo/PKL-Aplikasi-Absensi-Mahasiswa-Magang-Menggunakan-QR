@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use App\Models\Izin;
 use App\Models\Absensi;
 use App\Models\Holiday;
+use App\Models\Peserta;
 use App\Models\Presence;
 use Carbon\CarbonPeriod;
 use App\Models\Kehadiran;
@@ -24,15 +25,18 @@ class HomeController extends Controller
             ->sortByDesc('data.is_end')
             ->sortByDesc('data.is_start');
 
-            $kehadiranCount = Kehadiran::where('user_id', auth()->id())
+        $kehadiranCount = Kehadiran::where('user_id', auth()->id())
             ->whereBetween('tgl_hadir', [Carbon::now()->startOfMonth(), Carbon::now()->endOfMonth()])
             ->count();
+
+        $peserta = Peserta::find(auth()->user()->peserta->id);
 
         
 
         return view('home.index', [
             "title" => "Absensi",
             "absensis" => $absensis,
+            "peserta" => $peserta,
             "kehadiranCount" => $kehadiranCount
         ]);
 

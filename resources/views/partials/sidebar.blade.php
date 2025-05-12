@@ -138,6 +138,14 @@
         </a>
     </li>
 
+    <!-- Nav Item - Pendaftaran -->
+    <li class="nav-item {{ request()->routeIs('pendaftaran.*') ? 'active' : '' }}">
+        <a class="nav-link" href="{{ route('pendaftaran.index') }}">
+            <i class="bi bi-file-earmark-zip"></i>
+            <span>{{ __('Pendaftaran') }}</span>
+        </a>
+    </li>
+
     <!-- Nav Item - Bidang -->
     <li class="nav-item {{ request()->routeIs('bidangs.*') ? 'active' : '' }}">
         <a class="nav-link" href="{{ route('bidangs.index') }}">

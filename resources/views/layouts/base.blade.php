@@ -12,6 +12,7 @@
     @livewireStyles
 
     <title>{{ $title }} | Absensi App</title>
+    
 </head>
 
 <body id="page-top">

@@ -41,7 +41,7 @@
             <button class="btn btn-primary">
                 Simpan
             </button>
-            <button class="btn btn-light" type="button" wire:click="addUserInput" wire:loading.attr="disabled">
+            <button class="btn btn-secondary" type="button" wire:click="addUserInput" wire:loading.attr="disabled">
                 Tambah Input
             </button>
         </div>

@@ -18,6 +18,7 @@
 
 <!-- Styles -->
 <link href="{{ asset('css/sb-admin-2.min.css') }}" rel="stylesheet">
+<link href="{{ asset('css/app.css') }}" rel="stylesheet">
 
 <!-- Favicon -->
 {{-- <link href="{{ asset('img/favicon.png') }}" rel="icon" type="image/png"> --}}

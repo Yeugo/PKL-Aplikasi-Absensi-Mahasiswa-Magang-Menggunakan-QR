@@ -46,10 +46,10 @@ final class UserTable extends PowerGridComponent
                 ->caption(__('Edit'))
                 ->class('btn btn-success border-0')
                 ->emit('bulkCheckedEdit', []),
-            Button::add('exportPDF')
-                ->caption(__('Cetak'))
-                ->class('btn btn-secondary border-0')
-                ->emit('exportToPDF', []),
+            // Button::add('exportPDF')
+            //     ->caption(__('Cetak'))
+            //     ->class('btn btn-secondary border-0')
+            //     ->emit('exportToPDF', []),
         ];
     }
 
