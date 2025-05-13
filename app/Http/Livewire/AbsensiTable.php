@@ -253,7 +253,7 @@ final class AbsensiTable extends PowerGridComponent
                 ->class('badge text-bg-success')
                 ->target('')
                 ->route('absensi.edit', ['id' => 'id']),
-
+                
             //    Button::make('destroy', 'Delete')
             //        ->class('bg-red-500 cursor-pointer text-white px-3 py-2 m-1 rounded text-sm')
             //        ->route('attendance.destroy', ['attendance' => 'id'])

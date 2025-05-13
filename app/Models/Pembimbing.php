@@ -42,4 +42,9 @@ class Pembimbing extends Model
         return $this->hasMany(Kegiatan::class);
     }
 
+    public function nilai()
+    {
+        return $this->hasMany(Nilai::class);
+    }
+
 }
