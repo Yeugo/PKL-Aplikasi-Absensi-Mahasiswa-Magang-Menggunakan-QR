@@ -10,6 +10,7 @@ use App\Http\Livewire\PendaftaranIndex;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\NilaiController;
 use App\Http\Controllers\BidangController;
 use App\Http\Controllers\AbsensiController;
 use App\Http\Controllers\AccountController;
@@ -20,8 +21,8 @@ use App\Http\Livewire\PendaftaranCreateForm;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\KehadiranController;
 use App\Http\Controllers\PembimbingController;
-use App\Http\Controllers\DashboardPembimbingController;
 use App\Http\Controllers\PendaftaranController;
+use App\Http\Controllers\DashboardPembimbingController;
 use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 
 /*
@@ -52,6 +53,8 @@ Route::middleware('auth')->group(function () {
         // kegiatan
         Route::resource('/kegiatan', KegiatanController::class)->only(['index']);
         Route::get('kegiatan/edit', [KegiatanController::class, 'edit'])->name('kegiatan.edit');
+        // nilai
+        Route::resource('/nilai', NilaiController::class)->only(['index']);
         // not present data
         Route::get('/kehadiran/{absensi}/not-present', [KehadiranController::class, 'notPresent'])->name('kehadiran.not-present');
         Route::post('/kehadiran/{absensi}/not-present', [KehadiranController::class, 'notPresent']);
@@ -75,10 +78,15 @@ Route::middleware('auth')->group(function () {
         // department
         Route::resource('/bidangs', BidangController::class)->only(['index', 'create']);
         Route::get('/bidangs/edit', [BidangController::class, 'edit'])->name('bidangs.edit');
-
+        // pendaftaran
         Route::resource('/pendaftaran', PendaftaranController::class)->only(['index']);
         Route::post('/pendaftaran/{id}/approve', [PendaftaranController::class, 'approve'])->name('pendaftaran.approve');
         Route::post('/pendaftaran/{id}/reject', [PendaftaranController::class, 'reject'])->name('pendaftaran.reject');  
+    });
+
+    Route::middleware('role:pembimbing')->group(function () {
+         // nilai
+        Route::resource('/nilai', NilaiController::class)->only(['index']);
     });
 
     Route::middleware('role:user')->name('home.')->group(function () {

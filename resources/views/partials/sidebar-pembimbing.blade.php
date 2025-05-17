@@ -161,7 +161,17 @@
             <span>{{ __('Kegiatan') }}</span>
         </a>
     </li>
+
+     <!-- Nav Item - Penilaian -->
+    <li class="nav-item {{ request()->routeIs('nilai.*') ? 'active' : '' }}">
+        <a class="nav-link" href="{{ route('nilai.index') }}">
+            <i class="bi bi-award"></i>
+            <span>{{ __('Nilai') }}</span>
+        </a>
+    </li>
     @endif
+
+    <!-- Nav Item - Logout -->
     <li class="nav-item">
 
         {{-- <form action="{{ route('auth.logout') }}" method="post"

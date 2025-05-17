@@ -17,7 +17,7 @@ class PesertaController extends Controller
     public function create()
     {
         return view('peserta.create', [
-            "title" => "Data Peserta Magang"
+            "title" => "Tambah Data Peserta Magang"
         ]);
     }
 
