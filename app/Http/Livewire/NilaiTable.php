@@ -80,7 +80,7 @@ final class NilaiTable extends PowerGridComponent
     
     public function setUp(): array
     {
-        $this->showCheckBox();
+        // $this->showCheckBox();
 
         return [
             Header::make()->showSearchInput(),
@@ -176,9 +176,13 @@ final class NilaiTable extends PowerGridComponent
     public function actionRules(): array
     {
         return [                
-            Rule::button('test')
+            Rule::button('nilai')
                 ->when(fn($peserta) => $peserta->nilai)
-                ->hide()
+                ->disable(),
+            
+            Rule::button('detail')
+                ->when(fn($peserta) => !$peserta->nilai)
+                ->disable(),
 
             // Rule::checkbox()
             //     ->when(fn ($dish) => $dish->in_stock == false)
@@ -199,8 +203,10 @@ final class NilaiTable extends PowerGridComponent
     public function actions(): array
     {
         return [
-            Button::make('test', 'Tes Tombol')
-                ->class('badge text-bg-primary')
+            Button::make('nilai', 'Nilai')
+                ->class('btn btn-success btn-sm text-center'),
+            Button::make('detail', 'Detail')
+                ->class('btn btn-info btn-sm'),
         ];
     }
 }

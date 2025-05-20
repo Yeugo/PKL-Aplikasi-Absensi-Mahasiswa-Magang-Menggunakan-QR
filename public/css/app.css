@@ -12,6 +12,14 @@ body {
     /* Ukuran font lebih kecil */
 }
 
+td.pg-actions {
+    text-align: center;
+}
+
+thead tr th:last-child {
+    text-align: center;
+}
+
 /*
    * Sidebar
    */
