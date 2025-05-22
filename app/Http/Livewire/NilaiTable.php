@@ -27,6 +27,7 @@ final class NilaiTable extends PowerGridComponent
                 'bulkCheckedDelete',
                 'bulkCheckedEdit',
                 'exportToPDF',
+                'nilaiClicked',
             ],
         );
     }
@@ -109,6 +110,14 @@ final class NilaiTable extends PowerGridComponent
         }
     }
 
+    public function nilaiClicked($params)
+    {
+        $peserta = Peserta::find($params['peserta_id']);
+        if ($peserta) {
+            return redirect()->route('nilai.create', ['peserta_id' => $peserta->id]);
+        }
+    }
+
     /**
      * PowerGrid datasource.
      *
@@ -157,7 +166,7 @@ final class NilaiTable extends PowerGridComponent
     public function columns(): array
     {
         return [
-            Column::make('ID', 'id', 'peserta.id')
+            Column::make('ID', 'id')
                 ->searchable()
                 ->sortable(),
 
@@ -204,7 +213,8 @@ final class NilaiTable extends PowerGridComponent
     {
         return [
             Button::make('nilai', 'Nilai')
-                ->class('btn btn-success btn-sm text-center'),
+                ->class('btn btn-success btn-sm text-center')
+                ->emit('nilaiClicked', ['peserta_id' => 'id']),
             Button::make('detail', 'Detail')
                 ->class('btn btn-info btn-sm'),
         ];
