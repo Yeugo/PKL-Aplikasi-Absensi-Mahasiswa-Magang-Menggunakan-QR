@@ -20,6 +20,19 @@ thead tr th:last-child {
     text-align: center;
 }
 
+/* thead th {
+    width: 200px;
+}
+
+select.power_grid {
+    width: 250px;
+}
+
+input.power_grid {
+    width: 250px;
+} */
+
+
 /*
    * Sidebar
    */

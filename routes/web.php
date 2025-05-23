@@ -88,6 +88,7 @@ Route::middleware('auth')->group(function () {
          // nilai
         Route::resource('/nilai', NilaiController::class)->only(['index']);
         Route::get('/nilai/create', [NilaiController::class, 'create'])->name('nilai.create');
+        Route::get('/nilai/{peserta_id}', [NilaiController::class, 'show'])->name('nilai.show');
     });
 
     Route::middleware('role:user')->name('home.')->group(function () {

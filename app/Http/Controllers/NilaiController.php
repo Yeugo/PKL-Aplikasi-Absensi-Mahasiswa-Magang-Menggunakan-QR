@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Peserta;
 use Illuminate\Http\Request;
 
 class NilaiController extends Controller
@@ -17,6 +18,18 @@ class NilaiController extends Controller
     {
         return view('nilai.create', [
             "title" => "Data Nilai Peserta Magang"
+        ]);
+    }
+
+    public function show($peserta_id)
+    {
+        $peserta = Peserta::with('nilai','pembimbing')->findOrFail($peserta_id);
+
+        return view('nilai.show', [
+            'title' => 'Detail Nilai Peserta',
+            'peserta' => $peserta,
+            'nilai' => $peserta->nilai,
+            'pembimbing' => $peserta->pembimbing,
         ]);
     }
 
