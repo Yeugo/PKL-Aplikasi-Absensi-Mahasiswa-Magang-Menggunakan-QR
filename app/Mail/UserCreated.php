@@ -3,9 +3,10 @@
 namespace App\Mail;
 
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Contracts\Queue\ShouldQueue;
 
 class UserCreated extends Mailable
 {
@@ -34,12 +35,21 @@ class UserCreated extends Mailable
      */
     public function build()
     {
+        // Generate PDF dari view, misal: 'pdf.surat_balasan'
+        $pdf = Pdf::loadView('pdf.surat_balasan', [
+            'user' => $this->user,
+            'peserta' => $this->peserta,
+        ])->output();
+
         return $this->subject('Akun anda sudah berhasil dibuat:D')
                     ->view('emails.user_created')
                     ->with([
                         'user' => $this->user,
                         'peserta' => $this->peserta,
                         'password' => $this->password,
+                    ])
+                    ->attachData($pdf, 'Surat Balasan - ' . ($this->peserta->name ?? 'peserta') . '.pdf', [
+                        'mime' => 'application/pdf',
                     ]);
     }
 }
