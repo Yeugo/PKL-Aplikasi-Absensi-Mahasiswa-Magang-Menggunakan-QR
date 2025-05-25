@@ -103,12 +103,15 @@ final class PendaftaranIndex extends PowerGridComponent
                 'peserta_bidang_id' => $pendaftaran->bidang_id,
             ]);
 
-            Mail::to($pendaftaran->email)->send(new UserCreated($user, $pendaftaran, $randomPassword));
+            Mail::to($pendaftaran->email)->send(new UserCreated($user, $pendaftaran, $randomPassword, $pendaftaran));
 
             $pendaftaran->delete();
         }
 
-        session()->flash('success', 'Pendaftaran yang dipilih telah diterima dan peserta telah dibuat.');
+        $this->dispatchBrowserEvent('showToast', [
+        'success' => true,
+        'message' => 'Pendaftaran yang dipilih telah diterima dan peserta telah dibuat.'
+    ]);
     }
 
     public function rejectSelected()

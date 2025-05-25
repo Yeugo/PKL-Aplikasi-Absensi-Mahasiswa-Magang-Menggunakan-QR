@@ -23,6 +23,7 @@ use App\Http\Controllers\KehadiranController;
 use App\Http\Controllers\PembimbingController;
 use App\Http\Controllers\PendaftaranController;
 use App\Http\Controllers\DashboardPembimbingController;
+use App\Http\Controllers\TestController;
 use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 
 /*
@@ -112,6 +113,7 @@ Route::middleware('auth')->group(function () {
         // account
         Route::resource('/account', AccountController::class)->only(['index']);
         Route::put('/account/edit', [AccountController::class, 'update'])->name('account.update');
+        Route::get('/surat', [TestController::class, 'test'])->name('test.surat');
     });
 
     Route::delete('/logout', [AuthController::class, 'logout'])->name('auth.logout');
@@ -121,6 +123,7 @@ Route::middleware('guest')->group(function () {
     // auth
     Route::get('/login', [AuthController::class, 'index'])->name('auth.login');
     Route::post('/login', [AuthController::class, 'authenticate']);
+    Route::get('/surat', [TestController::class, 'test'])->name('test.surat');
     
 });
 

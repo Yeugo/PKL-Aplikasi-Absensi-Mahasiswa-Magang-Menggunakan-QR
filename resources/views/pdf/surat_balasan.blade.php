@@ -1,14 +1,13 @@
-{{-- filepath: resources/views/pdf/surat_balasan.blade.php --}}
 <!DOCTYPE html>
 <html lang="id">
 <head>
     <meta charset="UTF-8">
     <title>Surat Balasan Penerimaan Magang</title>
     <style>
-        body { font-family: DejaVu Sans, sans-serif; font-size: 12pt; }
+        body { font-family: "Times New Roman", serif; font-size: 12pt; }
         .header { text-align: center; }
-        .kop { font-size: 14pt; font-weight: bold; }
-        .subkop { font-size: 12pt; }
+        .kop { font-family: Arial, sans-serif; font-size: 14pt; font-weight: bold; }
+        .subkop { font-family: Arial, sans-serif; font-size: 12pt; }
         .line { border-top: 2px solid #000; margin: 8px 0 16px 0; }
         .content { margin-top: 20px; }
         .indent { text-indent: 30px; }
@@ -58,24 +57,24 @@
     <div class="content">
         <p class="indent">
             Sehubungan dengan surat Saudara Nomor : 016/UNISKA-FTI/A.15/IX/2024<br>
-            Tanggal 17 September 2024, Perihal Mohon Kesediaan Menerima Praktek Kerja Mahasiswa/i pada Dinas Ketahanan Pangan, Pertanian dan Perikanan Kota Banjarmasin, an:
+            Tanggal {{ \Carbon\Carbon::parse($pendaftaran->created_at)->translatedFormat('d F Y') }}, Perihal Mohon Kesediaan Menerima Praktek Kerja Mahasiswa/i pada Dinas Ketahanan Pangan, Pertanian dan Perikanan Kota Banjarmasin, an:
         </p>
         <p class="bold">
             1. {{ $peserta->name ?? 'NAMA PESERTA' }} &nbsp;&nbsp;&nbsp;&nbsp; NPM : {{ $peserta->npm ?? 'NPM' }}
         </p>
         <p>
-            Berdasarkan pertimbangan, Kami <span class="bold">bersedia</span> menerima mahasiswa dimaksud untuk melaksanakan Praktek Kerja Lapangan di Dinas Ketahanan Pangan, Pertanian dan Perikanan, sesuai waktu yang telah ditentukan, selama 2 (dua) bulan, dimulai tanggal 09 September s.d 08 November 2024, dengan ketentuan agar bersedia mengikuti peraturan dan tata tertib yang berlaku.
+            Berdasarkan pertimbangan, Kami <span class="bold">BERSEDIA</span> menerima mahasiswa dimaksud untuk melaksanakan Praktek Kerja Lapangan di Dinas Ketahanan Pangan, Pertanian dan Perikanan, sesuai waktu yang telah ditentukan, selama 2 (dua) bulan, dimulai tanggal 09 September s.d 08 November 2024, dengan ketentuan agar bersedia mengikuti peraturan dan tata tertib yang berlaku.
         </p>
         <p>
             Demikian disampaikan, atas kerjasama yang baik diucapkan terima kasih.
         </p>
     </div>
     <div class="ttd">
-        An. Kepala Dinas,<br>
-        Sekretaris<br><br><br>
-        <span class="bold">Hj. Ruziah, SE, M.AP</span><br>
-        Pembina Tingkat I<br>
-        NIP. 19680714 199503 2 004
+        <div class="bold">Disahkan secara elektronik oleh:</div>
+        <img src="data:image/svg+xml;base64,{{ $qrCode }}" alt="QR Code">
+        <p class="bold">Hj. Ruziah, SE, M.AP</p>
+        <p>Pembina Tingkat I</p>
+        <p>NIP. 19680714 199503 2 004</p>
     </div>
     {{-- Jika ingin menambahkan stempel, bisa gunakan gambar PNG transparan --}}
     {{-- <div class="stamp"><img src="{{ public_path('stempel.png') }}" alt="Stempel" style="height:80px;"></div> --}}

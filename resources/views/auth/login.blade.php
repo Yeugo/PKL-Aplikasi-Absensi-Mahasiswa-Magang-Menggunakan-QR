@@ -30,9 +30,9 @@
             </label>
         </div>
 
-        {{-- <div class="mt-3 text-center">
+        <div class="mt-3 text-center">
             <p style="font-size: 1rem; font-style: initial">Menerima Mahasiswa Magang <a href="{{ route('pendaftaran.create') }}">Klik Disini</a></p>
-        </div> --}}
+        </div>
 
         <button class="w-100 btn btn-primary" type="submit" id="login-form-button">Masuk</button>
         <p class="mt-5 mb-3 text-muted">&copy; DKP3 KOTA BANJARMASIN 2024</p>
