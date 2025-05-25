@@ -1,4 +1,3 @@
-{{-- filepath: c:\laragon\www\absensi-mhs-magang\resources\views\nilai\show.blade.php --}}
 @extends('layouts.app')
 
 @push('style')
@@ -23,8 +22,7 @@
 @section('content')
 @include('partials.alerts')
 
-<div class="container">
-    {{-- <h2 class="mb-4">{{ $title }}</h2> --}}
+{{-- <div class="container">
     <div class="row">
         <div class="col-md-6">
             <div class="card shadow-sm mb-4">
@@ -55,7 +53,6 @@
                             <strong>Keterangan:</strong><br>
                             <span class="text-muted">{{ $nilai->catatan ?? '-' }}</span>
                         </p>
-                        {{-- Tambahkan field lain sesuai kebutuhan --}}
                     @else
                         <div class="alert alert-warning mb-0">
                             Belum ada data nilai untuk peserta ini.
@@ -65,6 +62,96 @@
             </div>
         </div>
     </div>
+</div> --}}
+
+<div class="container mt-4">
+    {{-- <h2 class="mb-4">Detail Penilaian Kinerja Peserta Magang</h2> --}}
+
+    <!-- Informasi Umum -->
+    <div class="card mb-4">
+        <div class="card-header bg-primary text-white">Informasi Peserta</div>
+        <div class="card-body">
+            <p><strong>Nama:</strong> {{ $peserta->name }}</p>
+            <p><strong>NIM:</strong> {{ $peserta->npm ?? '-' }}</p>
+            <p><strong>Universitas:</strong> {{ $peserta->univ ?? '-' }}</p>
+            <p><strong>Pembimbing:</strong> {{ $peserta->pembimbing->name }}</p>
+            <p><strong>Bidang:</strong> {{ $peserta->bidang->name ?? '-' }}</p>
+            {{-- <p><strong>Periode Magang:</strong> {{ $peserta->periode ?? '-' }}</p> --}}
+        </div>
+    </div>
+
+    <!-- Tabel Nilai -->
+    <div class="card mb-4">
+        <div class="card-header bg-success text-white">Penilaian</div>
+        <div class="card-body">
+            <table class="table table-bordered">
+                <thead class="table-light">
+                    <tr>
+                        <th>No</th>
+                        <th>Kriteria</th>
+                        <th>Nilai (1-100)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @php
+                        $listNilai = [
+                            'Sikap' => $nilai->sikap,
+                            'Kedisiplinan' => $nilai->kedisiplinan,
+                            'Kesungguhan' => $nilai->kesungguhan,
+                            'Mandiri' => $nilai->mandiri,
+                            'Kerjasama' => $nilai->kerjasama,
+                            'Teliti' => $nilai->teliti,
+                            'Pendapat' => $nilai->pendapat,
+                            'Hal Baru' => $nilai->hal_baru,
+                            'Inisiatif' => $nilai->inisiatif,
+                            'Kepuasan' => $nilai->kepuasan,
+                        ];
+                        $total = array_sum($listNilai);
+                        $rata2 = $total / count($listNilai);
+
+                        // Menentukan kategori berdasarkan rata-rata
+                        if ($rata2 >= 85) {
+                            $kategori = 'Sangat Baik';
+                        } elseif ($rata2 >= 70) {
+                            $kategori = 'Baik';
+                        } elseif ($rata2 >= 55) {
+                            $kategori = 'Cukup';
+                        } else {
+                            $kategori = 'Kurang';
+                        }
+                    @endphp
+
+                    @foreach ($listNilai as $kriteria => $nilaiItem)
+                    <tr>
+                        <td>{{ $loop->iteration }}</td>
+                        <td>{{ $kriteria }}</td>
+                        <td>{{ $nilaiItem }}</td>
+                    </tr>
+                    @endforeach
+                </tbody>
+            </table>
+
+            <div class="mt-3">
+                <p><strong>Total Nilai:</strong> {{ $total }}</p>
+                <p><strong>Rata-rata:</strong> {{ number_format($rata2, 2) }} ({{ $kategori }})</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Catatan -->
+    <div class="card mb-4">
+        <div class="card-header bg-warning">Catatan</div>
+        <div class="card-body">
+            <p>{{ $nilai->catatan ?? 'Tidak ada catatan.' }}</p>
+        </div>
+    </div>
+
+    <!-- Tombol Aksi -->
+    <a href="{{ route('nilai.index') }}" class="btn btn-secondary">⬅ Kembali</a>
+    <a href="##" class="btn btn-outline-primary" target="_blank">🖨 Cetak PDF</a>
+    @can('update', $nilai)
+    <a href="##" class="btn btn-warning">✏ Edit</a>
+    @endcan
 </div>
 @endsection
 

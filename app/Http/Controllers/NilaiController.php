@@ -26,7 +26,7 @@ class NilaiController extends Controller
         $peserta = Peserta::with('nilai','pembimbing')->findOrFail($peserta_id);
 
         return view('nilai.show', [
-            'title' => 'Detail Nilai Peserta',
+            'title' => 'Detail Penilaian Kinerja Peserta Magang',
             'peserta' => $peserta,
             'nilai' => $peserta->nilai,
             'pembimbing' => $peserta->pembimbing,
