@@ -64,6 +64,16 @@
                     @error('bidang_id') <span class="text-danger">{{ $message }}</span> @enderror
                 </div>
                 <div class="mb-3">
+                    <label for="tgl_mulai_magang" class="form-label">Tanggal Mulai Magang</label>
+                    <input type="date" class="form-control" id="tgl_mulai_magang" wire:model="tgl_mulai_magang" placeholder="Masukkan tanggal mulai magang">
+                    @error('tgl_mulai_magang') <span class="text-danger">{{ $message }}</span> @enderror
+                </div>
+                <div class="mb-3">
+                    <label for="tgl_selesai_magang_rencana" class="form-label">Tanggal Selesai Magang</label>
+                    <input type="date" class="form-control" id="tgl_selesai_magang_rencana" wire:model="tgl_selesai_magang_rencana" placeholder="Masukkan tanggal selesai magang">
+                    @error('tgl_selesai_magang_rencana') <span class="text-danger">{{ $message }}</span> @enderror
+                </div>
+                <div class="mb-3">
                     <label for="surat_pengantar" class="form-label">Surat Pengantar</label>
                     <input type="file" class="form-control" id="surat_pengantar" wire:model="surat_pengantar">
                     @error('surat_pengantar') <span class="text-danger">{{ $message }}</span> @enderror

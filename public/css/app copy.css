@@ -1,0 +1,698 @@
+/* public/css/app.css */
+
+/* --- GLOBAL RESET & FONDASI --- */
+* {
+    border-radius: 0 !important;
+    /* Hilangkan semua border-radius Bootstrap */
+    box-shadow: none !important;
+    /* Hilangkan semua box-shadow default Bootstrap */
+}
+
+html,
+body {
+    height: 100%;
+    font-size: .875rem;
+    /* Ukuran font dasar */
+}
+
+body {
+    font-family: 'Nunito', sans-serif;
+    /* Pertahankan font Nunito atau ganti */
+    background-color: #F3F4F6;
+    /* Latar belakang dasar abu-abu terang */
+    color: #333333;
+    /* Warna teks default yang gelap */
+    overflow-x: hidden;
+    /* Mencegah scroll horizontal yang tidak diinginkan */
+}
+
+a {
+    color: #3B82F6;
+    /* Warna link biru kuat */
+    text-decoration: none;
+    transition: color 0.15s ease-in-out;
+}
+
+a:hover {
+    color: #2563EB;
+    /* Biru lebih gelap saat hover */
+}
+
+/* Feather Icons (ukuran tetap 16px) */
+.feather {
+    width: 16px;
+    height: 16px;
+}
+
+/* Font ukuran kecil (jika digunakan) */
+.small-font {
+    font-size: 0.875rem;
+}
+
+/* --- NAVBAR NEOBRUTALISM --- */
+.navbar.topbar {
+    background-color: #3B82F6 !important;
+    /* LATAR BELAKANG NAVBAR: BIRU AKAR */
+    border-bottom: 4px solid #000000;
+    /* Garis bawah hitam tebal */
+    border-right: 4px solid #000000;
+    /* Garis kanan hitam tebal */
+    box-shadow: 8px 8px 0 0 #000000 !important;
+    /* Offset shadow hitam tebal */
+    position: relative;
+    margin-bottom: 2.5rem !important;
+    /* Spasi bawah lebih besar */
+    padding: 1.25rem 2rem !important;
+    /* Padding lebih besar */
+    color: #FFFFFF !important;
+    /* Warna teks default di navbar jadi putih */
+}
+
+/* Tombol Sidebar Toggle (Hamburger) */
+#sidebarToggleTop {
+    background-color: #3B82F6 !important;
+    /* Biru */
+    color: #FFFFFF !important;
+    /* Teks ke putih */
+    border: 2px solid #000000 !important;
+    box-shadow: 4px 4px 0 0 #000000 !important;
+    /* Offset shadow tombol */
+    transition: transform 0.1s ease-in-out, box-shadow 0.1s ease-in-out;
+    padding: 0.75rem 1rem !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 1rem !important;
+    /* Jarak dari search bar */
+}
+
+#sidebarToggleTop:hover {
+    background-color: #2563EB !important;
+    /* Biru lebih gelap saat hover */
+}
+
+#sidebarToggleTop:active {
+    transform: translate(4px, 4px);
+    box-shadow: none !important;
+}
+
+#sidebarToggleTop i {
+    /* Ikon Font Awesome di tombol */
+    color: #FFFFFF !important;
+    font-size: 1.2rem;
+}
+
+/* Form Search di Navbar */
+.navbar-search {
+    margin-left: 1.5rem !important;
+    /* Geser ke kiri */
+    max-width: 350px !important;
+    /* Atur lebar maksimum */
+}
+
+.navbar-search .input-group {
+    box-shadow: 4px 4px 0 0 #000000 !important;
+    /* Shadow ke group input */
+    height: auto !important;
+    /* Tinggi otomatis */
+}
+
+.navbar-search .form-control {
+    border: 2px solid #000000 !important;
+    background-color: #FFFFFF !important;
+    /* Latar belakang input putih */
+    color: #333333 !important;
+    /* Teks gelap */
+    padding: 0.5rem 1rem !important;
+    /* Padding lebih kecil */
+    font-size: 0.95rem;
+    box-shadow: none !important;
+    /* Hilangkan shadow bawaan Bootstrap */
+}
+
+.navbar-search .form-control::placeholder {
+    color: #666666;
+}
+
+.navbar-search .form-control:focus {
+    border-color: #3B82F6 !important;
+    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.25) !important;
+}
+
+/* Tombol Search */
+.navbar-search .input-group-append .btn-primary {
+    background-color: #2563EB !important;
+    /* Biru lebih gelap */
+    border: 2px solid #000000 !important;
+    border-left: none !important;
+    /* Menghilangkan border kiri agar menyatu */
+    color: #FFFFFF !important;
+    padding: 0.5rem 1rem !important;
+    box-shadow: 2px 2px 0 0 #000000 !important;
+    /* Shadow tombol lebih kecil */
+    transition: transform 0.1s ease-in-out, box-shadow 0.1s ease-in-out;
+}
+
+.navbar-search .input-group-append .btn-primary:hover {
+    background-color: #1E40AF !important;
+    /* Biru lebih gelap lagi saat hover */
+}
+
+.navbar-search .input-group-append .btn-primary:active {
+    transform: translate(2px, 2px);
+    box-shadow: none !important;
+}
+
+/* Divider (garis pemisah di navbar) */
+/* Hapus elemen HTML .topbar-divider jika tidak diinginkan */
+.topbar-divider {
+    background-color: #FFFFFF !important;
+    /* Putih jika background navbar biru */
+    width: 4px !important;
+    height: 60px !important;
+    margin: 0 1rem !important;
+    align-self: stretch;
+}
+
+/* User Info (Nama & Gambar Profil) */
+.nav-item.no-arrow {
+    /* Hapus class 'dropdown' jika sudah tidak ada dropdown */
+    margin-left: 1rem;
+    /* Jarak dari search bar */
+    margin-right: 0.5rem;
+}
+
+.nav-item.no-arrow .nav-link {
+    display: flex;
+    align-items: center;
+    padding-right: 0 !important;
+    outline: none !important;
+    border: none !important;
+    box-shadow: none !important;
+    background-color: transparent !important;
+    cursor: default !important;
+    /* Ubah kursor menjadi panah biasa, bukan pointer */
+}
+
+.nav-item.no-arrow .nav-link .mr-2 {
+    color: #FFFFFF !important;
+    /* Teks nama pengguna ke putih */
+    font-weight: 700 !important;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    font-size: 0.9rem;
+    transition: color 0.15s ease-in-out;
+}
+
+.nav-item.no-arrow .nav-link:hover .mr-2 {
+    color: #FDE047 !important;
+    /* Aksen kuning saat hover */
+}
+
+.nav-item.no-arrow .nav-link .img-profile {
+    border-radius: 50% !important;
+    /* FOTO PROFIL BULAT */
+    border: none !important;
+    /* TANPA BORDER */
+    box-shadow: none !important;
+    /* TANPA SHADOW */
+    object-fit: cover;
+    transition: none !important;
+    /* Hilangkan transisi */
+    width: 40px;
+    /* Ukuran default */
+    height: 40px;
+    /* Ukuran default */
+}
+
+.nav-item.no-arrow .nav-link .img-profile:hover {
+    transform: none !important;
+    /* Hilangkan transform saat hover */
+    box-shadow: none !important;
+    /* Hilangkan shadow saat hover */
+}
+
+/* --- SIDEBAR NEOBRUTALISM --- */
+.sidebar {
+    background-color: #3B82F6 !important;
+    /* LATAR BELAKANG SIDEBAR: BIRU AKAR */
+    border-right: 4px solid #000000;
+    /* Garis kanan tebal */
+    box-shadow: 8px 0 0 0 #000000 !important;
+    /* Offset shadow di sisi kanan */
+    position: relative;
+    padding-top: 0 !important;
+    /* Reset padding-top default SB Admin 2 */
+    overflow-x: hidden;
+    min-height: 100vh;
+}
+
+.sidebar.bg-gradient-primary {
+    /* Timpa gradien default SB Admin 2 */
+    background-image: none !important;
+    background-color: #3B82F6 !important;
+}
+
+/* Sidebar yang disembunyikan (toggled) */
+.sidebar.toggled {
+    width: 6.5rem !important;
+    overflow: hidden;
+}
+
+.sidebar.toggled .nav-item .nav-link {
+    text-align: center;
+    padding: 0.75rem 0 !important;
+}
+
+.sidebar.toggled .nav-item .nav-link i {
+    margin-right: 0;
+    margin-bottom: 0.25rem;
+    display: block;
+}
+
+.sidebar.toggled .sidebar-brand {
+    padding: 1.5rem 0 !important;
+}
+
+.sidebar.toggled .sidebar-brand .sidebar-brand-icon,
+.sidebar.toggled .sidebar-brand .sidebar-brand-text {
+    display: block !important;
+}
+
+.sidebar.toggled .sidebar-brand .sidebar-brand-icon {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+}
+
+.sidebar.toggled .sidebar-heading,
+.sidebar.toggled .sidebar-divider.d-none.d-md-block,
+.sidebar.toggled .text-center.d-none.d-md-inline {
+    display: none !important;
+}
+
+/* Sidebar Brand (Logo/Nama Aplikasi) */
+.sidebar .sidebar-brand {
+    background-color: #3B82F6 !important;
+    /* Biru (tetap) */
+    background-image: none !important;
+    border-bottom: 4px solid #000000 !important;
+    box-shadow: 0 4px 0 0 #000000 !important;
+    color: #FFFFFF !important;
+    /* Teks putih */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.sidebar .sidebar-brand .sidebar-brand-icon {
+    width: 70px;
+    height: auto;
+    margin-right: 0.5rem !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.sidebar .sidebar-brand .sidebar-brand-icon img {
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    border: none !important;
+}
+
+.sidebar .sidebar-brand .sidebar-brand-text {
+    color: #FFFFFF !important;
+    /* Teks putih */
+    font-weight: 900 !important;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-size: 1.25rem !important;
+    line-height: 1.2;
+}
+
+/* Nav Item (Link Sidebar) */
+.sidebar .nav-item .nav-link {
+    color: #FFFFFF !important;
+    /* Teks link default ke putih */
+    font-weight: 600 !important;
+    padding: 0.75rem 1.5rem !important;
+    transition: background-color 0.15s ease-in-out, color 0.15s ease-in-out;
+}
+
+.sidebar .nav-item .nav-link i {
+    color: #F3F4F6;
+    /* Ikon agak abu-abu putih */
+    margin-right: 0.75rem;
+    font-size: 1.1rem;
+    transition: color 0.15s ease-in-out;
+}
+
+.sidebar .nav-item .nav-link:hover {
+    background-color: #2563EB !important;
+    /* Biru lebih gelap saat hover */
+    color: #FFFFFF !important;
+}
+
+.sidebar .nav-item .nav-link:hover i {
+    color: #FFFFFF !important;
+}
+
+/* Nav Item Aktif */
+.sidebar .nav-item.active .nav-link {
+    background-color: #2563EB !important;
+    /* Biru lebih gelap */
+    color: #FFFFFF !important;
+    border-right: 4px solid #000000 !important;
+    box-shadow: 4px 0 0 0 #000000 !important;
+    padding-left: calc(1.5rem - 4px) !important;
+}
+
+.sidebar .nav-item.active .nav-link i {
+    color: #FFFFFF !important;
+}
+
+/* Sidebar Heading (CRUD, Interface, Addons) */
+.sidebar .sidebar-heading {
+    color: #F3F4F6 !important;
+    /* Ubah heading ke abu-abu putih */
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    font-weight: 700;
+    margin-top: 1.5rem;
+    margin-bottom: 0.5rem;
+    padding-left: 1.5rem;
+}
+
+/* Sidebar Divider */
+.sidebar hr.sidebar-divider {
+    border-top: 2px solid #F3F4F6 !important;
+    /* Ubah divider ke abu-abu putih */
+    margin: 1.5rem 0 !important;
+}
+
+/* Tombol Keluar (Logout Button) */
+.sidebar .nav-item .nav-link[onclick*="logout-form"] {
+    color: #EF4444 !important;
+    font-weight: 700 !important;
+}
+
+.sidebar .nav-item .nav-link[onclick*="logout-form"] i {
+    color: #EF4444 !important;
+}
+
+.sidebar .nav-item .nav-link[onclick*="logout-form"]:hover {
+    background-color: #FEE2E2 !important;
+    color: #DC2626 !important;
+}
+
+.sidebar .nav-item .nav-link[onclick*="logout-form"]:hover i {
+    color: #DC2626 !important;
+}
+
+/* Sidebar Toggler (Tombol Sembunyikan Sidebar) */
+.text-center.d-none.d-md-inline #sidebarToggle {
+    background-color: #3B82F6 !important;
+    /* Biru */
+    border: 2px solid #000000 !important;
+    box-shadow: 4px 4px 0 0 #000000 !important;
+    transition: transform 0.1s ease-in-out, box-shadow 0.1s ease-in-out;
+    padding: 0.5rem;
+    width: 32px;
+    height: 32px;
+    display: inline-block;
+    cursor: pointer;
+}
+
+.text-center.d-none.d-md-inline #sidebarToggle:active {
+    transform: translate(2px, 2px);
+    box-shadow: none !important;
+}
+
+/* --- KONTEN UTAMA --- */
+#content-wrapper {
+    background-color: #F3F4F6;
+}
+
+#main-content {
+    min-height: calc(100vh - 56px);
+    /* Sesuaikan tinggi agar ada ruang footer jika ada */
+}
+
+.container-fluid {
+    padding: 1.5rem !important;
+}
+
+/* Judul Halaman (H1) */
+.container-fluid .h2 {
+    color: #000000;
+    font-weight: 900 !important;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid #000000;
+}
+
+/* Bagian border-bottom untuk judul */
+.d-flex.justify-content-between.flex-wrap.flex-md-nowrap.align-items-center.pt-1.pb-2.mb-3.border-bottom {
+    border-bottom: 2px solid #000000 !important;
+    margin-bottom: 2rem !important;
+    padding-bottom: 1rem !important;
+}
+
+/* --- TOMBOL UMUM --- */
+.btn {
+    border-radius: 0 !important;
+    font-weight: 700 !important;
+    text-transform: uppercase;
+    letter-spacing: 0.025em;
+    padding: 0.75rem 1.5rem !important;
+    border: 2px solid #000000 !important;
+    box-shadow: 4px 4px 0 0 #000000 !important;
+    transition: transform 0.1s ease-in-out, box-shadow 0.1s ease-in-out, background-color 0.15s ease-in-out;
+}
+
+.btn:active,
+.btn.active {
+    transform: translate(4px, 4px) !important;
+    box-shadow: none !important;
+}
+
+/* Primary Button */
+.btn-primary {
+    background-color: #3B82F6 !important;
+    /* Biru kuat */
+    color: #FFFFFF !important;
+}
+
+.btn-primary:hover {
+    background-color: #2563EB !important;
+    /* Biru lebih gelap saat hover */
+}
+
+/* Secondary Button */
+.btn-secondary {
+    background-color: #6B7280 !important;
+    /* Abu-abu sedang */
+    color: #FFFFFF !important;
+}
+
+.btn-secondary:hover {
+    background-color: #4B5563 !important;
+}
+
+/* Success Button */
+.btn-success {
+    background-color: #22C55E !important;
+    /* Hijau cerah */
+    color: #FFFFFF !important;
+}
+
+.btn-success:hover {
+    background-color: #16A34A !important;
+}
+
+/* Danger Button */
+.btn-danger {
+    background-color: #EF4444 !important;
+    /* Merah cerah */
+    color: #FFFFFF !important;
+}
+
+.btn-danger:hover {
+    background-color: #DC2626 !important;
+}
+
+/* Warning Button */
+.btn-warning {
+    background-color: #3B82F6 !important;
+    /* Ganti ke biru */
+    color: #FFFFFF !important;
+    /* Teks ke putih */
+}
+
+.btn-warning:hover {
+    background-color: #2563EB !important;
+    /* Biru lebih gelap saat hover */
+}
+
+/* Info Button */
+.btn-info {
+    background-color: #06B6D4 !important;
+    /* Cyan */
+    color: #FFFFFF !important;
+}
+
+.btn-info:hover {
+    background-color: #0891B2 !important;
+}
+
+/* Light Button (untuk background terang, border hitam) */
+.btn-light {
+    background-color: #FFFFFF !important;
+    color: #333333 !important;
+    border: 2px solid #000000 !important;
+    box-shadow: 4px 4px 0 0 #000000 !important;
+}
+
+.btn-light:hover {
+    background-color: #F3F4F6 !important;
+}
+
+/* Dark Button */
+.btn-dark {
+    background-color: #000000 !important;
+    color: #FFFFFF !important;
+}
+
+.btn-dark:hover {
+    background-color: #1A1A1A !important;
+}
+
+/* Link Button */
+.btn-link {
+    color: #3B82F6 !important;
+    text-decoration: underline !important;
+    border: none !important;
+    box-shadow: none !important;
+    background-color: transparent !important;
+    padding: 0 !important;
+}
+
+.btn-link:hover {
+    color: #2563EB !important;
+    text-decoration: none !important;
+    box-shadow: none !important;
+}
+
+/* --- CARD NEOBRUTALISM --- */
+.card {
+    border: 4px solid #000000 !important;
+    /* Border hitam tebal */
+    box-shadow: 8px 8px 0 0 #000000 !important;
+    /* Offset shadow */
+    background-color: #FFFFFF !important;
+    margin-bottom: 1.5rem;
+}
+
+.card .card-header {
+    background-color: #F3F4F6 !important;
+    /* Header abu-abu terang */
+    border-bottom: 2px solid #000000 !important;
+    /* Garis bawah header */
+    color: #000000 !important;
+    font-weight: 700;
+    padding: 1rem 1.25rem !important;
+    text-transform: uppercase;
+}
+
+.card .card-body {
+    padding: 1.25rem !important;
+}
+
+/* Card dengan header primer/sekunder */
+.card.bg-primary,
+.card.bg-secondary,
+.card.bg-success,
+.card.bg-danger,
+.card.bg-warning,
+.card.bg-info,
+.card.bg-light,
+.card.bg-dark {
+    color: #FFFFFF !important;
+    border: 2px solid #000000 !important;
+    box-shadow: 6px 6px 0 0 #000000 !important;
+}
+
+.card.bg-warning {
+    color: #000000 !important;
+}
+
+/* --- INPUT FORMULIR --- */
+.form-control,
+.form-select,
+.form-check-input,
+.form-range {
+    border-radius: 0 !important;
+    border: 2px solid #000000 !important;
+    padding: 0.75rem 1rem !important;
+    font-size: 0.95rem;
+    color: #333333;
+    background-color: #F3F4F6 !important;
+    box-shadow: none !important;
+}
+
+.form-control:focus,
+.form-select:focus,
+.form-check-input:focus,
+.form-range:focus {
+    border-color: #3B82F6 !important;
+    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.25) !important;
+    background-color: #FFFFFF !important;
+}
+
+/* Checkbox/Radio */
+.form-check-input:checked {
+    background-color: #3B82F6 !important;
+    border-color: #3B82F6 !important;
+}
+
+.form-check-input:focus {
+    box-shadow: 0 0 0 0.25rem rgba(59, 130, 246, 0.25) !important;
+}
+
+/* --- FOOTER --- */
+footer.sticky-footer {
+    background-color: #FFFFFF !important;
+    border-top: 4px solid #000000;
+    box-shadow: 0 -4px 0 0 #000000 !important;
+    padding: 1.5rem 0 !important;
+    margin-top: 2.5rem;
+}
+
+footer.sticky-footer .copyright {
+    color: #333333 !important;
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+/* --- RESPONSIVE ADJUSTMENTS --- */
+@media (max-width: 768px) {
+    .navbar.topbar {
+        box-shadow: 4px 4px 0 0 #000000 !important;
+    }
+
+    .sidebar {
+        box-shadow: 4px 0 0 0 #000000 !important;
+    }
+
+    .btn {
+        box-shadow: 2px 2px 0 0 #000000 !important;
+    }
+
+    .btn:active {
+        transform: translate(2px, 2px) !important;
+    }
+
+    .card {
+        box-shadow: 4px 4px 0 0 #000000 !important;
+    }
+}

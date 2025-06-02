@@ -18,7 +18,7 @@
 </head>
 <body>
     <div class="header">
-        <img src="{{ public_path('logo-banjarmasin.png') }}" alt="Logo" style="height:70px;float:left;margin-right:10px;">
+        <img src="{{ $base64Image }}" alt="Logo" style="height:70px; float:left; width:auto; position: relative; z-index: 1; margin-top: 10px;">
         <div>
             <div class="kop">PEMERINTAH KOTA BANJARMASIN</div>
             <div class="kop">DINAS KETAHANAN PANGAN, PERTANIAN DAN PERIKANAN</div>
@@ -71,6 +71,7 @@
     </div>
     <div class="ttd">
         <div class="bold">Disahkan secara elektronik oleh:</div>
+        <br>
         <img src="data:image/svg+xml;base64,{{ $qrCode }}" alt="QR Code">
         <p class="bold">Hj. Ruziah, SE, M.AP</p>
         <p>Pembina Tingkat I</p>

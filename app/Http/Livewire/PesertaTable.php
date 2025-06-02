@@ -113,11 +113,46 @@ final class PesertaTable extends PowerGridComponent
             return;
         }
 
-        $selectedData = Peserta::whereIn('id', $this->checkedValues())
-        ->get();
+        // --- Bagian Baru untuk Gambar Base64 ---
+        $imagePath = public_path('storage/assets/logobjm.png'); // Jalur fisik ke gambar Anda
+        $base64Image = ''; // Inisialisasi variabel
 
-        $pdf = Pdf::loadView('exports.PesertaPdf', compact('selectedData'))
-        ->setPaper('a4', 'potrait');
+        if (file_exists($imagePath)) {
+            $imageData = file_get_contents($imagePath); // Baca isi file gambar
+            $imageType = pathinfo($imagePath, PATHINFO_EXTENSION); // Dapatkan ekstensi file (png)
+            $base64Image = 'data:image/' . $imageType . ';base64,' . base64_encode($imageData);
+        } else {
+            // Opsional: Log pesan error jika gambar tidak ditemukan
+            //
+        }
+        // --- Akhir Bagian Baru ---
+
+        // $selectedData = Peserta::whereIn('id', $this->checkedValues())
+        // ->get();
+
+        // Mulai membangun query untuk data yang dipilih
+        $query = Peserta::whereIn('id', $selectedIds);
+
+        // Terapkan sorting dari PowerGrid
+        // Untuk PowerGrid v5.x dan yang lebih baru, gunakan $this->sortField
+        if (isset($this->sortField) && !empty($this->sortField) && isset($this->sortDirection)) {
+            $sortField = $this->sortField;
+            $sortDirection = $this->sortDirection;
+            $query->orderBy($sortField, $sortDirection);
+        }
+        // Untuk versi PowerGrid yang lebih lama, mungkin menggunakan $this->sortField dan $this->sortDirection
+        // elseif (isset($this->sortField) && !empty($this->sortField) && isset($this->sortDirection)) {
+        //     $query->orderBy($this->sortField, $this->sortDirection);
+        // }
+        else {
+            // Fallback jika tidak ada sorting aktif di PowerGrid (misalnya, urutkan berdasarkan ID)
+            $query->orderBy('id', 'asc');
+        }
+
+        $selectedData = $query->get();
+
+        $pdf = Pdf::loadView('exports.PesertaPdf', compact('selectedData', 'base64Image'))
+        ->setPaper('a4', 'portrait');
 
         return response()->streamDownload(
             fn() => print($pdf->output()),
@@ -197,7 +232,7 @@ final class PesertaTable extends PowerGridComponent
                 // Cek apakah foto ada, jika ada tampilkan dalam bentuk link
                 return $model->foto 
                     ? '<a href="' . asset('storage/' . $model->foto) . '" target="_blank">
-                        <img src="' . asset('storage/' . $model->foto) . '" alt="Foto Peserta" width="50" height="50">
+                        <img src="' . asset('storage/' . $model->foto) . '" alt="Foto Peserta" width="20" height="20" class="d-block mx-auto" >
                     </a>'
                     : 'No photo';
             })
@@ -245,12 +280,12 @@ final class PesertaTable extends PowerGridComponent
 
             Column::make('Bidang', 'bidang', 'bidangs.name')
                 ->searchable()
-                ->makeInputMultiSelect(Bidang::all(), 'name', 'peserta_bidang_id')
+                ->makeInputText()
                 ->sortable(),
 
-            Column::make('Pembimbing', 'pembimbingname')
+            Column::make('Pembimbing', 'pembimbingname', 'pembimbing.name')
                 ->searchable()
-                ->makeInputMultiSelect(Pembimbing::all(), 'name', 'pembimbing_id')
+                ->makeInputText()
                 ->sortable(),
 
             Column::make('Foto', 'foto')

@@ -9,7 +9,9 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Livewire\PendaftaranIndex;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\TestController;
 use App\Http\Controllers\UserController;
+use App\Http\Livewire\SertifikatPeserta;
 use App\Http\Controllers\NilaiController;
 use App\Http\Controllers\BidangController;
 use App\Http\Controllers\AbsensiController;
@@ -21,9 +23,10 @@ use App\Http\Livewire\PendaftaranCreateForm;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\KehadiranController;
 use App\Http\Controllers\PembimbingController;
+use App\Http\Controllers\SertifikatController;
 use App\Http\Controllers\PendaftaranController;
+use App\Http\Controllers\StatusMagangController;
 use App\Http\Controllers\DashboardPembimbingController;
-use App\Http\Controllers\TestController;
 use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 
 /*
@@ -36,6 +39,14 @@ use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 | contains the "web" middleware group. Now create something great!
 |
 */
+Route::get('/pendaftaran/create', [PendaftaranController::class, 'create'])->name('pendaftaran.create');
+Route::get('/', function () {
+    if (auth()->check()) {
+        return redirect()->route('dashboard.index');
+    }
+    return view('landing_page');
+});
+
 
 Route::middleware('auth')->group(function () {
     Route::middleware('role:admin,pembimbing')->group(function () {
@@ -56,6 +67,7 @@ Route::middleware('auth')->group(function () {
         Route::get('kegiatan/edit', [KegiatanController::class, 'edit'])->name('kegiatan.edit');
         // nilai
         Route::resource('/nilai', NilaiController::class)->only(['index']);
+        Route::get('/nilai/{peserta_id}/pdf', [NilaiController::class, 'exportPdf'])->name('nilai.exportPdf');
         // not present data
         Route::get('/kehadiran/{absensi}/not-present', [KehadiranController::class, 'notPresent'])->name('kehadiran.not-present');
         Route::post('/kehadiran/{absensi}/not-present', [KehadiranController::class, 'notPresent']);
@@ -82,7 +94,14 @@ Route::middleware('auth')->group(function () {
         // pendaftaran
         Route::resource('/pendaftaran', PendaftaranController::class)->only(['index']);
         Route::post('/pendaftaran/{id}/approve', [PendaftaranController::class, 'approve'])->name('pendaftaran.approve');
-        Route::post('/pendaftaran/{id}/reject', [PendaftaranController::class, 'reject'])->name('pendaftaran.reject');  
+        Route::post('/pendaftaran/{id}/reject', [PendaftaranController::class, 'reject'])->name('pendaftaran.reject');
+        // Sertifikat (Admin)
+        Route::get('/admin/sertifikat-persetujuan', [SertifikatController::class, 'indexAdmin'])->name('sertifikat.indexAdmin');
+
+        // Rute untuk halaman Status Magang
+        Route::get('/status-magang', [StatusMagangController::class, 'index'])->name('status_magang.index');
+        // Rute untuk menampilkan form edit status
+        Route::get('/status-magang/edit', [StatusMagangController::class, 'edit'])->name('status_magang.edit');
     });
 
     Route::middleware('role:pembimbing')->group(function () {
@@ -90,30 +109,39 @@ Route::middleware('auth')->group(function () {
         Route::resource('/nilai', NilaiController::class)->only(['index']);
         Route::get('/nilai/create', [NilaiController::class, 'create'])->name('nilai.create');
         Route::get('/nilai/{peserta_id}', [NilaiController::class, 'show'])->name('nilai.show');
+        // Sertifikat (Pembimbing)
+        Route::get('/pembimbing/sertifikat-persetujuan', [SertifikatController::class, 'indexPembimbing'])->name('sertifikat.indexPembimbing');
     });
 
     Route::middleware('role:user')->name('home.')->group(function () {
-        Route::get('/', [HomeController::class, 'index'])->name('index');
+        Route::get('/home', [HomeController::class, 'index'])->name('index');
         // desctination after scan qrcode
         Route::post('/absensi/qrcode', [HomeController::class, 'sendEnterPresenceUsingQRCode'])->name('sendEnterPresenceUsingQRCode');
         Route::post('/absensi/qrcode/out', [HomeController::class, 'sendOutPresenceUsingQRCode'])->name('sendOutPresenceUsingQRCode');
 
         Route::get('/absensi/{absensi}', [HomeController::class, 'show'])->name('show');
         Route::get('/absensi/{absensi}/izin', [HomeController::class, 'permission'])->name('permission');
-        // kegiatan
-        Route::get('/kegiatanpeserta', [KegiatanController::class, 'indexPeserta'])->name('kegiatanPeserta');
-        Route::post('/kegiatan', [KegiatanController::class, 'store'])->name('kegiatan.store');
-        Route::delete('/kegiatan/{id}', [KegiatanController::class, 'destroy'])->name('kegiatan.destroy');
-        Route::get('home/kegiatan/{id}/edit', [KegiatanController::class, 'edit'])->name('home.kegiatan.edit');
+        
+        // Sertifikat (Peserta)
+        Route::get('/sertifikat/pengajuan', [SertifikatController::class, 'indexPeserta'])->name('sertifikat.indexPeserta');
+
+
+
         // Route untuk menyimpan perubahan (update) kegiatan
         Route::put('home/kegiatan/{id}', [KegiatanController::class, 'update'])->name('home.kegiatan.update');
     });
+
+    Route::get('/sertifikat/{peserta_id}/download', [SertifikatController::class, 'downloadCertificate'])->name('peserta.sertifikat.download');
 
     Route::middleware('role:admin,pembimbing,user')->group(function() {
         // account
         Route::resource('/account', AccountController::class)->only(['index']);
         Route::put('/account/edit', [AccountController::class, 'update'])->name('account.update');
         Route::get('/surat', [TestController::class, 'test'])->name('test.surat');
+
+        // kegiatan
+        Route::resource('/kegiatan', KegiatanController::class)->only(['index', 'create']);
+        Route::get('kegiatan/edit', [KegiatanController::class, 'edit'])->name('kegiatan.edit');
     });
 
     Route::delete('/logout', [AuthController::class, 'logout'])->name('auth.logout');
@@ -130,4 +158,3 @@ Route::middleware('guest')->group(function () {
 // pendaftaran peserta
 // Route::get('/pendaftaran', PendaftaranIndex::class)->name('pendaftaran.index');
 // Route::get('/pendaftaran/create', PendaftaranCreateForm::class)->name('pendaftaran.create');
-Route::get('/pendaftaran/create', [PendaftaranController::class, 'create'])->name('pendaftaran.create');

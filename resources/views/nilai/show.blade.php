@@ -1,158 +1,144 @@
 @extends('layouts.app')
 
 @push('style')
-@powerGridStyles
-@endpush
+    @powerGridStyles
 
 @section('buttons')
-{{-- <div class="btn-toolbar d-flex justify-content-between mb-2 mb-md-2">
-    <div class="ms-2">
-        <a href="{{ route('peserta.index') }}" class="btn btn-sm btn-secondary">
-            <span data-feather="arrow-left" class="align-text-bottom me-1"></span>
-            Kembali ke Daftar Peserta
-        </a>
-        <a href="{{ route('nilai.create') }}" class="btn btn-sm btn-primary ms-2">
-            <span data-feather="plus-circle" class="align-text-bottom me-1"></span>
-            Tambah Nilai Peserta Magang
-        </a>
-    </div>
-</div> --}}
+    {{-- Anda bisa menambahkan tombol Tambah di sini jika ini adalah halaman utama list nilai --}}
 @endsection
 
 @section('content')
-@include('partials.alerts')
+    @include('partials.alerts')
 
-{{-- <div class="container">
-    <div class="row">
-        <div class="col-md-6">
-            <div class="card shadow-sm mb-4">
-                <div class="card-header bg-primary text-white">
-                    <strong>Data Peserta</strong>
-                </div>
-                <div class="card-body">
-                    <ul class="list-group list-group-flush">
-                        <li class="list-group-item"><strong>Nama:</strong> {{ $peserta->name ?? '-' }}</li>
-                        <li class="list-group-item"><strong>NPM / NIM:</strong> {{ $peserta->npm ?? '-' }}</li>
-                        <li class="list-group-item"><strong>Pembimbing:</strong> {{ $pembimbing->name ?? '-' }}</li>
-                    </ul>
-                </div>
+    <div class="container-fluid mt-2"> {{-- Gunakan container-fluid untuk lebar penuh atau container untuk lebar tetap --}}
+
+        <div class="d-flex justify-content-between align-items-center mb-2">
+            <h1 class="h2 text-dark">{{ $peserta->name }}</h1> {{-- Judul utama adalah nama peserta --}}
+            <div class="d-flex gap-2"> {{-- Gunakan flexbox gap untuk jarak antar tombol --}}
+                {{-- Tombol Aksi - Pindahkan ke sini untuk konsistensi --}}
+                <a href="{{ route('nilai.index') }}" class="btn btn-secondary btn-sm px-4">
+                    <i class="bi bi-arrow-left me-2"></i> Kembali
+                </a>
+                <a href="{{ route('nilai.exportPdf', $peserta->id) }}" class="btn btn-outline-primary btn-sm px-4" target="_blank">
+                    <i class="bi bi-printer me-2"></i> Cetak PDF
+                </a>
+                @can('update', $nilai)
+                    <a href="##" class="btn btn-warning btn-sm px-4">
+                        <i class="bi bi-pencil-square me-2"></i> Edit
+                    </a>
+                @endcan
             </div>
         </div>
-        <div class="col-md-6">
-            <div class="card shadow-sm mb-4">
-                <div class="card-header bg-success text-white">
-                    <strong>Nilai Peserta</strong>
-                </div>
-                <div class="card-body">
-                    @if($nilai)
-                        <p>
-                            <strong>Nilai Akhir:</strong>
-                            <span class="badge bg-info fs-5">{{ $nilai->kepuasan ?? '-' }}</span>
-                        </p>
-                        <p>
-                            <strong>Keterangan:</strong><br>
-                            <span class="text-muted">{{ $nilai->catatan ?? '-' }}</span>
-                        </p>
-                    @else
-                        <div class="alert alert-warning mb-0">
-                            Belum ada data nilai untuk peserta ini.
+
+        <div class="row">
+            <div class="col-lg-5 col-md-12 mb-4"> {{-- Kolom untuk Informasi Umum dan Catatan --}}
+                <div class="card shadow-sm border-0 h-100"> {{-- Tambahkan shadow-sm dan border-0 --}}
+                    <div class="card-header bg-primary text-white border-bottom-0 rounded-top"> {{-- Gunakan gradient --}}
+                        <h5 class="mb-0 text-light">Informasi Peserta</h5> {{-- Gunakan h5 atau h6 untuk judul card --}}
+                    </div>
+                    <div class="card-body">
+                        <div class="info-item mb-2">
+                            <strong>Nama:</strong> {{ $peserta->name }}
                         </div>
-                    @endif
+                        <div class="info-item mb-2">
+                            <strong>NIM:</strong> {{ $peserta->npm ?? '-' }}
+                        </div>
+                        <div class="info-item mb-2">
+                            <strong>Universitas:</strong> {{ $peserta->univ ?? '-' }}
+                        </div>
+                        <div class="info-item mb-2">
+                            <strong>Pembimbing:</strong> {{ $peserta->pembimbing->name }}
+                        </div>
+                        <div class="info-item mb-2">
+                            <strong>Bidang:</strong> {{ $peserta->bidang->name ?? '-' }}
+                        </div>
+                        {{-- <div class="info-item mb-0"> --}}
+                            {{-- <strong>Periode Magang:</strong> {{ $peserta->periode ?? '-' }} --}}
+                        {{-- </div> --}}
+                    </div>
                 </div>
             </div>
-        </div>
-    </div>
-</div> --}}
 
-<div class="container mt-4">
-    {{-- <h2 class="mb-4">Detail Penilaian Kinerja Peserta Magang</h2> --}}
+            <div class="col-lg-7 col-md-12 mb-4"> {{-- Kolom untuk Penilaian --}}
+                <div class="card shadow-sm border-0 h-100">
+                    <div class="card-header bg-success text-white border-bottom-0 rounded-top">
+                        <h5 class="mb-0 text-light">Penilaian Kinerja</h5>
+                    </div>
+                    <div class="card-body p-0"> {{-- Hapus padding dari card-body agar tabel mengambil penuh --}}
+                        <table class="table table-striped table-hover mb-0"> {{-- Gunakan table-striped dan table-hover --}}
+                            <thead class="bg-light"> {{-- Gunakan bg-light untuk thead --}}
+                                <tr>
+                                    <th class="py-3 px-4">No</th>
+                                    <th class="py-3 px-4">Kriteria</th>
+                                    <th class="py-3 px-4 text-center">Nilai (1-100)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @php
+                                    $listNilai = [
+                                        'Sikap' => $nilai->sikap,
+                                        'Kedisiplinan' => $nilai->kedisiplinan,
+                                        'Kesungguhan' => $nilai->kesungguhan,
+                                        'Mandiri' => $nilai->mandiri,
+                                        'Kerjasama' => $nilai->kerjasama,
+                                        'Teliti' => $nilai->teliti,
+                                        'Pendapat' => $nilai->pendapat,
+                                        'Hal Baru' => $nilai->hal_baru,
+                                        'Inisiatif' => $nilai->inisiatif,
+                                        'Kepuasan' => $nilai->kepuasan,
+                                    ];
+                                    $total = array_sum($listNilai);
+                                    $jumlahKriteria = count($listNilai);
+                                    $rata2 = ($jumlahKriteria > 0) ? $total / $jumlahKriteria : 0;
 
-    <!-- Informasi Umum -->
-    <div class="card mb-4">
-        <div class="card-header bg-primary text-white">Informasi Peserta</div>
-        <div class="card-body">
-            <p><strong>Nama:</strong> {{ $peserta->name }}</p>
-            <p><strong>NIM:</strong> {{ $peserta->npm ?? '-' }}</p>
-            <p><strong>Universitas:</strong> {{ $peserta->univ ?? '-' }}</p>
-            <p><strong>Pembimbing:</strong> {{ $peserta->pembimbing->name }}</p>
-            <p><strong>Bidang:</strong> {{ $peserta->bidang->name ?? '-' }}</p>
-            {{-- <p><strong>Periode Magang:</strong> {{ $peserta->periode ?? '-' }}</p> --}}
-        </div>
-    </div>
+                                    // Menentukan kategori berdasarkan rata-rata
+                                    if ($rata2 >= 85) {
+                                        $kategori = 'Sangat Baik';
+                                        $kategoriClass = 'text-success'; // Warna teks untuk kategori
+                                    } elseif ($rata2 >= 70) {
+                                        $kategori = 'Baik';
+                                        $kategoriClass = 'text-info';
+                                    } elseif ($rata2 >= 55) {
+                                        $kategori = 'Cukup';
+                                        $kategoriClass = 'text-warning';
+                                    } else {
+                                        $kategori = 'Kurang';
+                                        $kategoriClass = 'text-danger';
+                                    }
+                                @endphp
 
-    <!-- Tabel Nilai -->
-    <div class="card mb-4">
-        <div class="card-header bg-success text-white">Penilaian</div>
-        <div class="card-body">
-            <table class="table table-bordered">
-                <thead class="table-light">
-                    <tr>
-                        <th>No</th>
-                        <th>Kriteria</th>
-                        <th>Nilai (1-100)</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @php
-                        $listNilai = [
-                            'Sikap' => $nilai->sikap,
-                            'Kedisiplinan' => $nilai->kedisiplinan,
-                            'Kesungguhan' => $nilai->kesungguhan,
-                            'Mandiri' => $nilai->mandiri,
-                            'Kerjasama' => $nilai->kerjasama,
-                            'Teliti' => $nilai->teliti,
-                            'Pendapat' => $nilai->pendapat,
-                            'Hal Baru' => $nilai->hal_baru,
-                            'Inisiatif' => $nilai->inisiatif,
-                            'Kepuasan' => $nilai->kepuasan,
-                        ];
-                        $total = array_sum($listNilai);
-                        $rata2 = $total / count($listNilai);
+                                @foreach ($listNilai as $kriteria => $nilaiItem)
+                                    <tr>
+                                        <td class="px-4 py-2">{{ $loop->iteration }}</td>
+                                        <td class="px-4 py-2">{{ $kriteria }}</td>
+                                        <td class="px-4 py-2 text-center">{{ $nilaiItem }}</td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="card-footer bg-light d-flex justify-content-between align-items-center">
+                        <div class="text-start">
+                            <p class="mb-0"><strong>Total Nilai:</strong> {{ $total }}</p>
+                        </div>
+                        <div class="text-end">
+                            <p class="mb-0"><strong>Rata-rata:</strong> <span class="fw-bold {{ $kategoriClass }}">{{ number_format($rata2, 2) }}</span> (<span class="fw-bold {{ $kategoriClass }}">{{ $kategori }}</span>)</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div> {{-- End row --}}
 
-                        // Menentukan kategori berdasarkan rata-rata
-                        if ($rata2 >= 85) {
-                            $kategori = 'Sangat Baik';
-                        } elseif ($rata2 >= 70) {
-                            $kategori = 'Baik';
-                        } elseif ($rata2 >= 55) {
-                            $kategori = 'Cukup';
-                        } else {
-                            $kategori = 'Kurang';
-                        }
-                    @endphp
-
-                    @foreach ($listNilai as $kriteria => $nilaiItem)
-                    <tr>
-                        <td>{{ $loop->iteration }}</td>
-                        <td>{{ $kriteria }}</td>
-                        <td>{{ $nilaiItem }}</td>
-                    </tr>
-                    @endforeach
-                </tbody>
-            </table>
-
-            <div class="mt-3">
-                <p><strong>Total Nilai:</strong> {{ $total }}</p>
-                <p><strong>Rata-rata:</strong> {{ number_format($rata2, 2) }} ({{ $kategori }})</p>
+        <div class="card shadow-sm border-0 mb-4">
+            <div class="card-header bg-warning text-white border-bottom-0 rounded-top">
+                <h5 class="mb-0">Catatan Pembimbing</h5>
+            </div>
+            <div class="card-body">
+                <p class="mb-0 text-muted">{{ $nilai->catatan ?? 'Tidak ada catatan.' }}</p>
             </div>
         </div>
-    </div>
 
-    <!-- Catatan -->
-    <div class="card mb-4">
-        <div class="card-header bg-warning">Catatan</div>
-        <div class="card-body">
-            <p>{{ $nilai->catatan ?? 'Tidak ada catatan.' }}</p>
-        </div>
     </div>
-
-    <!-- Tombol Aksi -->
-    <a href="{{ route('nilai.index') }}" class="btn btn-secondary">⬅ Kembali</a>
-    <a href="##" class="btn btn-outline-primary" target="_blank">🖨 Cetak PDF</a>
-    @can('update', $nilai)
-    <a href="##" class="btn btn-warning">✏ Edit</a>
-    @endcan
-</div>
 @endsection
 
 @push('script')

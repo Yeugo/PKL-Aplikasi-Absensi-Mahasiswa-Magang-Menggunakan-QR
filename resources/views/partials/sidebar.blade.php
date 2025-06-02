@@ -97,29 +97,27 @@
     <!-- Sidebar - Brand -->
     <a class="sidebar-brand d-flex align-items-center justify-content-center" href="#">
         <div class="sidebar-brand-icon ">
-            <img src="{{ asset('storage/assets/logobjm.png') }}" alt="Dashboard Icon" style="width: 70px; height: auto; margin-right: -10px ">
+            <img src="{{ asset('storage/assets/logobjm.png') }}" alt="Dashboard Icon" style="width: 30px; height: auto; margin-right: 10px">
         </div>
-        <div class="sidebar-brand-text">Absensi DKP3</div>
+        <div class="sidebar-brand-text mr-2">Absensi DKP3</div>
     </a>
 
-    <!-- Divider -->
-    <hr class="sidebar-divider my-0">
+    
 
     <!-- Nav Item - Dashboard -->
     @if (auth()->user()->isAdmin() or auth()->user()->isOperator())
-    <li class="nav-item {{ request()->routeIs('dashboard.*') ? 'active' : '' }}">
+    <li class="nav-item mt-5 {{ request()->routeIs('dashboard.*') ? 'active' : '' }}">
         <a class="nav-link" href="{{ route('dashboard.index') }}">
             <i class="bi bi-house-door"></i>
             <span>{{ __('Dashboard') }}</span></a>
     </li>
 
-    <!-- Divider -->
-    <hr class="sidebar-divider">
+    
 
-    <!-- Heading -->
+    {{-- <!-- Heading -->
     <div class="sidebar-heading">
         {{ __('CRUD') }}
-    </div>
+    </div> --}}
 
 
     <!-- Nav Item - Akun -->
@@ -162,6 +160,13 @@
         </a>
     </li>
 
+    <!-- Nav Item - Status Magang -->
+    <li class="nav-item {{ request()->routeIs('status_magang.*') ? 'active' : '' }}">
+        <a class="nav-link" href="{{ route('status_magang.index') }}">
+            <i class="fas fa-fw fa-check-circle"></i> <span>Status Magang</span>
+        </a>
+    </li>
+
     <!-- Nav Item - Pembimbing -->
     <li class="nav-item {{ request()->routeIs('pembimbing.*') ? 'active' : '' }}">
         <a class="nav-link" href="{{ route('pembimbing.index') }}">
@@ -171,28 +176,39 @@
     </li>
 
     <!-- Nav Item - Absensi -->
-    <li class="nav-item {{ request()->routeIs('absensi.*') ? 'active' : '' }}">
+    {{-- <li class="nav-item {{ request()->routeIs('absensi.*') ? 'active' : '' }}">
         <a class="nav-link" href="{{ route('absensi.index') }}">
             <i class="bi bi-calendar-check"></i>
             <span>{{ __('Absensi') }}</span>
         </a>
-    </li>
+    </li> --}}
 
     <!-- Nav Item - Kehadiran -->
-    <li class="nav-item {{ request()->routeIs('kehadiran.*') ? 'active' : '' }}">
+    {{-- <li class="nav-item {{ request()->routeIs('kehadiran.*') ? 'active' : '' }}">
         <a class="nav-link" href="{{ route('kehadiran.index') }}">
             <i class="bi bi-journal-check"></i>
             <span>{{ __('Kehadiran') }}</span>
         </a>
-    </li>
+    </li> --}}
 
     <!-- Nav Item - Kegiatan -->
-    <li class="nav-item {{ request()->routeIs('kegiatan.*') ? 'active' : '' }}">
+    {{-- <li class="nav-item {{ request()->routeIs('kegiatan.*') ? 'active' : '' }}">
         <a class="nav-link" href="{{ route('kegiatan.index') }}">
             <i class="bi bi-journal-bookmark-fill"></i>
             <span>{{ __('Kegiatan') }}</span>
         </a>
+    </li> --}}
+
+    
+
+    <!-- Nav Item - Sertifikat -->
+    <li class="nav-item {{ request()->routeIs('sertifikat.*') ? 'active' : '' }}">
+        <a class="nav-link" href="{{ route('sertifikat.indexAdmin') }}">
+            <i class="bi bi-file-earmark-text"></i>
+            <span>{{ __('Sertifikat') }}</span>
+        </a>
     </li>
+    
     @endif
     <li class="nav-item">
 

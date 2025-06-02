@@ -20,8 +20,18 @@ class Peserta extends Model
         'peserta_bidang_id',
         'pembimbing_id',
         'user_id',
-        'foto'
+        'foto',
+        'tgl_mulai_magang',
+        'tgl_selesai_magang_rencana',
+        'status_penyelesaian',
+        'tanggal_penyelesaian_aktual',
     ];
+
+    // protected $casts = [
+    //     'tgl_mulai_magang' => 'date',
+    //     'tgl_selesai_magang_rencana' => 'date',
+    //     'tanggal_penyelesaian_aktual' => 'date',
+    // ];
 
     public function pembimbing()
     {
@@ -47,4 +57,9 @@ class Peserta extends Model
     {
         return $this->hasOne(Nilai::class);
     } 
+
+    public function sertifikat()
+    {
+        return $this->hasOne(Sertifikat::class, 'peserta_id');
+    }
 }

@@ -107,6 +107,20 @@ final class BidangTable extends PowerGridComponent
             return;
         }
 
+        // --- Bagian Baru untuk Gambar Base64 ---
+        $imagePath = public_path('storage/assets/logobjm.png'); // Jalur fisik ke gambar Anda
+        $base64Image = ''; // Inisialisasi variabel
+
+        if (file_exists($imagePath)) {
+            $imageData = file_get_contents($imagePath); // Baca isi file gambar
+            $imageType = pathinfo($imagePath, PATHINFO_EXTENSION); // Dapatkan ekstensi file (png)
+            $base64Image = 'data:image/' . $imageType . ';base64,' . base64_encode($imageData);
+        } else {
+            // Opsional: Log pesan error jika gambar tidak ditemukan
+            //
+        }
+        // --- Akhir Bagian Baru ---
+
         // Ambil data bidang berdasarkan ID yang dipilih
         $selectedData = \App\Models\Bidang::whereIn('id', $selectedIds)->get();
 
@@ -135,7 +149,7 @@ final class BidangTable extends PowerGridComponent
         });
 
         // Generate PDF menggunakan view Blade
-        $pdf = Pdf::loadView('exports.BidangPdf', compact('selectedData', 'tahunList'))
+        $pdf = Pdf::loadView('exports.BidangPdf', compact('selectedData', 'tahunList', 'base64Image'))
             ->setPaper('a4', 'portrait');
 
         return response()->streamDownload(
@@ -258,10 +272,12 @@ final class BidangTable extends PowerGridComponent
 
             Column::make('Name', 'name')
                 ->searchable()
+                ->makeInputText()
                 ->sortable(),
 
             Column::make('Kepala Bidang', 'kepala_bidang')
                 ->searchable()
+                ->makeInputText()
                 ->sortable(),
 
             // Column::make('Jumlah Peserta (Saat ini)', 'jumlah_peserta')

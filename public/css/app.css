@@ -1,5 +1,38 @@
+/* --- GLOBAL RESET & FONDASI --- */
+* {
+    /* border-radius: 0 !important; */
+    /* Hilangkan semua border-radius Bootstrap */
+    box-shadow: none !important;
+    /* Hilangkan semua box-shadow default Bootstrap */
+}
+
+html,
 body {
-    font-size: .875rem;
+    height: 100%;
+    font-size: .9rem;
+    /* font-family: 'Lato', sans-serif; */
+}
+
+.border-bottom {
+    /* Menimpa properti border-bottom dari Bootstrap */
+    border-bottom-width: 2px !important;
+    /* Ubah ke 2px, 3px, atau sesuai keinginan Anda */
+    border-bottom-color: #dee2e6 !important;
+    /* Opsional: Pertahankan warna default Bootstrap */
+    /* Atau Anda bisa ganti warnanya jika mau, contoh: */
+    /* border-bottom-color: #333 !important; */
+}
+
+h5,
+h6 {
+    /* font-family: 'Inter', sans-serif; */
+    font-weight: 600;
+    color: #212529;
+}
+
+p {
+    /* font-family: 'Open Sans', sans-serif; */
+    font-weight: 400;
 }
 
 .feather {
@@ -20,105 +53,401 @@ thead tr th:last-child {
     text-align: center;
 }
 
-/* thead th {
-    width: 200px;
+div.py-4 {
+    padding-top: 0.2rem !important;
+    padding-bottom: 0.2rem !important;
 }
 
-select.power_grid {
-    width: 250px;
-}
+/* --- NAVBAR NEOBRUTALISM --- */
+.navbar.topbar {
 
-input.power_grid {
-    width: 250px;
-} */
-
-
-/*
-   * Sidebar
-   */
-
-/* .sidebar {
-    position: fixed;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    z-index: 100;
-    padding: 48px 0 0;
-    box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
-}
-
-
-@media (max-width: 767.98px) {
-    .sidebar {
-        top: 5rem;
-    }
-}
-
-.sidebar-sticky {
+    /* Garis kanan hitam tebal */
+    /* box-shadow: 8px 8px 0 0 #000000 !important; */
+    /* border-bottom: 2px solid #000000 !important; */
+    /* Offset shadow hitam tebal */
     position: relative;
-    top: 0;
-    height: calc(100vh - 48px);
-    padding-top: .5rem;
-    overflow-x: hidden;
-    overflow-y: auto;
+    margin-bottom: 1.25rem !important;
+    /* Spasi bawah lebih besar */
+    padding: 1.25rem 1rem !important;
+    /* Padding lebih besar */
+    color: #FFFFFF !important;
+    /* Warna teks default di navbar jadi putih */
 }
 
-.sidebar .nav-link {
-    color: #28292b;
-    padding: 0.5rem 1rem;
-    font-size: 0.95rem;
-    transition: background-color 0.3s ease;
+.navbar-search .input-group-append .btn-primary:hover {
+    background-color: #1E40AF !important;
+    /* Biru lebih gelap lagi saat hover */
 }
 
-.sidebar .nav-link.active {
-    background: #32ac30;
-    color: #fff !important;
-    border-radius: 0.25rem;
+/* Divider (garis pemisah di navbar) */
+/* Hapus elemen HTML .topbar-divider jika tidak diinginkan */
+.topbar-divider {
+    background-color: #3d3d3d !important;
+    /* Putih jika background navbar biru */
+
 }
 
-.sidebar .nav-link:hover {
-    background: #e9ecef;
-    color: #32ac30 !important;
+/* User Info (Nama & Gambar Profil) */
+.nav-item.no-arrow {
+    /* Hapus class 'dropdown' jika sudah tidak ada dropdown */
+    margin-left: 1rem;
+    /* Jarak dari search bar */
+    margin-right: 0.5rem;
 }
 
-
-.sidebar-heading {
-    font-size: .75rem;
-} */
-
-/*
-   * Navbar
-   */
-
-/* .navbar-brand {
-    padding-top: .75rem;
-    padding-bottom: .75rem;
-    background-color: rgba(0, 0, 0, 0.7);
-    box-shadow: inset -1px 0 0 rgba(0, 0, 0, .25);
-}
-    
-
-.navbar .navbar-toggler {
-    top: .50rem;
-    right: 1rem;
+.nav-item.no-arrow .nav-link {
+    display: flex;
+    align-items: center;
+    padding-right: 0 !important;
+    outline: none !important;
+    border: none !important;
+    box-shadow: none !important;
+    background-color: transparent !important;
+    cursor: default !important;
+    /* Ubah kursor menjadi panah biasa, bukan pointer */
 }
 
-.navbar .form-control {
-    padding: .75rem 1rem;
-} */
+.nav-item.no-arrow .nav-link .mr-2 {
+    color: #000000 !important;
+    /* Teks nama pengguna ke putih */
+    font-weight: 700 !important;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    font-size: 0.9rem;
+}
 
-/* .form-control-dark {
+.nav-item.no-arrow .nav-link:hover .mr-2 {
+    color: #1E40AF !important;
+    /* Aksen kuning saat hover */
+}
+
+.nav-item.no-arrow .nav-link .img-profile {
+    border-radius: 50% !important;
+    /* FOTO PROFIL BULAT */
+    border: none !important;
+    /* TANPA BORDER */
+    box-shadow: none !important;
+    /* TANPA SHADOW */
+    object-fit: cover;
+    transition: none !important;
+    /* Hilangkan transisi */
+    width: 40px;
+    /* Ukuran default */
+    height: 40px;
+    /* Ukuran default */
+}
+
+/* --- SIDEBAR NEOBRUTALISM --- */
+.sidebar {
+    border-right: none;
+    /* box-shadow: 8px 0 0 0 #000000 !important; */
+}
+
+/* Tombol Sidebar Toggle (Hamburger) */
+#sidebarToggleTop {
+    background-color: #3B82F6 !important;
+    /* Biru */
+    color: #FFFFFF !important;
+    /* Teks ke putih */
+    border: 1px solid #000000 !important;
+    box-shadow: 2px 2px 0 0 #000000 !important;
+    /* Offset shadow tombol */
+    transition: transform 0.1s ease-in-out, box-shadow 0.1s ease-in-out;
+    padding: 0.75rem 1rem !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 1rem !important;
+    /* Jarak dari search bar */
+}
+
+#sidebarToggleTop:hover {
+    background-color: #2563EB !important;
+    /* Biru lebih gelap saat hover */
+}
+
+#sidebarToggleTop:active {
+    transform: translate(4px, 4px);
+    box-shadow: none !important;
+}
+
+#sidebarToggleTop i {
+    /* Ikon Font Awesome di tombol */
+    color: #FFFFFF !important;
+    font-size: 1.2rem;
+}
+
+.sidebar .nav-item .nav-link {
+    /* color: #dbdbdbd8 !important; */
+    font-weight: 600 !important;
+    padding: 1rem 1.5rem !important;
+    border-left: 4px solid transparent;
+    border-bottom: #3B82F6 solid 1px;
+    /* Garis transparan default */
+    padding-left: calc(1.5rem - 4px);
+    /* Sesuaikan padding agar konten tidak bergeser saat border muncul */
+    transition: background-color 0.2s ease-in-out, border-left-color 0.2s ease-in-out;
+}
+
+.sidebar .nav-item .nav-link i {
+    margin-right: 0.6rem;
+    font-size: 0.9rem;
+    transition: color 0.15s ease-in-out;
+}
+
+/* Navbar dan Sidebar */
+.nav-item a span,
+.sidebar-menu-item {
+    font-family: 'Lato', sans-serif;
+    font-weight: 400 !important;
+    font-size: 0.9rem !important;
+}
+
+.sidebar .nav-item .nav-link:hover {
+    background-color: rgba(255, 255, 255, 0.15);
+    /* Sedikit efek background transparan (opsional) */
+    border-left-color: #5087ff;
+    /* Warna garis saat hover (sesuaikan dengan warna primer tema Anda) */
+    color: white;
+    /* Jaga warna teks agar tetap terlihat */
+}
+
+.sidebar .nav-item .nav-link:hover i {
+    color: #FFFFFF !important;
+}
+
+.sidebar .nav-item.active .nav-link {
+    background-color: #4a73f0;
+    /* Warna latar belakang aktif */
     color: #fff;
-    background-color: rgba(255, 255, 255, .1);
-    border-color: rgba(255, 255, 255, .1);
+    /* Warna teks aktif */
+    border-left-color: #fff;
+    /* Garis putih atau warna lain untuk aktif */
+    padding-left: calc(1.5rem - 4px);
+    /* Pastikan padding konsisten dengan hover */
 }
 
-.form-control-dark:focus {
-    border-color: transparent;
-    box-shadow: 0 0 0 3px rgba(255, 255, 255, .25);
+/* --- TOMBOL UMUM --- */
+/* .btn {
+    margin-right: 2px !important;
+    border-radius: 0 !important;
+    border: 1px solid #000000 !important;
+    box-shadow: 2px 2px 0 0 #000000 !important;
 }
 
-.toast-overflow {
-    overflow-y: scroll;
-    max-height: 100vh;
+.btn:hover {
+    box-shadow: 4px 4px 0 0 #000000 !important;
 } */
+
+/* --- CARD NEOBRUTALISM --- */
+/* .card {
+    border-radius: 0 !important;
+    border: 2px solid #000000 !important;
+    box-shadow: 4px 4px 0 0 #000000 !important;
+    background-color: #FFFFFF !important;
+    margin-bottom: 1.5rem;
+}
+
+.card .card-header {
+    background-color: #F3F4F6 !important;
+    border-bottom: 2px solid #000000 !important;
+    color: #000000 !important;
+    font-weight: 700;
+    padding: 1rem 1.25rem !important;
+    text-transform: uppercase;
+}
+
+.card .card-body {
+    padding: 1.25rem !important;
+} */
+
+/* Penyesuaian Umum untuk Semua Badge */
+.badge {
+    /* Padding: Atas/bawah, Kiri/kanan. Sesuaikan angka 0.5rem dan 0.75rem. */
+    /* Ini akan membuat badge terlihat lebih "gemuk" */
+    padding: 0.3rem 0.65rem;
+    font-size: 0.65rem;
+    /* Ukuran font di dalam badge. Sesuaikan sesuai kebutuhan. */
+    /* Gunakan rem agar tetap responsif. */
+    border-radius: 0.5rem;
+    /* Radius sudut. Sesuaikan. 0.25rem-0.5rem adalah umum. */
+    /* Jika ingin lebih bulat (pill), bisa gunakan 50rem atau 9999px. */
+    font-weight: 500;
+    /* Sedikit lebih tebal dari normal, tapi tidak bold */
+    display: inline-block;
+    /* Pastikan padding bekerja dengan baik */
+    margin-right: 0.1rem;
+    /* Jarak antar badge */
+    margin-bottom: 0.2rem;
+    /* Jarak jika ada di baris baru (flex-wrap) */
+}
+
+/* Override warna untuk kelas badge Bootstrap (jika Anda ingin warna kustom) */
+.badge-primary {
+    background-color: #007bff;
+    /* Warna biru standar Bootstrap */
+    color: #fff;
+}
+
+.badge-info {
+    background-color: #17a2b8;
+    /* Warna cyan standar Bootstrap */
+    color: #fff;
+}
+
+.badge-danger {
+    background-color: #dc3545;
+    /* Warna merah standar Bootstrap */
+    color: #fff;
+}
+
+/* Jika Anda memiliki kelas kustom seperti badge-blue, badge-cyan, badge-red: */
+.badge-blue {
+    background-color: #6610f2;
+    /* Contoh warna biru keunguan */
+    color: #fff;
+}
+
+.badge-cyan {
+    background-color: #20c997;
+    /* Contoh warna hijau kebiruan */
+    color: #fff;
+}
+
+.badge-red {
+    background-color: #dc3545;
+    /* Contoh warna merah */
+    color: #fff;
+}
+
+/* -- Card Styling -- */
+.card {
+    border-radius: 0.75rem;
+    /* Sudut card sedikit lebih bulat */
+    overflow: hidden;
+    /* Penting agar rounded-top pada card-header bekerja */
+}
+
+.card-header {
+    padding: 1.25rem 1.5rem;
+    /* Padding header card */
+    font-size: 1.15rem;
+    /* Ukuran font header card */
+    font-weight: 600;
+    /* Sedikit tebal */
+    border-bottom: 0;
+    /* Pastikan tidak ada border bawah default Bootstrap */
+}
+
+/* -- Informasi Umum Peserta -- */
+.info-item strong {
+    color: #495057;
+    /* Warna lebih gelap untuk label strong */
+    min-width: 120px;
+    /* Lebar minimum untuk label agar sejajar jika ada banyak info */
+    display: inline-block;
+}
+
+.info-item {
+    font-size: 1rem;
+    /* Ukuran font info */
+    line-height: 1.6;
+}
+
+/* -- Tabel Penilaian -- */
+.table-bordered th,
+.table-bordered td {
+    border-color: #e9ecef;
+    /* Warna border tabel yang lebih lembut */
+}
+
+.table-striped tbody tr:nth-of-type(odd) {
+    background-color: rgba(0, 0, 0, 0.03);
+    /* Warna striping yang lebih lembut */
+}
+
+.table-hover tbody tr:hover {
+    background-color: rgba(0, 0, 0, 0.075);
+    /* Efek hover yang sedikit lebih jelas */
+}
+
+.table thead th {
+    font-weight: 600;
+    /* Header tabel sedikit lebih tebal */
+    color: #495057;
+    /* Warna teks header tabel */
+    border-bottom-width: 2px;
+    /* Border bawah header lebih tebal */
+}
+
+.table tbody td {
+    font-size: 0.95rem;
+    /* Ukuran font sel tabel */
+    color: #343a40;
+    /* Warna teks sel tabel */
+}
+
+.card-body.p-0 .table {
+    /* Untuk menghilangkan padding di sekitar tabel di dalam card-body */
+    margin-bottom: 0;
+    border-radius: 0;
+}
+
+.card-footer {
+    border-top: 1px solid #e9ecef;
+    /* Border atas footer card */
+    padding: 1.25rem 1.5rem;
+    /* Padding footer card */
+}
+
+/* -- Catatan -- */
+.card-body p.text-muted {
+    font-style: italic;
+    /* Membuat catatan kosong lebih halus */
+    font-size: 0.95rem;
+    color: #6c757d !important;
+}
+
+/* -- Tombol Aksi -- */
+.btn {
+    border-radius: 0.5rem;
+    /* Sudut tombol lebih bulat */
+    font-weight: 500;
+    /* Ketebalan font tombol */
+    transition: all 0.2s ease-in-out;
+}
+
+.btn-secondary {
+    background-color: #6c757d;
+    border-color: #6c757d;
+    color: #fff;
+}
+
+.btn-secondary:hover {
+    background-color: #5a6268;
+    border-color: #545b62;
+}
+
+.btn-outline-primary {
+    color: #007bff;
+    border-color: #007bff;
+    background-color: transparent;
+}
+
+.btn-outline-primary:hover {
+    background-color: #007bff;
+    color: #fff;
+}
+
+.btn-warning {
+    background-color: #ffc107;
+    border-color: #ffc107;
+    color: #343a40;
+    /* Warna teks gelap agar kontras dengan kuning */
+}
+
+.btn-warning:hover {
+    background-color: #e0a800;
+    border-color: #d39e00;
+    color: #343a40;
+}

@@ -92,6 +92,9 @@ class PendaftaranCreateForm extends Component
     public $jenis_kelamin;
     public $alamat;
     public $bidang_id;
+    public $tgl_mulai_magang;
+    public $tgl_selesai_magang_rencana;
+    public $status_penyelesaian = 'Belum Dimulai'; // Default status
     public $surat_pengantar;
     public $dokumen_lain;
 
@@ -106,6 +109,8 @@ class PendaftaranCreateForm extends Component
             'jenis_kelamin' => 'required',
             'alamat' => 'required',
             'bidang_id' => 'required|exists:bidangs,id',
+            'tgl_mulai_magang' => 'required|date',
+            'tgl_selesai_magang_rencana' => 'required|date|after_or_equal:tgl_mulai_magang',
             'surat_pengantar' => 'required|file|mimes:pdf|max:2048',
             'dokumen_lain' => 'nullable|file|mimes:jpeg,png,jpg,gif|max:2048', // Ubah mimes untuk foto
         ]);
@@ -122,6 +127,9 @@ class PendaftaranCreateForm extends Component
             'alamat' => $this->alamat,
             'email' => $this->email,
             'bidang_id' => $this->bidang_id,
+            'tgl_mulai_magang' => $this->tgl_mulai_magang,
+            'tgl_selesai_magang_rencana' => $this->tgl_selesai_magang_rencana,
+            'status_penyelesaian' => 'Belum Dimulai',
             'surat_pengantar' => $suratPath,
             'dokumen_lain' => $dokumenPath,
         ]);

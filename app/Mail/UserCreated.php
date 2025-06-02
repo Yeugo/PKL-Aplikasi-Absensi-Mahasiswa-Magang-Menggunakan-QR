@@ -39,6 +39,21 @@ class UserCreated extends Mailable
      */
     public function build()
     {
+        // --- Bagian Baru untuk Gambar Base64 ---
+        $imagePath = public_path('storage/assets/logobjm.png'); // Jalur fisik ke gambar Anda
+        $base64Image = ''; // Inisialisasi variabel
+
+        if (file_exists($imagePath)) {
+            $imageData = file_get_contents($imagePath); // Baca isi file gambar
+            $imageType = pathinfo($imagePath, PATHINFO_EXTENSION); // Dapatkan ekstensi file (png)
+            $base64Image = 'data:image/' . $imageType . ';base64,' . base64_encode($imageData);
+        } else {
+            // Opsional: Log pesan error jika gambar tidak ditemukan
+            // Ini akan muncul di storage/logs/laravel.log
+            // \Log::warning('Gambar logo tidak ditemukan untuk PDF email: ' . $imagePath);
+        }
+        // --- Akhir Bagian Baru ---
+
         $qrData = "Hj. Ruziah, SE, M.AP\nSekretaris DKP3\nNIP. 19680714 199503 2 004";
         $qrCode = base64_encode(QrCode::format('svg')->size(100)->generate($qrData));
 
@@ -48,6 +63,7 @@ class UserCreated extends Mailable
             'peserta' => $this->peserta,
             'qrCode' => $qrCode,
             'pendaftaran' => $this->pendaftaran,
+            'base64Image' => $base64Image,
         ])->output();
 
         return $this->subject('Akun anda sudah berhasil dibuat:D')

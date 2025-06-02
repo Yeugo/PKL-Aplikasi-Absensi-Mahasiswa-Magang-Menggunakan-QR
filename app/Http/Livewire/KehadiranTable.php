@@ -62,13 +62,27 @@ final class KehadiranTable extends PowerGridComponent
             return;
         }
 
+        // --- Bagian Baru untuk Gambar Base64 ---
+        $imagePath = public_path('storage/assets/logobjm.png'); // Jalur fisik ke gambar Anda
+        $base64Image = ''; // Inisialisasi variabel
+
+        if (file_exists($imagePath)) {
+            $imageData = file_get_contents($imagePath); // Baca isi file gambar
+            $imageType = pathinfo($imagePath, PATHINFO_EXTENSION); // Dapatkan ekstensi file (png)
+            $base64Image = 'data:image/' . $imageType . ';base64,' . base64_encode($imageData);
+        } else {
+            // Opsional: Log pesan error jika gambar tidak ditemukan
+            //
+        }
+        // --- Akhir Bagian Baru ---
+
         // $selectedData = Kehadiran::whereIn('id', $this->checkedValues())
         // ->get();
 
         $selectedData = Kehadiran::whereIn('id', $this->checkedValues())
         ->get();
 
-        $pdf = Pdf::loadView('exports.KehadiranPdf', compact('selectedData'))
+        $pdf = Pdf::loadView('exports.KehadiranPdf', compact('selectedData', 'base64Image'))
         ->setPaper('a4', 'potrait');
 
         return response()->streamDownload(
@@ -144,7 +158,7 @@ final class KehadiranTable extends PowerGridComponent
             //     '<span class="badge text-bg-warning">Izin</span>' : '<span class="badge text-bg-success">Hadir</span>')
             ->addColumn("izin", fn (Kehadiran $model) => match ($model->izin) {
                 1 => '<span class="badge text-bg-warning">Izin</span>',
-                2 => '<span class="badge text-bg-info">Libur</span>',
+                2 => '<span class="badge text-bg-secondary">Libur</span>',
                 default => '<span class="badge text-bg-success">Hadir</span>',
             })
             ->addColumn('created_at')
@@ -183,17 +197,20 @@ final class KehadiranTable extends PowerGridComponent
                 ->sortable(),
 
             Column::make('Tanggal Hadir', 'tgl_hadir')
+                ->bodyAttribute('text-center')
                 ->makeInputDatePicker()
                 ->searchable()
                 ->sortable(),
 
             Column::make('Jam Absen Masuk', 'absen_masuk')
+                ->bodyAttribute('text-center')
                 ->searchable()
                 // ->makeInputRange('presence_enter_time') // terlalu banyak menggunakan bandwidth (ukuran data yang dikirim terlalu besar)
                 ->makeInputText('presence_enter_time')
                 ->sortable(),
 
             Column::make('Jam Absen Pulang', 'absen_keluar')
+                ->bodyAttribute('text-center')
                 ->searchable()
                 // ->makeInputRange('presence_out_time') // ini juga
                 ->makeInputText('presence_out_time')
@@ -205,10 +222,6 @@ final class KehadiranTable extends PowerGridComponent
 
             Column::make('Created at', 'created_at')
                 ->hidden(),
-
-            Column::make('Created at', 'created_at_formatted')
-                ->makeInputDatePicker()
-                ->searchable()
         ];
     }
 

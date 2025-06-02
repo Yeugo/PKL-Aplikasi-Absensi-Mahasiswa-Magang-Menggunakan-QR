@@ -6,7 +6,7 @@
 
 @section('content')
 <div class="form-container">
-    <img src="{{ asset('storage/assets/logobjm.png') }}" alt="Logo" class="logo">
+    <img src="{{ asset('storage/assets/logobjm.png') }}" alt="Logo" class="logo" style="width: 50px; height: auto; margin-right: -10px">
     <h1>Selamat Datang di Aplikasi Absensi</h1>
     <p class="mb-2">Silahkan masuk untuk melanjutkan absensi</p>
 

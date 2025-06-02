@@ -30,7 +30,8 @@ final class PendaftaranIndex extends PowerGridComponent
             parent::getListeners(),
             [
                 'approveSelected',
-                'rejectSelected'
+                'rejectSelected',
+                'exportToPDF'
             ]
         );
     }
@@ -46,6 +47,10 @@ final class PendaftaranIndex extends PowerGridComponent
                 ->caption(__('Tolak'))
                 ->class('btn btn-danger border-0')
                 ->emit('rejectSelected', []),
+            Button::add('exportPDF')
+                ->caption(__('Cetak'))
+                ->class('btn btn-secondary border-0')
+                ->emit('exportToPDF', []),
         ];
     }
 
@@ -101,6 +106,9 @@ final class PendaftaranIndex extends PowerGridComponent
                 'univ' => $pendaftaran->univ,
                 'alamat' => $pendaftaran->alamat,
                 'peserta_bidang_id' => $pendaftaran->bidang_id,
+                'tgl_mulai_magang' => $pendaftaran->tgl_mulai_magang,
+                'tgl_selesai_magang_rencana' => $pendaftaran->tgl_selesai_magang_rencana,
+                'status_penyelesaian' => $pendaftaran->status_penyelesaian,
             ]);
 
             Mail::to($pendaftaran->email)->send(new UserCreated($user, $pendaftaran, $randomPassword, $pendaftaran));
@@ -128,6 +136,42 @@ final class PendaftaranIndex extends PowerGridComponent
         }
 
         session()->flash('success', 'Pendaftaran yang dipilih telah ditolak.');
+    }
+
+    public function exportToPDF()
+    {
+        $selectedIds = $this->checkedValues();
+
+        if (empty($selectedIds)) {
+            $this->dispatchBrowserEvent('showToast', ['success' => false, 'message' => 'Pilih data yang ingin di export terlebih dahulu. ']);
+            return;
+        }
+
+        // --- Bagian Baru untuk Gambar Base64 ---
+        $imagePath = public_path('storage/assets/logobjm.png'); // Jalur fisik ke gambar Anda
+        $base64Image = ''; // Inisialisasi variabel
+
+        if (file_exists($imagePath)) {
+            $imageData = file_get_contents($imagePath); // Baca isi file gambar
+            $imageType = pathinfo($imagePath, PATHINFO_EXTENSION); // Dapatkan ekstensi file (png)
+            $base64Image = 'data:image/' . $imageType . ';base64,' . base64_encode($imageData);
+        } else {
+            // Opsional: Log pesan error jika gambar tidak ditemukan
+            //
+        }
+        // --- Akhir Bagian Baru ---
+
+        $selectedData = Pendaftaran::whereIn('id', $this->checkedValues())
+        ->get();
+
+        $pdf = Pdf::loadView('exports.PendaftaranPdf', compact('selectedData', 'base64Image'))
+        ->setPaper('a4', 'portrait');
+
+        return response()->streamDownload(
+            fn() => print($pdf->output()),
+            'ExportPendaftaran.pdf'
+        );
+        
     }
 
     /**
@@ -219,12 +263,14 @@ final class PendaftaranIndex extends PowerGridComponent
             Column::make('Email', 'email', 'pendaftaran.email')
                 ->searchable()
                 ->makeInputText()
-                ->sortable(),
+                ->sortable()
+                ->hidden(),
 
             Column::make('No. Telp', 'phone', 'peserta.phone')
                 ->searchable()
                 ->makeInputText()
-                ->sortable(),
+                ->sortable()
+                ->hidden(),
 
             Column::make('Universitas', 'univ', 'peserta.univ')
                 ->searchable()
@@ -243,6 +289,19 @@ final class PendaftaranIndex extends PowerGridComponent
 
             Column::make('Bidang', 'bidang')
                 ->searchable()
+                ->makeInputText()
+                ->sortable(),
+            
+            Column::make('Tanggal Mulai Magang', 'tgl_mulai_magang', 'pendaftaran.tgl_mulai_magang')
+                ->bodyAttribute('text-center')
+                ->searchable()
+                ->makeInputDatePicker()
+                ->sortable(),
+
+            Column::make('Tanggal Selesai Magang', 'tgl_selesai_magang_rencana', 'pendaftaran.tgl_selesai_magang_rencana')
+                ->bodyAttribute('text-center')
+                ->searchable()
+                ->makeInputDatePicker()
                 ->sortable(),
 
             Column::make('Surat Pengantar', 'surat_pengantar')

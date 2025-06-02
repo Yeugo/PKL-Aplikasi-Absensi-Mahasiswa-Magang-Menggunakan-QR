@@ -3,24 +3,18 @@
     <!-- Sidebar - Brand -->
     <a class="sidebar-brand d-flex align-items-center justify-content-center" href="#">
         <div class="sidebar-brand-icon ">
-            <img src="{{ asset('storage/assets/logobjm.png') }}" alt="Home Icon" style="width: 70px; height: auto; margin-right: -10px ">
+            <img src="{{ asset('storage/assets/logobjm.png') }}" alt="Home Icon" style="width: 30px; height: auto; margin-right: 10px ">
         </div>
-        <div class="sidebar-brand-text">Absensi DKP3</div>
+        <div class="sidebar-brand-text  mr-2">Absensi DKP3</div>
     </a>
-
-    <!-- Divider -->
-    <hr class="sidebar-divider my-0">
 
     <!-- Nav Item - Absensi -->
     @if (auth()->user()->isUser())
-    <li class="nav-item {{ request()->routeIs('home.index') ? 'active' : '' }}">
+    <li class="nav-item mt-5 {{ request()->routeIs('home.index') ? 'active' : '' }}">
         <a class="nav-link" href="{{ route('home.index') }}">
             <i class="bi bi-house-door"></i>
             <span>{{ __('Absensi') }}</span></a>
     </li>
-
-    <!-- Divider -->
-    <hr class="sidebar-divider">
 
     <!-- Nav Item - Akun -->
     <li class="nav-item {{ request()->routeIs('account.*') ? 'active' : '' }}">
@@ -30,13 +24,23 @@
         </a>
     </li>
 
-    <!-- Nav Item - Keiatan -->
-    <li class="nav-item {{ request()->routeIs('home.kegiatanPeserta') ? 'active' : '' }}">
-        <a class="nav-link" href="{{ route('home.kegiatanPeserta') }}">
+    <!-- Nav Item - Kegiatan -->
+    <li class="nav-item {{ request()->routeIs('kegiatan.*') ? 'active' : '' }}">
+        <a class="nav-link" href="{{ route('kegiatan.index') }}">
             <i class="bi bi-archive"></i>
             <span>{{ __('Catatan Kegiatan') }}</span>
         </a>
     </li>
+
+    <!-- Nav Item - Kegiatan -->
+    <li class="nav-item">
+        {{-- Ini adalah menu baru untuk Sertifikat --}}
+        <a class="nav-link {{ request()->routeIs('home.sertifikat.indexPeserta') ? 'active' : '' }}" href="{{ route('home.sertifikat.indexPeserta') }}">
+            <i class="bi bi-award me-2"></i> Sertifikat
+        </a>
+    </li>
+
+
     @endif
     <li class="nav-item">
         <a class="nav-link" href="#" onclick="event.preventDefault(); if(confirm('Apakah anda yakin ingin keluar?')) { document.getElementById('logout-form').submit(); }">

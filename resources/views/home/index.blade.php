@@ -1,6 +1,7 @@
 @extends('layouts.home')
 
 @section('content')
+
 <div class="container py-5">
     <div class="row">
         <!-- Card Profil Peserta Magang -->

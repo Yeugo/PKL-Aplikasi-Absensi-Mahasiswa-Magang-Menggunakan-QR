@@ -139,14 +139,10 @@ class PesertaCreateForm extends Component
                 'foto' => $peserta['foto'], // Simpan path foto jika ada
             ]);
 
-            Mail::to($peserta['email'])->send(new UserCreated($user, $peserta, $randomPassword));
+            Mail::to($peserta['email'])->send(new UserCreated($user, $peserta, $randomPassword, $pendaftaran = null));
 
             $affected++;
         }
-
-        
-        
-        
 
         redirect()->route('peserta.index')->with('success', "Ada ($affected) data peserta magang yang berhasil ditambahkan.");
     }

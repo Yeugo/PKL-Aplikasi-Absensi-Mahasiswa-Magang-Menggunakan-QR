@@ -94,21 +94,38 @@ final class NilaiTable extends PowerGridComponent
 
     public function exportToPDF()
     {
-        if (auth()->check()) {
-            $ids = $this->checkedValues();
+        $selectedIds = $this->checkedValues();
 
-            if (!$ids)
-                return $this->dispatchBrowserEvent('showToast', ['success' => false, 'message' => 'Pilih data yang ingin dicetak terlebih dahulu.']);
-
-            $kegiatan = Kegiatan::query()->whereIn('id', $ids)->get();
-
-            $pdf = Pdf::loadView('kegiatan.export', [
-                'kegiatan' => $kegiatan,
-                'title' => 'Data Kegiatan Peserta Magang',
-            ]);
-
-            return $pdf->download('data-kegiatan-peserta-magang.pdf');
+        if (empty($selectedIds)) {
+            $this->dispatchBrowserEvent('showToast', ['success' => false, 'message' => 'Pilih data yang ingin di export terlebih dahulu. ']);
+            return;
         }
+
+        // --- Bagian Baru untuk Gambar Base64 ---
+        $imagePath = public_path('storage/assets/logobjm.png'); // Jalur fisik ke gambar Anda
+        $base64Image = ''; // Inisialisasi variabel
+
+        if (file_exists($imagePath)) {
+            $imageData = file_get_contents($imagePath); // Baca isi file gambar
+            $imageType = pathinfo($imagePath, PATHINFO_EXTENSION); // Dapatkan ekstensi file (png)
+            $base64Image = 'data:image/' . $imageType . ';base64,' . base64_encode($imageData);
+        } else {
+            // Opsional: Log pesan error jika gambar tidak ditemukan
+            //
+        }
+        // --- Akhir Bagian Baru ---
+
+        $selectedData = Nilai::whereIn('id', $this->checkedValues())
+        ->get();
+
+        $pdf = Pdf::loadView('exports.NilaiPdf', compact('selectedData', 'base64Image'))
+        ->setPaper('a4', 'potrait');
+
+        return response()->streamDownload(
+            fn() => print($pdf->output()),
+            'ExportNilai.pdf'
+        );
+        
     }
 
     public function nilaiClicked($params)
@@ -200,14 +217,6 @@ final class NilaiTable extends PowerGridComponent
             Rule::button('detail')
                 ->when(fn($peserta) => !$peserta->nilai)
                 ->disable(),
-
-            // Rule::checkbox()
-            //     ->when(fn ($dish) => $dish->in_stock == false)
-            //     ->hide(),
-                
-            // Rule::rows()
-            //     ->when(fn ($dish) => $dish->in_stock == false)
-            //     ->setAttribute('class', '!bg-red-200'),
         ];
     }
 

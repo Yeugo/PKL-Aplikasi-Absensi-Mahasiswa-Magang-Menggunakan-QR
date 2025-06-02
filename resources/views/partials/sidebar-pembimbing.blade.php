@@ -97,30 +97,18 @@
     <!-- Sidebar - Brand -->
     <a class="sidebar-brand d-flex align-items-center justify-content-center" href="#">
         <div class="sidebar-brand-icon ">
-            <img src="{{ asset('storage/assets/logobjm.png') }}" alt="Dashboard Icon" style="width: 70px; height: auto; margin-right: -10px ">
+            <img src="{{ asset('storage/assets/logobjm.png') }}" alt="Dashboard Icon" style="width: 30px; height: auto; margin-right: 10px ">
         </div>
-        <div class="sidebar-brand-text">Absensi DKP3</div>
+        <div class="sidebar-brand-text  mr-2">Absensi DKP3</div>
     </a>
-
-    <!-- Divider -->
-    <hr class="sidebar-divider my-0">
 
     <!-- Nav Item - Dashboard -->
     @if (auth()->user()->isPembimbing())
-    <li class="nav-item {{ request()->routeIs('dashboard.*') ? 'active' : '' }}">
+    <li class="nav-item mt-5 {{ request()->routeIs('dashboard.*') ? 'active' : '' }}">
         <a class="nav-link" href="{{ route('dashboard.index') }}">
             <i class="bi bi-house-door"></i>
             <span>{{ __('Dashboard') }}</span></a>
     </li>
-    
-
-    <!-- Divider -->
-    <hr class="sidebar-divider">
-
-    <!-- Heading -->
-    <div class="sidebar-heading">
-        {{ __('MENU') }}
-    </div>
 
     <!-- Nav Item - Akun -->
     <li class="nav-item {{ request()->routeIs('account.*') ? 'active' : '' }}">
@@ -162,11 +150,19 @@
         </a>
     </li>
 
-     <!-- Nav Item - Penilaian -->
+    <!-- Nav Item - Penilaian -->
     <li class="nav-item {{ request()->routeIs('nilai.*') ? 'active' : '' }}">
         <a class="nav-link" href="{{ route('nilai.index') }}">
             <i class="bi bi-award"></i>
             <span>{{ __('Nilai') }}</span>
+        </a>
+    </li>
+
+    <!-- Nav Item - Sertifikat -->
+    <li class="nav-item {{ request()->routeIs('sertifikat.*') ? 'active' : '' }}">
+        <a class="nav-link" href="{{ route('sertifikat.indexPembimbing') }}">
+            <i class="bi bi-award"></i>
+            <span>{{ __('Sertifikat') }}</span>
         </a>
     </li>
     @endif

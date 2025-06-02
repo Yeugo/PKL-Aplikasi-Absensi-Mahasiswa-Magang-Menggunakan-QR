@@ -1,0 +1,391 @@
+/* Custom CSS for Landing Page */
+
+/* Global Styles (unchanged from previous) */
+body {
+    font-family: 'Inter', sans-serif;
+    line-height: 1.7;
+    color: #343a40;
+    padding-top: 56px;
+    overflow-x: hidden;
+}
+
+/* Navbar (unchanged from previous) */
+.navbar-brand {
+    font-weight: 700;
+    color: #212529 !important;
+}
+
+.navbar-brand img {
+    height: 40px;
+    width: 40px;
+    object-fit: contain;
+}
+
+.navbar-nav .nav-link {
+    font-weight: 500;
+    color: #495057 !important;
+    transition: color 0.2s;
+}
+
+.navbar-nav .nav-link:hover {
+    color: #007bff !important;
+}
+
+.navbar-nav .nav-link.active {
+    color: #007bff !important;
+    font-weight: 600;
+}
+
+.navbar-toggler:focus {
+    box-shadow: none;
+}
+
+/* Hero Section - UPDATED */
+.hero-section {
+    background: linear-gradient(135deg, #007bff 0%, #6f42c1 100%);
+    /* Blue to Purple Gradient */
+    color: white;
+    padding: 8rem 0;
+    /* Keep generous padding */
+    min-height: 85vh;
+    /* Increase min-height to give more space */
+    display: flex;
+    align-items: center;
+    /* Vertically center content */
+    justify-content: center;
+    position: relative;
+    /* For potential background effects */
+    overflow: hidden;
+    /* Hide anything outside */
+}
+
+.hero-section h1 {
+    font-size: 3.5rem;
+    font-weight: 800;
+    margin-bottom: 1.5rem;
+    line-height: 1.2;
+}
+
+.hero-section p.lead {
+    font-size: 1.25rem;
+    margin-bottom: 2.5rem;
+    max-width: 600px;
+    /* Slightly tighter max-width for text */
+    margin-left: auto;
+    /* Center text if not in Lg */
+    margin-right: auto;
+    /* Center text if not in Lg */
+    opacity: 0.9;
+}
+
+.hero-section .btn {
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding: 0.8rem 2.5rem;
+    border: none;
+    transition: all 0.3s ease;
+}
+
+.hero-section .btn-light:hover {
+    background-color: rgba(255, 255, 255, 0.9);
+    color: #007bff;
+}
+
+/* Hero Illustration Specific Styling */
+.hero-illustration {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+    animation: floating 3s ease-in-out infinite;
+    /* Subtle floating animation */
+}
+
+/* Keyframe for floating animation */
+@keyframes floating {
+    0% {
+        transform: translateY(0px);
+    }
+
+    50% {
+        transform: translateY(-15px);
+    }
+
+    100% {
+        transform: translateY(0px);
+    }
+}
+
+
+/* About DKP3 Section (unchanged from previous) */
+.about-dkp3-section {
+    padding: 6rem 0;
+    background-color: #ffffff;
+    color: #343a40;
+}
+
+.about-dkp3-section h2 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 2.5rem;
+    color: #212529;
+}
+
+.about-dkp3-section p {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: #495057;
+}
+
+.about-dkp3-section img {
+    max-height: 400px;
+    object-fit: cover;
+}
+
+/* Features Section (unchanged from previous) */
+.features-section {
+    padding: 6rem 0;
+    background-color: #f8f9fa;
+}
+
+.features-section h2 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 3.5rem;
+    text-align: center;
+    color: #212529;
+}
+
+.feature-card {
+    text-align: center;
+    padding: 2.5rem;
+    border-radius: 0.75rem;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    background-color: white;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.feature-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+}
+
+.feature-card .icon {
+    font-size: 4rem;
+    color: #007bff;
+    margin-bottom: 1.5rem;
+    display: block;
+}
+
+.feature-card h3 {
+    font-size: 1.6rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    color: #343a40;
+}
+
+.feature-card p {
+    font-size: 1rem;
+    color: #6c757d;
+}
+
+/* Penerimaan Magang Section (unchanged from previous) */
+.magang-section {
+    padding: 6rem 0;
+    background: linear-gradient(45deg, #e9ecef 0%, #ffffff 100%);
+    color: #343a40;
+}
+
+.magang-section h2 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 2.5rem;
+    color: #212529;
+}
+
+.magang-section p.lead {
+    font-size: 1.25rem;
+    margin-bottom: 3.5rem;
+    color: #495057;
+}
+
+.magang-section .card {
+    background-color: #ffffff;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    padding: 2rem;
+}
+
+.magang-section .card-title {
+    font-size: 2rem;
+    font-weight: 700;
+}
+
+.magang-section .card-text {
+    font-size: 1.1rem;
+    line-height: 1.7;
+}
+
+.magang-section .btn {
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding: 0.8rem 2.5rem;
+}
+
+/* CTA Section (unchanged from previous) */
+.cta-section {
+    background-color: #6f42c1;
+    color: white;
+    padding: 5rem 0;
+    text-align: center;
+}
+
+.cta-section h2 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 2rem;
+    line-height: 1.3;
+}
+
+.cta-section p.lead {
+    font-size: 1.25rem;
+    margin-bottom: 3rem;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+    opacity: 0.9;
+}
+
+.cta-section .btn {
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding: 0.8rem 2.5rem;
+    border: none;
+    transition: all 0.3s ease;
+}
+
+.cta-section .btn-light:hover {
+    background-color: rgba(255, 255, 255, 0.9);
+    color: #6f42c1;
+}
+
+/* Footer (unchanged from previous) */
+.footer {
+    background-color: #212529;
+    color: #adb5bd;
+    padding: 3rem 0;
+    text-align: center;
+    font-size: 0.9rem;
+}
+
+.footer a {
+    color: #adb5bd;
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+.footer a:hover {
+    color: white;
+}
+
+.footer .list-inline-item {
+    margin-right: 0.5rem;
+    margin-left: 0.5rem;
+}
+
+/* Responsive Adjustments (updated for new sections) */
+@media (max-width: 991.98px) {
+    .hero-section {
+        padding: 6rem 0;
+    }
+
+    .hero-section h1 {
+        font-size: 2.8rem;
+    }
+
+    .hero-section .col-lg-6.text-center.text-lg-start {
+        text-align: center !important;
+    }
+
+    /* Center text on smaller screens */
+    .hero-illustration {
+        max-width: 80%;
+    }
+
+    /* Smaller image on smaller screens */
+    .about-dkp3-section,
+    .features-section,
+    .magang-section,
+    .cta-section {
+        padding: 4rem 0;
+    }
+
+    .about-dkp3-section h2,
+    .features-section h2,
+    .magang-section h2,
+    .cta-section h2 {
+        font-size: 2rem;
+    }
+
+    .feature-card {
+        padding: 1.8rem;
+    }
+}
+
+@media (max-width: 767.98px) {
+    .hero-section {
+        padding: 5rem 0;
+    }
+
+    .hero-section h1 {
+        font-size: 2.2rem;
+    }
+
+    .hero-section p.lead {
+        font-size: 1rem;
+    }
+
+    .navbar-brand span {
+        font-size: 1.2rem;
+    }
+
+    .navbar-brand img {
+        height: 35px;
+        width: 35px;
+    }
+
+    .about-dkp3-section h2,
+    .features-section h2,
+    .magang-section h2,
+    .cta-section h2 {
+        font-size: 1.8rem;
+    }
+
+    .feature-card .icon {
+        font-size: 3rem;
+    }
+
+    .feature-card h3 {
+        font-size: 1.3rem;
+    }
+
+    .navbar-collapse {
+        text-align: center;
+    }
+
+    .navbar-nav .nav-item {
+        margin-bottom: 0.5rem;
+    }
+
+    .navbar-nav .nav-item.ms-lg-3 {
+        margin-left: 0 !important;
+        margin-top: 1rem;
+    }
+}

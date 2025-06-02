@@ -13,6 +13,7 @@
     @php
         // Mengambil relasi pembimbing berdasarkan user yang login
         $pembimbing = auth()->user()->pembimbing;
+        $peserta = auth()->user()->peserta;
     @endphp
 
     <!-- Sidebar Toggle (Topbar) -->
@@ -60,13 +61,31 @@
         <!-- Nav Item - User Information -->
         <li class="nav-item dropdown no-arrow">
             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{ $pembimbing ? $pembimbing->name : 'Admin' }}</span>
-                {{-- <figure class="img-profile rounded-circle avatar font-weight-bold" data-initial="{{ $pembimbing && $pembimbing->foto ? asset('storage/' . $pembimbing->foto) : asset('storage/default-profile.png') }}"></figure> --}}
-                <img 
-                src="{{ $pembimbing && $pembimbing->foto ? asset('storage/' . $pembimbing->foto) : asset('storage/assets/admin.jpg') }}" 
-                alt="Profile Photo" 
-                class="img-profile rounded-circle avatar"  
-                style="">
+                <span class="mr-2 d-none d-lg-inline text-gray-600 small">
+                    @if($pembimbing)
+                        {{ $pembimbing->name }}
+                    @elseif($peserta)
+                        {{ $peserta->name }}
+                    @else
+                        Admin
+                    @endif
+                </span>
+
+                <img
+                    src="
+                        @if($pembimbing && $pembimbing->foto)
+                            {{ asset('storage/' . $pembimbing->foto) }}
+                        @elseif($peserta && $peserta->foto)
+                            {{ asset('storage/' . $peserta->foto) }}
+                        @else
+                            {{ asset('storage/assets/admin.jpg') }}
+                        @endif
+                    "
+                    alt="Profile Photo"
+                    class="img-profile rounded-circle avatar"
+                    style=""
+                >
+
             </a>
         </li>
 

@@ -95,16 +95,32 @@ final class KegiatanTable extends PowerGridComponent
     public function exportToPDF()
     {
         $selectedIds = $this->checkedValues();
+        $peserta = Peserta::where('id', $this->checkedValues())
+            ->first();
 
         if (empty($selectedIds)) {
             $this->dispatchBrowserEvent('showToast', ['success' => false, 'message' => 'Pilih data yang ingin di export terlebih dahulu. ']);
             return;
         }
 
+        // --- Bagian Baru untuk Gambar Base64 ---
+        $imagePath = public_path('storage/assets/logobjm.png'); // Jalur fisik ke gambar Anda
+        $base64Image = ''; // Inisialisasi variabel
+
+        if (file_exists($imagePath)) {
+            $imageData = file_get_contents($imagePath); // Baca isi file gambar
+            $imageType = pathinfo($imagePath, PATHINFO_EXTENSION); // Dapatkan ekstensi file (png)
+            $base64Image = 'data:image/' . $imageType . ';base64,' . base64_encode($imageData);
+        } else {
+            // Opsional: Log pesan error jika gambar tidak ditemukan
+            //
+        }
+        // --- Akhir Bagian Baru ---
+
         $selectedData = Kegiatan::whereIn('id', $this->checkedValues())
         ->get();
 
-        $pdf = Pdf::loadView('exports.KegiatanPdf', compact('selectedData'))
+        $pdf = Pdf::loadView('exports.KegiatanPdf', compact('selectedData', 'base64Image','peserta'))
         ->setPaper('a4', 'potrait');
 
         return response()->streamDownload(
@@ -121,10 +137,36 @@ final class KegiatanTable extends PowerGridComponent
      */
     public function datasource(): Builder
     {
-        return Kegiatan::query()
+        // return Kegiatan::query()
+        //     ->join('peserta', 'kegiatan.peserta_id', '=', 'peserta.id' )
+        //     ->join('bidangs', 'peserta.peserta_bidang_id', '=', 'bidangs.id' )
+        //     ->select('kegiatan.*', 'peserta.name as pesertaname', 'peserta.peserta_bidang_id', 'bidangs.name as bidang');
+
+        // Mendapatkan user yang sedang login
+        $user = auth()->user();
+
+        // Membuat query dasar
+        $query = Kegiatan::query()
             ->join('peserta', 'kegiatan.peserta_id', '=', 'peserta.id' )
             ->join('bidangs', 'peserta.peserta_bidang_id', '=', 'bidangs.id' )
             ->select('kegiatan.*', 'peserta.name as pesertaname', 'peserta.peserta_bidang_id', 'bidangs.name as bidang');
+
+        // Tambahkan kondisi filter jika user adalah peserta
+        if ($user && $user->isUser()) { // Asumsi Anda punya method isUser() di model User Anda
+            // Asumsi model User Anda memiliki relasi ke Peserta, atau Peserta memiliki user_id
+            // Jika Peserta punya user_id, maka:
+            $peserta = Peserta::where('user_id', $user->id)->first();
+            if ($peserta) {
+                $query->where('kegiatan.peserta_id', $peserta->id);
+            } else {
+                // Jika user adalah peserta tapi tidak ada data peserta yang terkait,
+                // tampilkan data kosong atau pesan error.
+                // Untuk kasus ini, kita bisa mengembalikan query yang tidak akan menghasilkan data.
+                return $query->whereRaw('1 = 0'); // Mengembalikan query kosong
+            }
+        }
+
+        return $query;
     }
 
     /**
@@ -163,7 +205,7 @@ final class KegiatanTable extends PowerGridComponent
                 ->searchable()
                 ->sortable(),
 
-            Column::make('Name', 'pesertaname')
+            Column::make('Name', 'pesertaname', 'peserta.name')
                 ->searchable()
                 ->makeInputText()
                 ->sortable(),

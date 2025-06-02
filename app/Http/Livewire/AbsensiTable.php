@@ -95,10 +95,24 @@ final class AbsensiTable extends PowerGridComponent
             return;
         }
 
+        // --- Bagian Baru untuk Gambar Base64 ---
+        $imagePath = public_path('storage/assets/logobjm.png'); // Jalur fisik ke gambar Anda
+        $base64Image = ''; // Inisialisasi variabel
+
+        if (file_exists($imagePath)) {
+            $imageData = file_get_contents($imagePath); // Baca isi file gambar
+            $imageType = pathinfo($imagePath, PATHINFO_EXTENSION); // Dapatkan ekstensi file (png)
+            $base64Image = 'data:image/' . $imageType . ';base64,' . base64_encode($imageData);
+        } else {
+            // Opsional: Log pesan error jika gambar tidak ditemukan
+            //
+        }
+        // --- Akhir Bagian Baru ---
+
         $selectedData = Absensi::whereIn('id', $this->checkedValues())
         ->get();
 
-        $pdf = Pdf::loadView('exports.AbsensiPdf', compact('selectedData'))
+        $pdf = Pdf::loadView('exports.AbsensiPdf', compact('selectedData', 'base64Image'))
         ->setPaper('a4', 'potrait');
 
         return response()->streamDownload(

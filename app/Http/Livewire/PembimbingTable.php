@@ -112,10 +112,24 @@ final class PembimbingTable extends PowerGridComponent
             return;
         }
 
+        // --- Bagian Baru untuk Gambar Base64 ---
+        $imagePath = public_path('storage/assets/logobjm.png'); // Jalur fisik ke gambar Anda
+        $base64Image = ''; // Inisialisasi variabel
+
+        if (file_exists($imagePath)) {
+            $imageData = file_get_contents($imagePath); // Baca isi file gambar
+            $imageType = pathinfo($imagePath, PATHINFO_EXTENSION); // Dapatkan ekstensi file (png)
+            $base64Image = 'data:image/' . $imageType . ';base64,' . base64_encode($imageData);
+        } else {
+            // Opsional: Log pesan error jika gambar tidak ditemukan
+            //
+        }
+        // --- Akhir Bagian Baru ---
+
         $selectedData = Pembimbing::whereIn('id', $this->checkedValues())
         ->get();
 
-        $pdf = Pdf::loadView('exports.PembimbingPdf', compact('selectedData'))
+        $pdf = Pdf::loadView('exports.PembimbingPdf', compact('selectedData', 'base64Image'))
         ->setPaper('a4', 'potrait');
 
         return response()->streamDownload(
@@ -174,7 +188,7 @@ final class PembimbingTable extends PowerGridComponent
                 // Cek apakah foto ada, jika ada tampilkan dalam bentuk link
                 return $model->foto 
                     ? '<a href="' . asset('storage/' . $model->foto) . '" target="_blank">
-                        <img src="' . asset('storage/' . $model->foto) . '" alt="Foto Pembimbing" width="50" height="50">
+                        <img src="' . asset('storage/' . $model->foto) . '" alt="Foto Peserta" width="20" height="20" class="d-block mx-auto">
                     </a>'
                     : 'No photo';
             })
